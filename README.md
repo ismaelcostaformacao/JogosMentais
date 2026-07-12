@@ -75,7 +75,7 @@ Os testes psicotécnicos são uma das fases mais desafiantes dos concursos públ
 
 ## 🎬 Demo
 
-**Experimenta já:** [🔗 Demo Online](https://TEU_USERNAME.github.io/psicotreino-pt/)
+**Experimenta já:** [🔗 Demo Online](https://ismaelcostaformacao.github.io/JogosMentais/)
 
 > 💡 **Dica:** Adiciona ao ecrã principal do teu telemóvel para a experiência completa PWA!
 
@@ -187,7 +187,7 @@ Cada jogo tem **2 níveis de dificuldade** (Básico e Avançado) e **tempo limit
 
 ```bash
 # 1. Clonar o repositório
-git clone https://github.com/TEU_USERNAME/psicotreino-pt.git
+git clone https://github.com/ismaelcostaformacao/psicotreino-pt.git
 cd psicotreino-pt
 
 # 2. Abrir o ficheiro principal
@@ -644,11 +644,10 @@ in the Software without restriction...
 
 | Canal | Link |
 |-------|------|
-| 💼 **Autor** | [Teu Nome](https://github.com/TEU_USERNAME) |
-| 📧 **Email** | [teu-email@exemplo.com](mailto:teu-email@exemplo.com) |
-| 🐙 **GitHub** | [@TEU_USERNAME](https://github.com/TEU_USERNAME) |
-| 💼 **LinkedIn** | [linkedin.com/in/teu-perfil](https://linkedin.com/in/teu-perfil) |
-| 🐦 **Twitter/X** | [@teu_twitter](https://twitter.com/teu_twitter) |
+| 💼 **Autor** | [Ismael Costa](https://github.com/ismaelcostaformacao) |
+| 📧 **Email** | [ismaelcostaformacao@gmail.com](mailto:ismaelcostaformacao@gmail.com) |
+| 🐙 **GitHub** | [@ismaelcostaformacao](https://github.com/ismaelcostaformacao) |
+| 💼 **LinkedIn** | [linkedin.com/in/...](https://linkedin.com/in/...) |
 
 ---
 
