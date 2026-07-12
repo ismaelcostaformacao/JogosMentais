@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>PsicoTreino PT - Preparação para Testes Psicotécnicos</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+<style>
+  :root{
+    --primary:#4f46e5;
+    --primary-dark:#3730a3;
+    --secondary:#8b5cf6;
+    --accent:#ec4899;
+    --success:#10b981;
+    --danger:#ef4444;
+    --warning:#f59e0b;
+    --bg:#f5f7ff;
+    --card:#ffffff;
+    --text:#1e293b;
+    --muted:#64748b;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    background:linear-gradient(135deg,#eef2ff 0%,#faf5ff 100%);
+    min-height:100vh;
+    color:var(--text);
+    padding-bottom:80px;
+    margin:0;
+  }
+  .app-header{
+    background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);
+    color:white;
+    padding:20px 16px 24px;
+    border-radius:0 0 24px 24px;
+    box-shadow:0 4px 20px rgba(79,70,229,.25);
+    position:relative;
+  }
+  .app-header .logo-wrap{display:flex;align-items:center;gap:12px;}
+  .app-header .logo-icon{
+    width:48px;height:48px;
+    background:rgba(255,255,255,.2);
+    border-radius:12px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.8rem;
+  }
+  .app-header h1{font-size:1.25rem;font-weight:700;margin:0;}
+  .app-header .subtitle{font-size:.75rem;opacity:.9;margin:0;}
+  .score-card{
+    background:rgba(255,255,255,.15);
+    backdrop-filter:blur(10px);
+    border-radius:16px;
+    padding:14px 16px;
+    margin-top:16px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border:1px solid rgba(255,255,255,.2);
+  }
+  .score-card .label{font-size:.75rem;opacity:.9;}
+  .score-card .value{font-size:1.5rem;font-weight:700;}
+  .game-card{
+    background:var(--card);
+    border-radius:16px;
+    padding:18px;
+    margin-bottom:14px;
+    box-shadow:0 2px 12px rgba(0,0,0,.06);
+    border:1px solid #eef2ff;
+    cursor:pointer;
+    transition:transform .15s,box-shadow .15s;
+    position:relative;
+    overflow:hidden;
+  }
+  .game-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.1);}
+  .game-card:active{transform:scale(.98);}
+  .game-card .icon-box{
+    width:52px;height:52px;
+    border-radius:14px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.6rem;color:white;
+    flex-shrink:0;
+  }
+  .game-card .game-title{font-weight:700;font-size:1rem;margin-bottom:2px;}
+  .game-card .game-desc{font-size:.8rem;color:var(--muted);margin:0;}
+  .game-card .best-score{
+    position:absolute;top:12px;right:12px;
+    font-size:.7rem;font-weight:600;
+    background:#f1f5f9;color:var(--primary);
+    padding:3px 8px;border-radius:20px;
+  }
+  .game-screen{
+    position:fixed;top:0;left:0;right:0;bottom:0;
+    background:var(--bg);
+    z-index:1000;
+    overflow-y:auto;
+    display:none;
+    padding-bottom:20px;
+  }
+  .game-screen.active{display:block;animation:slideIn .25s ease;}
+  @keyframes slideIn{from{transform:translateX(100%);}to{transform:translateX(0);}}
+  .game-topbar{
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    color:white;
+    padding:14px 16px;
+    display:flex;align-items:center;gap:12px;
+    position:sticky;top:0;z-index:10;
+  }
+  .game-topbar .back-btn{
+    background:rgba(255,255,255,.2);
+    border:none;color:white;
+    width:36px;height:36px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.2rem;
+    cursor:pointer;
+  }
+  .game-topbar .game-name{font-weight:700;flex:1;}
+  .game-topbar .game-stats{
+    background:rgba(255,255,255,.2);
+    padding:6px 12px;border-radius:20px;
+    font-size:.85rem;font-weight:600;
+  }
+  .game-content{padding:20px 16px;}
+  .question-card{
+    background:white;
+    border-radius:16px;
+    padding:24px 20px;
+    text-align:center;
+    box-shadow:0 2px 12px rgba(0,0,0,.06);
+    margin-bottom:20px;
+  }
+  .question-label{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;}
+  .question-text{font-size:1.8rem;font-weight:700;color:var(--text);margin-bottom:8px;line-height:1.3;}
+  .question-hint{font-size:.85rem;color:var(--muted);}
+  .answer-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+  .answer-btn{
+    background:white;
+    border:2px solid #e2e8f0;
+    border-radius:14px;
+    padding:18px 12px;
+    font-size:1.1rem;font-weight:600;
+    color:var(--text);
+    transition:all .15s;
+    cursor:pointer;
+  }
+  .answer-btn:active{transform:scale(.97);}
+  .answer-btn.correct{background:var(--success);color:white;border-color:var(--success);animation:pulse .4s;}
+  .answer-btn.wrong{background:var(--danger);color:white;border-color:var(--danger);animation:shake .4s;}
+  @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+  @keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-8px);}75%{transform:translateX(8px);}}
+  .progress-bar-custom{
+    height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden;margin-bottom:16px;
+  }
+  .progress-bar-custom .fill{
+    height:100%;background:linear-gradient(90deg,var(--primary),var(--secondary));
+    transition:width .3s;
+  }
+  .timer-bar{
+    position:fixed;top:0;left:0;right:0;height:4px;
+    background:linear-gradient(90deg,var(--success),var(--warning),var(--danger));
+    z-index:1001;
+    transition:width .1s linear;
+  }
+  .timer-display{
+    background:white;
+    border-radius:12px;
+    padding:10px 16px;
+    margin-bottom:16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    box-shadow:0 2px 8px rgba(0,0,0,.05);
+  }
+  .timer-display i{color:var(--danger);font-size:1.2rem;}
+  .timer-display .time-value{font-size:1.4rem;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;}
+  .timer-display.warning .time-value{color:var(--warning);}
+  .timer-display.danger .time-value{color:var(--danger);animation:blink 1s infinite;}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:.5;}}
+  .input-answer{
+    width:100%;
+    padding:16px;
+    font-size:1.5rem;
+    text-align:center;
+    border:2px solid #e2e8f0;
+    border-radius:14px;
+    font-weight:600;
+    outline:none;
+    transition:border-color .2s;
+  }
+  .input-answer:focus{border-color:var(--primary);}
+  .submit-btn{
+    width:100%;
+    padding:16px;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    color:white;border:none;
+    border-radius:14px;
+    font-size:1rem;font-weight:700;
+    margin-top:12px;
+    cursor:pointer;
+  }
+  .submit-btn:active{transform:scale(.98);}
+  .result-screen{text-align:center;padding:40px 20px;}
+  .result-icon{font-size:5rem;margin-bottom:16px;}
+  .result-title{font-size:1.5rem;font-weight:700;margin-bottom:8px;}
+  .result-score{font-size:3rem;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:16px 0;}
+  .result-detail{color:var(--muted);margin-bottom:24px;}
+  .stroop-word{font-size:3rem;font-weight:800;margin:20px 0;text-transform:uppercase;}
+  .color-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .color-btn{
+    padding:20px;border:none;border-radius:14px;
+    font-size:1rem;font-weight:700;color:white;
+    text-transform:uppercase;
+    cursor:pointer;
+  }
+  .digit-display{
+    font-size:2.5rem;font-weight:700;
+    letter-spacing:8px;
+    color:var(--primary);
+    margin:30px 0;
+    font-family:monospace;
+  }
+  .memory-phase{font-size:1.1rem;color:var(--muted);margin-bottom:20px;}
+  
+  /* Figuras - Novos estilos claros */
+  .figure-sequence{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    flex-wrap:wrap;
+    margin:24px 0;
+    padding:16px;
+    background:linear-gradient(135deg,#f8fafc,#eef2ff);
+    border-radius:16px;
+  }
+  .figure-item{
+    width:70px;height:70px;
+    background:white;
+    border:2px solid #e2e8f0;
+    border-radius:12px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:2.5rem;
+    color:var(--primary);
+    box-shadow:0 2px 8px rgba(0,0,0,.05);
+  }
+  .figure-item.question-mark{
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    color:white;
+    font-weight:800;
+    font-size:2rem;
+    border:none;
+  }
+  .figure-arrow{
+    color:var(--muted);
+    font-size:1.2rem;
+  }
+  .answer-btn.figure-answer{
+    font-size:2.5rem;
+    padding:20px;
+    color:var(--primary);
+  }
+  .badge-new{
+    position:absolute;top:10px;left:10px;
+    background:var(--accent);color:white;
+    font-size:.65rem;font-weight:700;
+    padding:3px 8px;border-radius:20px;
+    text-transform:uppercase;
+  }
+  .info-banner{
+    background:linear-gradient(135deg,#fef3c7,#fde68a);
+    border-left:4px solid var(--warning);
+    padding:12px 16px;
+    border-radius:12px;
+    margin-bottom:16px;
+    font-size:.85rem;
+    color:#78350f;
+  }
+  .footer-info{
+    text-align:center;
+    padding:20px;
+    color:var(--muted);
+    font-size:.75rem;
+  }
+  @media(min-width:576px){
+    .answer-grid{grid-template-columns:repeat(4,1fr);}
+    .color-grid{grid-template-columns:repeat(4,1fr);}
+    .figure-item{width:80px;height:80px;font-size:3rem;}
+  }
+</style>
+</head>
+<body>
+
+<!-- HOME SCREEN -->
+<div id="homeScreen">
+  <div class="app-header">
+    <div class="logo-wrap">
+      <div class="logo-icon">🧠</div>
+      <div>
+        <h1>PsicoTreino PT</h1>
+        <p class="subtitle">Preparação para Testes Psicotécnicos</p>
+      </div>
+    </div>
+    <div class="score-card">
+      <div>
+        <div class="label">Pontuação Total</div>
+        <div class="value" id="totalScore">0</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="label">Jogos Completados</div>
+        <div class="value" id="gamesCompleted">0</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" style="max-width:600px;padding-top:20px;">
+    <div class="info-banner">
+      <i class="bi bi-info-circle-fill"></i> <strong>Dica:</strong> Todos os jogos têm tempo limitado. Treina diariamente para melhorar a tua velocidade e precisão!
+    </div>
+
+    <h5 style="font-weight:700;margin-bottom:14px;"><i class="bi bi-grid-3x3-gap-fill" style="color:var(--primary);"></i> Jogos de Treino</h5>
+
+    <div class="game-card" onclick="startGame('sequences')">
+      <span class="badge-new">60s</span>
+      <div class="d-flex align-items-center gap-3">
+        <div class="icon-box" style="background:linear-gradient(135deg,#4f46e5,#8b5cf6);"><i class="bi bi-123"></i></div>
+        <div style="flex:1;">
+          <div class="game-title">Sequências Numéricas</div>
+          <p class="game-desc">Descobre o próximo número da série</p>
+        </div>
+        <i class="bi bi-chevron-right" style="color:var(--muted);"></i>
+      </div>
+      <span class="best-score" id="best-sequences">Melhor: 0</span>
+    </div>
+
+    <div class="game-card" onclick="startGame('math')">
+      <span class="badge-new">60s</span>
+      <div class="d-flex align-items-center gap-3">
+        <div class="icon-box" style="background:linear-gradient(135deg,#ec4899,#f43f5e);"><i class="bi bi-calculator"></i></div>
+        <div style="flex:1;">
+          <div class="game-title">Cálculo Mental</div>
+          <p class="game-desc">Responde o mais rápido possível</p>
+        </div>
+        <i class="bi bi-chevron-right" style="color:var(--muted);"></i>
+      </div>
+      <span class="best-score" id="best-math">Melhor: 0</span>
+    </div>
+
+    <div class="game-card" onclick="startGame('memory')">
+      <span class="badge-new">90s</span>
+      <div class="d-flex align-items-center gap-3">
+        <div class="icon-box" style="background:linear-gradient(135deg,#10b981,#059669);"><i class="bi bi-brain"></i></div>
+        <div style="flex:1;">
+          <div class="game-title">Memória de Dígitos</div>
+          <p class="game-desc">Memoriza e repete sequências numéricas</p>
+        </div>
+        <i class="bi bi-chevron-right" style="color:var(--muted);"></i>
+      </div>
+      <span class="best-score" id="best-memory">Melhor: 0</span>
+    </div>
+
+    <div class="game-card" onclick="startGame('alphabet')">
+      <span class="badge-new">60s</span>
+      <div class="d-flex align-items-center gap-3">
+        <div class="icon-box" style="background:linear-gradient(135deg,#f59e0b,#d97706);"><i class="bi bi-fonts"></i></div>
+        <div style="flex:1;">
+          <div class="game-title">Sequências Alfabéticas</div>
+          <p class="game-desc">Qual é a próxima letra da série?</p>
+        </div>
+        <i class="bi bi-chevron-right" style="color:var(--muted);"></i>
+      </div>
+      <span class="best-score" id="best-alphabet">Melhor: 0</span>
+    </div>
+
+    <div class="game-card" onclick="startGame('stroop')">
+      <span class="badge-new">45s</span>
+      <div class="d-flex align-items-center gap-3">
+        <div class="icon-box" style="background:linear-gradient(135deg,#ef4444,#dc2626);"><i class="bi bi-palette"></i></div>
+        <div style="flex:1;">
+          <div class="game-title">Teste Stroop</div>
+          <p class="game-desc">Seleciona a COR, não a palavra</p>
+        </div>
+        <i class="bi bi-chevron-right" style="color:var(--muted);"></i>
+      </div>
+      <span class="best-score" id="best-stroop">Melhor: 0</span>
+    </div>
+
+    <div class="game-card" onclick="startGame('analogies')">
+      <span class="badge-new">60s</span>
+      <div class="d-flex align-items-center gap-3">
+        <div class="icon-box" style="background:linear-gradient(135deg,#06b6d4,#0891b2);"><i class="bi bi-chat-square-quote"></i></div>
+        <div style="flex:1;">
+          <div class="game-title">Analogias Verbais</div>
+          <p class="game-desc">Encontra a relação entre palavras</p>
+        </div>
+        <i class="bi bi-chevron-right" style="color:var(--muted);"></i>
+      </div>
+      <span class="best-score" id="best-analogies">Melhor: 0</span>
+    </div>
+
+    <div class="game-card" onclick="startGame('figures')">
+      <span class="badge-new">75s</span>
+      <div class="d-flex align-items-center gap-3">
+        <div class="icon-box" style="background:linear-gradient(135deg,#8b5cf6,#a855f7);"><i class="bi bi-grid-3x3"></i></div>
+        <div style="flex:1;">
+          <div class="game-title">Séries de Figuras</div>
+          <p class="game-desc">Identifica o padrão visual</p>
+        </div>
+        <i class="bi bi-chevron-right" style="color:var(--muted);"></i>
+      </div>
+      <span class="best-score" id="best-figures">Melhor: 0</span>
+    </div>
+
+    <div class="text-center mt-3">
+      <button class="btn btn-outline-danger btn-sm" onclick="resetAllScores()">
+        <i class="bi bi-trash"></i> Repor Pontuação
+      </button>
+    </div>
+
+    <div class="footer-info">
+      <p><strong>PsicoTreino PT</strong> v2.0</p>
+      <p>Aplicação de treino não oficial. Boa sorte no teu concurso! 🍀</p>
+    </div>
+  </div>
+</div>
+
+<!-- GAME SCREEN TEMPLATE -->
+<div id="gameScreen" class="game-screen">
+  <div class="timer-bar" id="timerBar" style="display:none;"></div>
+  <div class="game-topbar">
+    <button class="back-btn" onclick="exitGame()"><i class="bi bi-arrow-left"></i></button>
+    <div class="game-name" id="gameTitle">Jogo</div>
+    <div class="game-stats" id="gameStats">0/0</div>
+  </div>
+  <div class="game-content" id="gameContent">
+    <!-- Dynamic content -->
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// ============ STATE ============
+const state = {
+  totalScore: parseInt(localStorage.getItem('pt_totalScore') || '0'),
+  gamesCompleted: parseInt(localStorage.getItem('pt_gamesCompleted') || '0'),
+  bestScores: JSON.parse(localStorage.getItem('pt_bestScores') || '{}'),
+  currentGame: null,
+  currentQ: 0,
+  score: 0,
+  timer: null,
+  timeLeft: 0,
+  totalTime: 0,
+  questions: [],
+  maxScore: 0
+};
+
+// ============ QUESTIONS DATA ============
+const sequencesQuestions = [
+  {seq:'2, 4, 8, 16, ?', options:['24','32','30','28'], answer:'32'},
+  {seq:'3, 6, 12, 24, ?', options:['36','42','48','30'], answer:'48'},
+  {seq:'1, 4, 9, 16, 25, ?', options:['30','36','49','35'], answer:'36'},
+  {seq:'5, 10, 20, 40, ?', options:['60','80','100','70'], answer:'80'},
+  {seq:'100, 95, 90, 85, ?', options:['75','80','70','90'], answer:'80'},
+  {seq:'2, 6, 12, 20, 30, ?', options:['40','42','38','44'], answer:'42'},
+  {seq:'1, 1, 2, 3, 5, 8, ?', options:['11','12','13','14'], answer:'13'},
+  {seq:'7, 14, 28, 56, ?', options:['84','112','100','96'], answer:'112'},
+  {seq:'3, 5, 9, 15, 23, ?', options:['30','33','31','35'], answer:'33'},
+  {seq:'10, 20, 40, 70, 110, ?', options:['150','160','140','170'], answer:'160'}
+];
+
+const alphabetQuestions = [
+  {seq:'A, C, E, G, ?', options:['H','I','J','K'], answer:'I'},
+  {seq:'B, D, F, H, ?', options:['I','J','K','L'], answer:'J'},
+  {seq:'Z, X, V, T, ?', options:['S','R','Q','P'], answer:'R'},
+  {seq:'A, B, D, G, K, ?', options:['N','O','P','Q'], answer:'P'},
+  {seq:'M, N, P, S, W, ?', options:['A','B','C','D'], answer:'B'},
+  {seq:'C, F, I, L, ?', options:['M','N','O','P'], answer:'O'},
+  {seq:'D, G, J, M, ?', options:['N','O','P','Q'], answer:'P'},
+  {seq:'A, D, G, J, ?', options:['K','L','M','N'], answer:'M'}
+];
+
+const analogiesQuestions = [
+  {q:'LIVRO está para LER assim como GARFO está para...', options:['Cozinhar','Cortar','Comer','Servir'], answer:'Comer'},
+  {q:'MÉDICO está para HOSPITAL assim como PROFESSOR está para...', options:['Livro','Escola','Aluno','Aula'], answer:'Escola'},
+  {q:'PINTOR está para PINCEL assim como ESCULTOR está para...', options:['Pedra','Cinzel','Estátua','Museu'], answer:'Cinzel'},
+  {q:'QUENTE está para FRIO assim como CLARO está para...', options:['Luz','Escuro','Brilhante','Sol'], answer:'Escuro'},
+  {q:'PAI está para FILHO assim como MÃE está para...', options:['Pai','Filha','Tia','Avó'], answer:'Filha'},
+  {q:'PORTUGAL está para LISBOA assim como ESPANHA está para...', options:['Barcelona','Madrid','Sevilha','Valência'], answer:'Madrid'},
+  {q:'OLHO está para VER assim como OUVIDO está para...', options:['Falar','Ouvir','Cheirar','Tocar'], answer:'Ouvir'},
+  {q:'DIA está para NOITE assim como VERÃO está para...', options:['Primavera','Outono','Inverno','Estação'], answer:'Inverno'},
+  {q:'ÁGUA está para SEDENTO assim como COMIDA está para...', options:['Cozinha','Faminto','Restaurante','Prato'], answer:'Faminto'},
+  {q:'PÁSSARO está para NINHO assim como PESSOA está para...', options:['Rua','Casa','Cidade','Quarto'], answer:'Casa'}
+];
+
+// ============ NOVAS FIGURAS - SEQUÊNCIAS CLARAS ============
+const figuresQuestions = [
+  {
+    // Rotação de setas: ↑ → ↓ ← ↑ ?
+    sequence:['↑','→','↓','←','↑'],
+    question:'→',
+    options:['↑','→','↓','←'],
+    answer:'→'
+  },
+  {
+    // Alternância de formas
+    sequence:['▲','▼','▲','▼','▲'],
+    question:'▼',
+    options:['▲','▼','■','●'],
+    answer:'▼'
+  },
+  {
+    // Crescimento de círculos
+    sequence:['●','●●','●●●','●●●●'],
+    question:'●●●●●',
+    options:['●●●','●●●●','●●●●●','●●●●●●'],
+    answer:'●●●●●'
+  },
+  {
+    // Rotação de quadrados (preenchimento)
+    sequence:['◰','◳','◲','◱','◰'],
+    question:'◳',
+    options:['◰','◳','◲','◱'],
+    answer:'◳'
+  },
+  {
+    // Sequência de setas diagonais
+    sequence:['↖','↗','↘','↙','↖'],
+    question:'↗',
+    options:['↖','↗','↘','↙'],
+    answer:'↗'
+  },
+  {
+    // Alternância círculo/quadrado
+    sequence:['●','■','●','■','●'],
+    question:'■',
+    options:['●','■','▲','◆'],
+    answer:'■'
+  },
+  {
+    // Setas em rotação rápida
+    sequence:['→','↘','↓','↙','←'],
+    question:'↖',
+    options:['↑','↗','↖','↙'],
+    answer:'↖'
+  },
+  {
+    // Forma que cresce: 1 triângulo, 2, 3...
+    sequence:['▲','▲▲','▲▲▲','▲▲▲▲'],
+    question:'▲▲▲▲▲',
+    options:['▲▲▲','▲▲▲▲','▲▲▲▲▲','▲▲▲▲▲▲'],
+    answer:'▲▲▲▲▲'
+  },
+  {
+    // Rotação L
+    sequence:['⊢','⊥','⊣','⊤','⊢'],
+    question:'⊥',
+    options:['⊢','⊥','⊣','⊤'],
+    answer:'⊥'
+  },
+  {
+    // Setas em X
+    sequence:['↖','↗','↙','↘','↖'],
+    question:'↗',
+    options:['↖','↗','↙','↘'],
+    answer:'↗'
+  }
+];
+
+// ============ UTILS ============
+function shuffle(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function saveState(){
+  localStorage.setItem('pt_totalScore', state.totalScore);
+  localStorage.setItem('pt_gamesCompleted', state.gamesCompleted);
+  localStorage.setItem('pt_bestScores', JSON.stringify(state.bestScores));
+  updateHomeDisplay();
+}
+
+function updateHomeDisplay(){
+  document.getElementById('totalScore').textContent = state.totalScore;
+  document.getElementById('gamesCompleted').textContent = state.gamesCompleted;
+  ['sequences','math','memory','alphabet','stroop','analogies','figures'].forEach(g=>{
+    const el=document.getElementById('best-'+g);
+    if(el) el.textContent='Melhor: '+(state.bestScores[g]||0);
+  });
+}
+
+function resetAllScores(){
+  if(confirm('Tens a certeza que queres repor toda a pontuação?')){
+    state.totalScore=0;
+    state.gamesCompleted=0;
+    state.bestScores={};
+    saveState();
+  }
+}
+
+function formatTime(s){
+  const m=Math.floor(s/60);
+  const sec=s%60;
+  return m+':'+(sec<10?'0':'')+sec;
+}
+
+function renderTimerDisplay(){
+  const danger = state.timeLeft <= 10;
+  const warning = state.timeLeft <= 20 && !danger;
+  const cls = danger ? 'danger' : (warning ? 'warning' : '');
+  return `
+    <div class="timer-display ${cls}">
+      <i class="bi bi-clock-fill"></i>
+      <span class="time-value">${formatTime(state.timeLeft)}</span>
+    </div>
+  `;
+}
+
+function startGameTimer(duration, onEnd){
+  state.totalTime = duration;
+  state.timeLeft = duration;
+  document.getElementById('timerBar').style.display='block';
+  document.getElementById('timerBar').style.width='100%';
+  
+  if(state.timer) clearInterval(state.timer);
+  state.timer = setInterval(()=>{
+    state.timeLeft--;
+    const pct = (state.timeLeft / state.totalTime) * 100;
+    document.getElementById('timerBar').style.width = pct + '%';
+    
+    // Atualizar display do timer se existir
+    const timerEl = document.getElementById('timerDisplay');
+    if(timerEl){
+      const danger = state.timeLeft <= 10;
+      const warning = state.timeLeft <= 20 && !danger;
+      timerEl.className = 'timer-display ' + (danger ? 'danger' : (warning ? 'warning' : ''));
+      const tv = timerEl.querySelector('.time-value');
+      if(tv) tv.textContent = formatTime(state.timeLeft);
+    }
+    
+    // Atualizar stats do jogo
+    updateGameStats();
+    
+    if(state.timeLeft<=0){
+      clearInterval(state.timer);
+      state.timer = null;
+      onEnd();
+    }
+  },1000);
+}
+
+function updateGameStats(){
+  const statsEl = document.getElementById('gameStats');
+  if(!statsEl) return;
+  const currentScore = state.currentGame === 'math' ? state.mathScore : 
+                       state.currentGame === 'stroop' ? state.stroopScore :
+                       state.currentGame === 'memory' ? state.memScore :
+                       state.score;
+  statsEl.textContent = formatTime(state.timeLeft) + ' | ' + currentScore + ' pts';
+}
+
+// ============ NAVIGATION ============
+function startGame(game){
+  state.currentGame=game;
+  state.currentQ=0;
+  state.score=0;
+  document.getElementById('gameScreen').classList.add('active');
+  document.getElementById('timerBar').style.display='none';
+  
+  const titles={
+    sequences:'Sequências Numéricas',
+    math:'Cálculo Mental',
+    memory:'Memória de Dígitos',
+    alphabet:'Sequências Alfabéticas',
+    stroop:'Teste Stroop',
+    analogies:'Analogias Verbais',
+    figures:'Séries de Figuras'
+  };
+  document.getElementById('gameTitle').textContent=titles[game];
+  
+  const starters={
+    sequences:startSequences,
+    math:startMath,
+    memory:startMemory,
+    alphabet:startAlphabet,
+    stroop:startStroop,
+    analogies:startAnalogies,
+    figures:startFigures
+  };
+  
+  if(starters[game]){
+    starters[game]();
+  }
+}
+
+function exitGame(){
+  document.getElementById('gameScreen').classList.remove('active');
+  if(state.timer) {
+    clearInterval(state.timer);
+    state.timer = null;
+  }
+  document.getElementById('timerBar').style.display='none';
+}
+
+function endGame(gameKey, score, maxScore){
+  if(state.timer) {
+    clearInterval(state.timer);
+    state.timer = null;
+  }
+  document.getElementById('timerBar').style.display='none';
+  
+  state.totalScore += score;
+  state.gamesCompleted += 1;
+  if(!state.bestScores[gameKey] || score > state.bestScores[gameKey]){
+    state.bestScores[gameKey] = score;
+  }
+  saveState();
+  
+  const pct = maxScore > 0 ? Math.round((score/maxScore)*100) : 0;
+  let icon='🏆', msg='Excelente!';
+  if(pct<50){icon='💪';msg='Continua a treinar!';}
+  else if(pct<75){icon='👍';msg='Bom trabalho!';}
+  else if(pct<90){icon='⭐';msg='Muito bom!';}
+  
+  document.getElementById('gameContent').innerHTML=`
+    <div class="result-screen">
+      <div class="result-icon">${icon}</div>
+      <div class="result-title">${msg}</div>
+      <div class="result-score">+${score}</div>
+      <div class="result-detail">
+        <p><strong>${score} pontos</strong> ganhos</p>
+        <p>Melhor pontuação: <strong>${state.bestScores[gameKey]}</strong></p>
+      </div>
+      <button class="submit-btn" onclick="exitGame()">
+        <i class="bi bi-house"></i> Voltar ao Início
+      </button>
+      <button class="submit-btn" style="background:linear-gradient(135deg,#10b981,#059669);margin-top:10px;" onclick="startGame('${gameKey}')">
+        <i class="bi bi-arrow-repeat"></i> Jogar Novamente
+      </button>
+    </div>
+  `;
+}
+
+// ============ GAME 1: SEQUENCES (60s) ============
+function startSequences(){
+  state.questions = shuffle(sequencesQuestions);
+  state.maxScore = 0;
+  state.score = 0;
+  document.getElementById('gameStats').textContent = '0 pts';
+  
+  startGameTimer(60, ()=>{
+    endGame('sequences', state.score, Math.max(100, state.score + 20));
+  });
+  
+  renderSequenceQ();
+}
+
+function renderSequenceQ(){
+  if(state.timeLeft <= 0) return;
+  if(state.currentQ >= state.questions.length){
+    state.questions = shuffle(sequencesQuestions);
+    state.currentQ = 0;
+  }
+  const q=state.questions[state.currentQ];
+  updateGameStats();
+  document.getElementById('gameContent').innerHTML=`
+    ${renderTimerDisplay()}
+    <div class="question-card">
+      <div class="question-label">Sequência Numérica</div>
+      <div class="question-text">${q.seq}</div>
+      <div class="question-hint">Qual é o próximo número?</div>
+    </div>
+    <div class="answer-grid">
+      ${q.options.map(o=>`<button class="answer-btn" onclick="checkSequence('${o}','${q.answer}',this)">${o}</button>`).join('')}
+    </div>
+  `;
+}
+
+function checkSequence(sel,ans,btn){
+  if(state.timeLeft <= 0) return;
+  const btns=document.querySelectorAll('.answer-btn');
+  btns.forEach(b=>b.disabled=true);
+  if(sel===ans){
+    btn.classList.add('correct');
+    state.score += 20;
+  } else {
+    btn.classList.add('wrong');
+    btns.forEach(b=>{if(b.textContent===ans)b.classList.add('correct');});
+  }
+  setTimeout(()=>{state.currentQ++;renderSequenceQ();},700);
+}
+
+// ============ GAME 2: MATH (60s) ============
+function startMath(){
+  state.mathScore=0;
+  state.mathTotal=0;
+  
+  startGameTimer(60, ()=>{
+    endGame('math', state.mathScore, Math.max(100, state.mathScore + 20));
+  });
+  
+  generateMathQ();
+}
+
+function generateMathQ(){
+  if(state.timeLeft <= 0) return;
+  const ops=['+','-','×'];
+  const op=ops[Math.floor(Math.random()*ops.length)];
+  let a,b,ans;
+  if(op==='+'){a=Math.floor(Math.random()*50)+10;b=Math.floor(Math.random()*50)+10;ans=a+b;}
+  else if(op==='-'){a=Math.floor(Math.random()*50)+30;b=Math.floor(Math.random()*30)+5;ans=a-b;}
+  else {a=Math.floor(Math.random()*12)+2;b=Math.floor(Math.random()*12)+2;ans=a*b;}
+  
+  const options=shuffle([ans,ans+Math.floor(Math.random()*5)+1,ans-Math.floor(Math.random()*5)-1,ans+Math.floor(Math.random()*10)+2]).slice(0,4);
+  if(!options.includes(ans))options[0]=ans;
+  
+  updateGameStats();
+  document.getElementById('gameContent').innerHTML=`
+    ${renderTimerDisplay()}
+    <div class="question-card">
+      <div class="question-label">Cálculo Mental</div>
+      <div class="question-text">${a} ${op} ${b} = ?</div>
+    </div>
+    <div class="answer-grid">
+      ${options.map(o=>`<button class="answer-btn" onclick="checkMath(${o},${ans},this)">${o}</button>`).join('')}
+    </div>
+  `;
+}
+
+function checkMath(sel,ans,btn){
+  if(state.timeLeft <= 0) return;
+  const btns=document.querySelectorAll('.answer-btn');
+  btns.forEach(b=>b.disabled=true);
+  if(sel===ans){
+    btn.classList.add('correct');
+    state.mathScore+=10;
+  } else {
+    btn.classList.add('wrong');
+  }
+  state.mathTotal++;
+  setTimeout(generateMathQ,500);
+}
+
+// ============ GAME 3: MEMORY (90s) ============
+function startMemory(){
+  state.memLevel=3;
+  state.memScore=0;
+  
+  startGameTimer(90, ()=>{
+    endGame('memory', state.memScore, Math.max(100, state.memScore + 20));
+  });
+  
+  showMemPhase();
+}
+
+function showMemPhase(){
+  if(state.timeLeft <= 0) return;
+  const digits=[];
+  for(let i=0;i<state.memLevel;i++) digits.push(Math.floor(Math.random()*10));
+  state.memDigits=digits.join('');
+  updateGameStats();
+  document.getElementById('gameContent').innerHTML=`
+    ${renderTimerDisplay()}
+    <div class="question-card">
+      <div class="question-label">Memoriza esta sequência</div>
+      <div class="digit-display">${state.memDigits}</div>
+      <div class="memory-phase">Nível ${state.memLevel} • Tens 3 segundos...</div>
+    </div>
+  `;
+  setTimeout(showMemInput,3000);
+}
+
+function showMemInput(){
+  if(state.timeLeft <= 0) return;
+  document.getElementById('gameContent').innerHTML=`
+    ${renderTimerDisplay()}
+    <div class="question-card">
+      <div class="question-label">Agora escreve a sequência</div>
+      <div class="memory-phase">Nível ${state.memLevel} dígitos</div>
+      <input type="tel" class="input-answer" id="memInput" maxlength="${state.memLevel}" inputmode="numeric" placeholder="???">
+      <button class="submit-btn" onclick="checkMemory()">Confirmar</button>
+    </div>
+  `;
+  setTimeout(()=>{
+    const input = document.getElementById('memInput');
+    if(input) input.focus();
+  },100);
+}
+
+function checkMemory(){
+  if(state.timeLeft <= 0) return;
+  const input = document.getElementById('memInput');
+  if(!input) return;
+  const val=input.value;
+  if(val===state.memDigits){
+    state.memScore+=state.memLevel*10;
+    state.memLevel++;
+    showMemPhase();
+  } else {
+    endGame('memory', state.memScore, Math.max(100, state.memScore + 20));
+  }
+}
+
+// ============ GAME 4: ALPHABET (60s) ============
+function startAlphabet(){
+  state.questions = shuffle(alphabetQuestions);
+  state.score = 0;
+  document.getElementById('gameStats').textContent = '0 pts';
+  
+  startGameTimer(60, ()=>{
+    endGame('alphabet', state.score, Math.max(100, state.score + 20));
+  });
+  
+  renderAlphaQ();
+}
+
+function renderAlphaQ(){
+  if(state.timeLeft <= 0) return;
+  if(state.currentQ >= state.questions.length){
+    state.questions = shuffle(alphabetQuestions);
+    state.currentQ = 0;
+  }
+  const q=state.questions[state.currentQ];
+  updateGameStats();
+  document.getElementById('gameContent').innerHTML=`
+    ${renderTimerDisplay()}
+    <div class="question-card">
+      <div class="question-label">Sequência Alfabética</div>
+      <div class="question-text">${q.seq}</div>
+      <div class="question-hint">Qual é a próxima letra?</div>
+    </div>
+    <div class="answer-grid">
+      ${q.options.map(o=>`<button class="answer-btn" onclick="checkAlpha('${o}','${q.answer}',this)">${o}</button>`).join('')}
+    </div>
+  `;
+}
+
+function checkAlpha(sel,ans,btn){
+  if(state.timeLeft <= 0) return;
+  const btns=document.querySelectorAll('.answer-btn');
+  btns.forEach(b=>b.disabled=true);
+  if(sel===ans){
+    btn.classList.add('correct');
+    state.score+=15;
+  } else {
+    btn.classList.add('wrong');
+    btns.forEach(b=>{if(b.textContent===ans)b.classList.add('correct');});
+  }
+  setTimeout(()=>{state.currentQ++;renderAlphaQ();},700);
+}
+
+// ============ GAME 5: STROOP (45s) ============
+const stroopColors=[
+  {name:'VERMELHO',hex:'#ef4444'},
+  {name:'AZUL',hex:'#3b82f6'},
+  {name:'VERDE',hex:'#10b981'},
+  {name:'AMARELO',hex:'#eab308'},
+  {name:'ROXO',hex:'#8b5cf6'}
+];
+
+function startStroop(){
+  state.stroopScore=0;
+  state.stroopTotal=0;
+  
+  startGameTimer(45, ()=>{
+    endGame('stroop', state.stroopScore, Math.max(100, state.stroopScore + 20));
+  });
+  
+  generateStroopQ();
+}
+
+function generateStroopQ(){
+  if(state.timeLeft <= 0) return;
+  const wordIdx=Math.floor(Math.random()*stroopColors.length);
+  let colorIdx=Math.floor(Math.random()*stroopColors.length);
+  while(colorIdx===wordIdx) colorIdx=Math.floor(Math.random()*stroopColors.length);
+  
+  state.stroopAnswer=colorIdx;
+  const word=stroopColors[wordIdx];
+  const color=stroopColors[colorIdx];
+  
+  updateGameStats();
+  document.getElementById('gameContent').innerHTML=`
+    ${renderTimerDisplay()}
+    <div class="question-card">
+      <div class="question-label">Seleciona a COR da palavra (não o que está escrito!)</div>
+      <div class="stroop-word" style="color:${color.hex}">${word.name}</div>
+    </div>
+    <div class="color-grid">
+      ${stroopColors.map((c,i)=>`<button class="color-btn" style="background:${c.hex}" onclick="checkStroop(${i},this)">${c.name}</button>`).join('')}
+    </div>
+  `;
+}
+
+function checkStroop(idx,btn){
+  if(state.timeLeft <= 0) return;
+  const btns=document.querySelectorAll('.color-btn');
+  btns.forEach(b=>b.disabled=true);
+  if(idx===state.stroopAnswer){
+    btn.style.outline='4px solid white';
+    btn.style.boxShadow='0 0 0 4px #10b981';
+    state.stroopScore+=10;
+  } else {
+    btn.style.opacity='0.4';
+    btns[state.stroopAnswer].style.outline='4px solid white';
+    btns[state.stroopAnswer].style.boxShadow='0 0 0 4px #10b981';
+  }
+  state.stroopTotal++;
+  setTimeout(generateStroopQ,600);
+}
+
+// ============ GAME 6: ANALOGIES (60s) ============
+function startAnalogies(){
+  state.questions = shuffle(analogiesQuestions);
+  state.score = 0;
+  document.getElementById('gameStats').textContent = '0 pts';
+  
+  startGameTimer(60, ()=>{
+    endGame('analogies', state.score, Math.max(100, state.score + 20));
+  });
+  
+  renderAnalogyQ();
+}
+
+function renderAnalogyQ(){
+  if(state.timeLeft <= 0) return;
+  if(state.currentQ >= state.questions.length){
+    state.questions = shuffle(analogiesQuestions);
+    state.currentQ = 0;
+  }
+  const q=state.questions[state.currentQ];
+  updateGameStats();
+  document.getElementById('gameContent').innerHTML=`
+    ${renderTimerDisplay()}
+    <div class="question-card">
+      <div class="question-label">Analogia Verbal</div>
+      <div class="question-text" style="font-size:1.3rem;">${q.q}</div>
+    </div>
+    <div class="answer-grid">
+      ${q.options.map(o=>`<button class="answer-btn" onclick="checkAnalogy('${o}','${q.answer}',this)">${o}</button>`).join('')}
+    </div>
+  `;
+}
+
+function checkAnalogy(sel,ans,btn){
+  if(state.timeLeft <= 0) return;
+  const btns=document.querySelectorAll('.answer-btn');
+  btns.forEach(b=>b.disabled=true);
+  if(sel===ans){
+    btn.classList.add('correct');
+    state.score+=20;
+  } else {
+    btn.classList.add('wrong');
+    btns.forEach(b=>{if(b.textContent===ans)b.classList.add('correct');});
+  }
+  setTimeout(()=>{state.currentQ++;renderAnalogyQ();},700);
+}
+
+// ============ GAME 7: FIGURES (75s) - NOVO ============
+function startFigures(){
+  state.questions = shuffle(figuresQuestions);
+  state.score = 0;
+  document.getElementById('gameStats').textContent = '0 pts';
+  
+  startGameTimer(75, ()=>{
+    endGame('figures', state.score, Math.max(100, state.score + 20));
+  });
+  
+  renderFigureQ();
+}
+
+function renderFigureQ(){
+  if(state.timeLeft <= 0) return;
+  if(state.currentQ >= state.questions.length){
+    state.questions = shuffle(figuresQuestions);
+    state.currentQ = 0;
+  }
+  const q = state.questions[state.currentQ];
+  updateGameStats();
+  
+  // Construir sequência visual clara
+  let sequenceHTML = '';
+  q.sequence.forEach((item, i) => {
+    sequenceHTML += `<div class="figure-item">${item}</div>`;
+    if(i < q.sequence.length - 1){
+      sequenceHTML += `<div class="figure-arrow">→</div>`;
+    }
+  });
+  sequenceHTML += `<div class="figure-arrow">→</div>`;
+  sequenceHTML += `<div class="figure-item question-mark">?</div>`;
+  
+  document.getElementById('gameContent').innerHTML=`
+    ${renderTimerDisplay()}
+    <div class="question-card">
+      <div class="question-label">Série de Figuras</div>
+      <div class="question-hint" style="margin-bottom:8px;">Descobre o padrão e completa a sequência</div>
+      <div class="figure-sequence">
+        ${sequenceHTML}
+      </div>
+      <div class="question-hint">Qual figura substitui o ?</div>
+    </div>
+    <div class="answer-grid">
+      ${q.options.map(o=>`<button class="answer-btn figure-answer" onclick="checkFigure('${o.replace(/'/g,"\\'")}','${q.answer.replace(/'/g,"\\'")}',this)">${o}</button>`).join('')}
+    </div>
+  `;
+}
+
+function checkFigure(sel,ans,btn){
+  if(state.timeLeft <= 0) return;
+  const btns=document.querySelectorAll('.answer-btn');
+  btns.forEach(b=>b.disabled=true);
+  if(sel===ans){
+    btn.classList.add('correct');
+    state.score += 25;
+  } else {
+    btn.classList.add('wrong');
+    btns.forEach(b=>{if(b.textContent===ans)b.classList.add('correct');});
+  }
+  setTimeout(()=>{state.currentQ++;renderFigureQ();},800);
+}
+
+// ============ INIT ============
+document.addEventListener('DOMContentLoaded', function() {
+  updateHomeDisplay();
+});
+</script>
+</body>
+</html>
