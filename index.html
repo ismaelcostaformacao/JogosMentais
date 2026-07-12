@@ -1,42 +1,29 @@
-
-                        <!DOCTYPE html>
-                        <html lang="en">
-                        <head>
-                            <meta charset="UTF-8">
-                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <style>
-                body {
-                  background-color: white; /* Ensure the iframe has a white background */
-                }
-
-                
-              </style>
-                        </head>
-                        <body>
-                            <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-PT">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>PsicoTreino PT - Preparação para Testes Psicotécnicos</title>
 
-<!-- PWA Meta Tags -->
+<!-- PWA META TAGS -->
 <meta name="theme-color" content="#4f46e5">
-<meta name="description" content="Preparação para Testes Psicotécnicos de Recrutamento Público em Portugal">
+<meta name="description" content="Treino para testes psicotécnicos de recrutamento público em Portugal">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="PsicoTreino">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="format-detection" content="telephone=no">
+<meta name="application-name" content="PsicoTreino PT">
 <meta name="msapplication-TileColor" content="#4f46e5">
 <meta name="msapplication-tap-highlight" content="no">
 
-<!-- PWA Icons -->
-<link rel="icon" type="image/png" sizes="192x192" href="https://image.qwenlm.ai/public_source/fc564eb8-0a0c-453d-aa61-d8c1d92d0726/11dda3d5b-4fd2-4bc6-8781-02d0f3b1148f.png">
-<link rel="apple-touch-icon" href="https://image.qwenlm.ai/public_source/fc564eb8-0a0c-453d-aa61-d8c1d92d0726/11dda3d5b-4fd2-4bc6-8781-02d0f3b1148f.png">
+<!-- PWA ICONS (SVG inline - funciona sem ficheiros externos) -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM0ZjQ2ZTUiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM4YjVjZjYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0idXJsKCNnKSIvPjx0ZXh0IHg9IjI1NiIgeT0iMzQwIiBmb250LXNpemU9IjI4MCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+8J+HijwvdGV4dD48L3N2Zz4=">
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM0ZjQ2ZTUiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM4YjVjZjYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0idXJsKCNnKSIvPjx0ZXh0IHg9IjI1NiIgeT0iMzQwIiBmb250LXNpemU9IjI4MCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+8J+HijwvdGV4dD48L3N2Zz4=">
+
+<!-- MANIFEST -->
 <link rel="manifest" href="./manifest.json">
 
-<!-- External Resources -->
+<!-- EXTERNAL RESOURCES -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -74,7 +61,6 @@
   .score-card .label{font-size:.75rem;opacity:.9;}
   .score-card .value{font-size:1.5rem;font-weight:700;}
 
-  /* PWA Install Button */
   .pwa-install-banner{
     position:fixed;bottom:70px;left:16px;right:16px;
     background:linear-gradient(135deg,var(--primary),var(--secondary));
@@ -95,12 +81,10 @@
   .pwa-install-banner .install-subtitle{font-size:.75rem;opacity:.9;}
   .pwa-install-btn{
     background:white;color:var(--primary);border:none;
-    padding:8px 16px;border-radius:10px;font-weight:700;font-size:.85rem;
-    cursor:pointer;white-space:nowrap;
+    padding:8px 16px;border-radius:10px;font-weight:700;font-size:.85rem;cursor:pointer;
   }
   .pwa-install-close{
-    background:none;border:none;color:white;opacity:.7;
-    font-size:1.2rem;cursor:pointer;padding:4px;
+    background:none;border:none;color:white;opacity:.7;font-size:1.2rem;cursor:pointer;padding:4px;
   }
 
   .bottom-nav{
@@ -161,7 +145,6 @@
   .level-btn{
     width:100%;padding:16px;border:2px solid #e2e8f0;background:white;
     border-radius:14px;margin-bottom:10px;cursor:pointer;text-align:left;
-    transition:all .15s;
   }
   .level-btn:active{transform:scale(.98);}
   .level-btn.level-1{border-color:#10b981;}
@@ -285,8 +268,7 @@
   .reaction-area{
     width:100%;height:300px;border-radius:16px;background:#f1f5f9;
     display:flex;align-items:center;justify-content:center;
-    font-size:5rem;cursor:pointer;transition:background .2s;
-    user-select:none;
+    font-size:5rem;cursor:pointer;transition:background .2s;user-select:none;
   }
   .reaction-area.go{background:linear-gradient(135deg,var(--success),#059669);}
   .reaction-area.no-go{background:linear-gradient(135deg,var(--danger),#dc2626);}
@@ -364,12 +346,10 @@
 </head>
 <body>
 
-<!-- Offline Banner -->
 <div id="offlineBanner" class="offline-banner">
-  <i class="bi bi-wifi-off"></i> <strong>Modo Offline</strong> — A app está a funcionar sem internet
+  <i class="bi bi-wifi-off"></i> <strong>Modo Offline</strong> — A app funciona sem internet
 </div>
 
-<!-- HEADER -->
 <div class="app-header">
   <div class="logo-wrap">
     <div class="logo-icon">🧠</div>
@@ -390,11 +370,10 @@
   </div>
 </div>
 
-<!-- TAB: HOME -->
 <div id="tabHome" class="tab-screen active">
   <div class="container" style="max-width:600px;padding-top:20px;">
     <div class="info-banner">
-      <i class="bi bi-info-circle-fill"></i> <strong>Dica:</strong> Instala a app no teu telemóvel para treinares offline!
+      <i class="bi bi-info-circle-fill"></i> <strong>Dica:</strong> Instala a app no telemóvel para treinares offline!
     </div>
 
     <h5 class="section-title"><i class="bi bi-grid-3x3-gap-fill"></i> Jogos de Treino</h5>
@@ -536,13 +515,12 @@
     </div>
 
     <div class="footer-info">
-      <p><strong>PsicoTreino PT</strong> v3.1 PWA</p>
+      <p><strong>PsicoTreino PT</strong> v4.0 PWA</p>
       <p>Aplicação de treino não oficial. Boa sorte! 🍀</p>
     </div>
   </div>
 </div>
 
-<!-- TAB: STATS -->
 <div id="tabStats" class="tab-screen">
   <div class="container" style="max-width:600px;padding-top:20px;">
     <h5 class="section-title"><i class="bi bi-graph-up"></i> Estatísticas Detalhadas</h5>
@@ -587,7 +565,6 @@
   </div>
 </div>
 
-<!-- TAB: SIMULATION -->
 <div id="tabSim" class="tab-screen">
   <div class="container" style="max-width:600px;padding-top:20px;">
     <h5 class="section-title"><i class="bi bi-bullseye"></i> Simulação de Exame</h5>
@@ -628,7 +605,6 @@
   </div>
 </div>
 
-<!-- LEVEL SELECTOR MODAL -->
 <div id="levelModal" class="modal-overlay">
   <div class="modal-box">
     <div class="modal-title" id="levelModalTitle">Escolhe o Nível</div>
@@ -651,7 +627,6 @@
   </div>
 </div>
 
-<!-- GAME SCREEN -->
 <div id="gameScreen" class="game-screen">
   <div class="timer-bar" id="timerBar" style="display:none;"></div>
   <div class="game-topbar">
@@ -663,7 +638,6 @@
   <div class="game-content" id="gameContent"></div>
 </div>
 
-<!-- PWA Install Banner -->
 <div id="pwaInstallBanner" class="pwa-install-banner">
   <div class="install-icon"><i class="bi bi-download"></i></div>
   <div class="install-text">
@@ -674,7 +648,6 @@
   <button class="pwa-install-close" id="pwaInstallClose"><i class="bi bi-x-lg"></i></button>
 </div>
 
-<!-- BOTTOM NAV -->
 <div class="bottom-nav">
   <button class="nav-item active" data-tab="tabHome">
     <i class="bi bi-house-fill"></i>
@@ -691,1426 +664,1125 @@
 </div>
 
 <script>
-  (function() {
-    'use strict';
+(function() {
+  'use strict';
 
-    // ============ PWA SETUP ============
-    // Register Service Worker
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function() {
-        navigator.serviceWorker.register('./sw.js')
-          .then(function(registration) {
-            console.log('SW registered:', registration.scope);
-          })
-          .catch(function(error) {
-            console.warn('SW registration failed:', error);
-          });
-      });
-    }
+  // ============ PWA SETUP ============
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('./sw.js')
+        .then(function(reg) { console.log('[PWA] SW registado:', reg.scope); })
+        .catch(function(err) { console.warn('[PWA] SW falhou:', err); });
+    });
+  }
 
-    // PWA Install Prompt
-    let deferredPrompt = null;
-    const installBanner = document.getElementById('pwaInstallBanner');
-    const installBtn = document.getElementById('pwaInstallBtn');
-    const installClose = document.getElementById('pwaInstallClose');
+  let deferredPrompt = null;
+  const installBanner = document.getElementById('pwaInstallBanner');
+  const installBtn = document.getElementById('pwaInstallBtn');
+  const installClose = document.getElementById('pwaInstallClose');
 
-    window.addEventListener('beforeinstallprompt', function(e) {
-      e.preventDefault();
-      deferredPrompt = e;
-      // Show banner after 3 seconds
+  window.addEventListener('beforeinstallprompt', function(e) {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (localStorage.getItem('pt_installDismissed') !== 'true') {
       setTimeout(function() {
-        if (!isAppInstalled()) {
-          installBanner.classList.add('active');
-        }
+        if (!isAppInstalled()) installBanner.classList.add('active');
       }, 3000);
-    });
-
-    function isAppInstalled() {
-      return window.matchMedia('(display-mode: standalone)').matches || 
-            window.navigator.standalone === true;
     }
+  });
 
-    installBtn.addEventListener('click', function() {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then(function(choiceResult) {
-          if (choiceResult.outcome === 'accepted') {
-            console.log('User accepted install');
-          }
-          deferredPrompt = null;
-          installBanner.classList.remove('active');
-        });
-      } else if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
-        // iOS instructions
-        alert('Para instalar no iPhone/iPad:\n1. Toca no botão de partilha (📤)\n2. Seleciona "Adicionar ao Ecrã Principal"');
+  function isAppInstalled() {
+    return window.matchMedia('(display-mode: standalone)').matches || 
+           window.navigator.standalone === true;
+  }
+
+  installBtn.addEventListener('click', function() {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(function(r) {
+        deferredPrompt = null;
         installBanner.classList.remove('active');
-      }
-    });
-
-    installClose.addEventListener('click', function() {
-      installBanner.classList.remove('active');
-      localStorage.setItem('pt_installDismissed', 'true');
-    });
-
-    // Hide banner if already dismissed
-    if (localStorage.getItem('pt_installDismissed') === 'true' || isAppInstalled()) {
+      });
+    } else if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+      alert('Para instalar no iPhone/iPad:\n1. Toca no botão de partilha (📤)\n2. "Adicionar ao Ecrã Principal"');
       installBanner.classList.remove('active');
     }
+  });
 
-    // Online/Offline detection
-    const offlineBanner = document.getElementById('offlineBanner');
-    function updateOnlineStatus() {
-      if (navigator.onLine) {
-        offlineBanner.classList.remove('active');
-      } else {
-        offlineBanner.classList.add('active');
-      }
+  installClose.addEventListener('click', function() {
+    installBanner.classList.remove('active');
+    localStorage.setItem('pt_installDismissed', 'true');
+  });
+
+  if (isAppInstalled()) installBanner.classList.remove('active');
+
+  const offlineBanner = document.getElementById('offlineBanner');
+  function updateOnlineStatus() {
+    offlineBanner.classList[navigator.onLine ? 'remove' : 'add']('active');
+  }
+  window.addEventListener('online', updateOnlineStatus);
+  window.addEventListener('offline', updateOnlineStatus);
+  updateOnlineStatus();
+
+  // ============ STORAGE ============
+  const storage = {
+    get: function(key, def) {
+      try {
+        const val = localStorage.getItem(key);
+        return val !== null ? JSON.parse(val) : def;
+      } catch(e) { return def; }
+    },
+    set: function(key, val) {
+      try { localStorage.setItem(key, JSON.stringify(val)); } catch(e) {}
     }
-    window.addEventListener('online', updateOnlineStatus);
-    window.addEventListener('offline', updateOnlineStatus);
-    updateOnlineStatus();
-
-    // ============ STORAGE ============
-    const storage = {
-      get: function(key, def) {
-        try {
-          const val = localStorage.getItem(key);
-          return val !== null ? JSON.parse(val) : def;
-        } catch(e) { return def; }
-      },
-      set: function(key, val) {
-        try { localStorage.setItem(key, JSON.stringify(val)); } catch(e) {}
-      }
-    };
-
-    // ============ STATE ============
-    const state = {
-      totalScore: storage.get('pt_totalScore', 0),
-      gamesCompleted: storage.get('pt_gamesCompleted', 0),
-      bestScores: storage.get('pt_bestScores', {}),
-      history: storage.get('pt_history', []),
-      simHistory: storage.get('pt_simHistory', []),
-      currentGame: null,
-      currentLevel: 1,
-      currentQ: 0,
-      score: 0,
-      timer: null,
-      timeLeft: 0,
-      totalTime: 0,
-      questions: [],
-      maxScore: 0,
-      pendingGame: null,
-      simulationMode: false,
-      simData: null
-    };
-
-    // ============ QUESTIONS DATABASE ============
-    const sequencesL1 = [
-      {seq:'2, 4, 8, 16, ?', options:['24','32','30','28'], answer:'32'},
-      {seq:'3, 6, 12, 24, ?', options:['36','42','48','30'], answer:'48'},
-      {seq:'1, 4, 9, 16, 25, ?', options:['30','36','49','35'], answer:'36'},
-      {seq:'5, 10, 20, 40, ?', options:['60','80','100','70'], answer:'80'},
-      {seq:'100, 95, 90, 85, ?', options:['75','80','70','90'], answer:'80'},
-      {seq:'7, 14, 28, 56, ?', options:['84','112','100','96'], answer:'112'}
-    ];
-    const sequencesL2 = [
-      {seq:'2, 6, 12, 20, 30, ?', options:['40','42','38','44'], answer:'42'},
-      {seq:'1, 1, 2, 3, 5, 8, ?', options:['11','12','13','14'], answer:'13'},
-      {seq:'3, 5, 9, 15, 23, ?', options:['30','33','31','35'], answer:'33'},
-      {seq:'10, 20, 40, 70, 110, ?', options:['150','160','140','170'], answer:'160'},
-      {seq:'2, 3, 5, 8, 13, 21, ?', options:['28','34','26','30'], answer:'34'},
-      {seq:'1, 4, 2, 8, 4, 16, ?', options:['6','8','12','32'], answer:'8'},
-      {seq:'3, 7, 15, 31, 63, ?', options:['95','127','100','115'], answer:'127'},
-      {seq:'0, 1, 3, 6, 10, 15, ?', options:['18','21','20','25'], answer:'21'}
-    ];
-
-    const alphabetL1 = [
-      {seq:'A, C, E, G, ?', options:['H','I','J','K'], answer:'I'},
-      {seq:'B, D, F, H, ?', options:['I','J','K','L'], answer:'J'},
-      {seq:'Z, X, V, T, ?', options:['S','R','Q','P'], answer:'R'},
-      {seq:'C, F, I, L, ?', options:['M','N','O','P'], answer:'O'},
-      {seq:'D, G, J, M, ?', options:['N','O','P','Q'], answer:'P'},
-      {seq:'A, D, G, J, ?', options:['K','L','M','N'], answer:'M'}
-    ];
-    const alphabetL2 = [
-      {seq:'A, B, D, G, K, ?', options:['N','O','P','Q'], answer:'P'},
-      {seq:'M, N, P, S, W, ?', options:['A','B','C','D'], answer:'B'},
-      {seq:'B, E, I, N, S, ?', options:['X','Y','Z','W'], answer:'X'},
-      {seq:'A, Z, B, Y, C, X, ?', options:['D','W','E','V'], answer:'D'},
-      {seq:'J, F, M, A, M, ?', options:['J','A','S','O'], answer:'J'},
-      {seq:'O, T, T, F, F, S, S, ?', options:['E','N','T','O'], answer:'E'}
-    ];
-
-    const analogiesL1 = [
-      {q:'LIVRO está para LER assim como GARFO está para...', options:['Cozinhar','Cortar','Comer','Servir'], answer:'Comer'},
-      {q:'MÉDICO está para HOSPITAL assim como PROFESSOR está para...', options:['Livro','Escola','Aluno','Aula'], answer:'Escola'},
-      {q:'QUENTE está para FRIO assim como CLARO está para...', options:['Luz','Escuro','Brilhante','Sol'], answer:'Escuro'},
-      {q:'OLHO está para VER assim como OUVIDO está para...', options:['Falar','Ouvir','Cheirar','Tocar'], answer:'Ouvir'},
-      {q:'DIA está para NOITE assim como VERÃO está para...', options:['Primavera','Outono','Inverno','Estação'], answer:'Inverno'},
-      {q:'PORTUGAL está para LISBOA assim como ESPANHA está para...', options:['Barcelona','Madrid','Sevilha','Valência'], answer:'Madrid'}
-    ];
-    const analogiesL2 = [
-      {q:'PINTOR está para PINCEL assim como ESCULTOR está para...', options:['Pedra','Cinzel','Estátua','Museu'], answer:'Cinzel'},
-      {q:'PAI está para FILHO assim como MÃE está para...', options:['Pai','Filha','Tia','Avó'], answer:'Filha'},
-      {q:'ÁGUA está para SEDENTO assim como COMIDA está para...', options:['Cozinha','Faminto','Restaurante','Prato'], answer:'Faminto'},
-      {q:'PÁSSARO está para NINHO assim como PESSOA está para...', options:['Rua','Casa','Cidade','Quarto'], answer:'Casa'},
-      {q:'TESOURA está para CORTAR assim como CHAVE está para...', options:['Fechadura','Abrir','Porta','Metal'], answer:'Abrir'},
-      {q:'PRÉDIO está para ARQUITETO assim como LEI está para...', options:['Juiz','Advogado','Legislador','Tribunal'], answer:'Legislador'},
-      {q:'ORQUESTRA está para MAESTRO assim como EQUIPA está para...', options:['Jogador','Capitão','Treinador','Clube'], answer:'Capitão'}
-    ];
-
-    const figuresL1 = [
-      {sequence:['↑','→','↓','←','↑'], options:['↑','→','↓','←'], answer:'→'},
-      {sequence:['▲','▼','▲','▼','▲'], options:['▲','▼','■','●'], answer:'▼'},
-      {sequence:['●','■','●','■','●'], options:['●','■','▲','◆'], answer:'■'},
-      {sequence:['↖','↗','↘','↙','↖'], options:['','↗','↘','↙'], answer:'↗'},
-      {sequence:['↖','↗','↙','↘','↖'], options:['↖','↗','↙',''], answer:'↗'}
-    ];
-    const figuresL2 = [
-      {sequence:['●','●●','●●●','●●●●'], options:['●●●','●●●●','●●●●●','●●●●●●'], answer:'●●●●●'},
-      {sequence:['◰','◳','◲','◱','◰'], options:['◰','','◲','◱'], answer:'◳'},
-      {sequence:['→','↘','↓','↙','←'], options:['↑','↗','↖','↙'], answer:'↖'},
-      {sequence:['▲','▲▲','▲▲▲','▲▲▲▲'], options:['▲▲▲','▲▲▲▲','▲▲▲▲▲','▲▲▲▲▲▲'], answer:'▲▲▲▲▲'},
-      {sequence:['','⊥','⊣','','⊢'], options:['⊢','⊥','⊣','⊤'], answer:'⊥'},
-      {sequence:['◐','◓','◑','◒','◐'], options:['◐','◓','','◒'], answer:'◓'}
-    ];
-
-    const matricesL1 = [
-      {grid:['●','●','●','●','●','●','●','●','?'], options:['●','○','■','▲'], answer:'●'},
-      {grid:['▲','■','▲','■','▲','■','▲','■','?'], options:['▲','■','●','○'], answer:'▲'},
-      {grid:['↑','→','↓','←','↑','→','↓','←','?'], options:['↑','→','↓','←'], answer:'↑'},
-      {grid:['1','2','3','4','5','6','7','8','?'], options:['8','9','10','0'], answer:'9'},
-      {grid:['●','○','●','○','●','○','●','○','?'], options:['●','○','■','▲'], answer:'●'}
-    ];
-    const matricesL2 = [
-      {grid:['1','2','4','2','4','8','4','8','?'], options:['12','16','10','14'], answer:'16'},
-      {grid:['A','B','C','B','C','D','C','D','?'], options:['D','E','A','F'], answer:'E'},
-      {grid:['●','●●','●●●','●●','●●●','●●●●','●●●','●●●●','?'], options:['●●●●','●●●●●','●●●','●●●●●●'], answer:'●●●●●'},
-      {grid:['↖','→','↙','→','↙','↖','↙','↖','?'], options:['↖','→','↙','↗'], answer:'→'},
-      {grid:['2','4','8','4','8','16','8','16','?'], options:['24','32','20','28'], answer:'32'}
-    ];
-
-    const spatialL1 = [
-      {q:'Se rodarmos "L" 90° no sentido horário, fica parecido com:', options:['J','L','Γ','⅃'], answer:'Γ'},
-      {q:'Se rodarmos "F" 180°, fica:', options:['ᖢ','Ϝ','','ⅎ'], answer:'ⅎ'},
-      {q:'Qual figura é diferente das outras?', options:['▲','▲','▲','▼'], answer:'▼'},
-      {q:'Se um cubo tem ● em cima e ■ em frente, ao rodar 90° para a frente, o que fica em cima?', options:['●','■','○','□'], answer:'■'},
-      {q:'Qual é o simétrico horizontal de "b"?', options:['d','p','q','b'], answer:'d'}
-    ];
-    const spatialL2 = [
-      {q:'Um cubo tem 6 faces. Quantas arestas tem?', options:['6','8','10','12'], answer:'12'},
-      {q:'Se rodarmos "E" 90° anti-horário, parece:', options:['M','W','','∃'], answer:'M'},
-      {q:'Quantos cubos pequenos formam um cubo 3x3x3?', options:['9','18','27','36'], answer:'27'},
-      {q:'Se um dado tem 1 oposto a 6, 2 oposto a 5, quanto é oposto a 3?', options:['1','2','4','6'], answer:'4'},
-      {q:'Qual figura não é um cubo visto de um ângulo?', options:['◇','▱','▢','△'], answer:'△'},
-      {q:'Quantas faces visíveis tem um cubo pousado numa mesa?', options:['3','4','5','6'], answer:'5'}
-    ];
-
-    const stroopColors = [
-      {name:'VERMELHO',hex:'#ef4444'},
-      {name:'AZUL',hex:'#3b82f6'},
-      {name:'VERDE',hex:'#10b981'},
-      {name:'AMARELO',hex:'#eab308'},
-      {name:'ROXO',hex:'#8b5cf6'}
-    ];
-
-    // ============ UTILS ============
-    function shuffle(arr) {
-      const a = [...arr];
-      for(let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
-      }
-      return a;
-    }
-
-    function saveState() {
-      storage.set('pt_totalScore', state.totalScore);
-      storage.set('pt_gamesCompleted', state.gamesCompleted);
-      storage.set('pt_bestScores', state.bestScores);
-      storage.set('pt_history', state.history);
-      storage.set('pt_simHistory', state.simHistory);
-      updateHomeDisplay();
-    }
-
-    function recordGame(game, score, level) {
-      state.history.push({
-        game: game,
-        score: score,
-        level: level,
-        timestamp: Date.now()
-      });
-      if(state.history.length > 30) state.history = state.history.slice(-30);
-    }
-
-    function updateHomeDisplay() {
-      document.getElementById('totalScore').textContent = state.totalScore;
-      document.getElementById('gamesCompleted').textContent = state.gamesCompleted;
-      ['sequences','math','memory','alphabet','stroop','analogies','figures','matrices','reaction','spatial'].forEach(function(g) {
-        const el = document.getElementById('best-' + g);
-        if(el) el.textContent = 'Melhor: ' + (state.bestScores[g] || 0);
-      });
-    }
-
-    function formatTime(s) {
-      const m = Math.floor(s / 60);
-      const sec = s % 60;
-      return m + ':' + (sec < 10 ? '0' : '') + sec;
-    }
-
-    function getGameTitle(g) {
-      const titles = {
-        sequences:'Sequências Numéricas', math:'Cálculo Mental', memory:'Memória de Dígitos',
-        alphabet:'Sequências Alfabéticas', stroop:'Teste Stroop', analogies:'Analogias Verbais',
-        figures:'Séries de Figuras', matrices:'Matrizes Lógicas', reaction:'Reação Rápida',
-        spatial:'Raciocínio Espacial'
-      };
-      return titles[g] || g;
-    }
-
-    function renderTimerDisplay() {
-      const danger = state.timeLeft <= 10;
-      const warning = state.timeLeft <= 20 && !danger;
-      const cls = danger ? 'danger' : (warning ? 'warning' : '');
-      return '<div class="timer-display ' + cls + '" id="timerDisplay">' +
-        '<i class="bi bi-clock-fill"></i>' +
-        '<span class="time-value">' + formatTime(state.timeLeft) + '</span>' +
-        '</div>';
-    }
-
-    function startGameTimer(duration, onEnd) {
-      state.totalTime = duration;
-      state.timeLeft = duration;
-      document.getElementById('timerBar').style.display = 'block';
-      document.getElementById('timerBar').style.width = '100%';
-      if(state.timer) clearInterval(state.timer);
-      state.timer = setInterval(function() {
-        state.timeLeft--;
-        const pct = (state.timeLeft / state.totalTime) * 100;
-        document.getElementById('timerBar').style.width = pct + '%';
-        const timerEl = document.getElementById('timerDisplay');
-        if(timerEl) {
-          const danger = state.timeLeft <= 10;
-          const warning = state.timeLeft <= 20 && !danger;
-          timerEl.className = 'timer-display ' + (danger ? 'danger' : (warning ? 'warning' : ''));
-          const tv = timerEl.querySelector('.time-value');
-          if(tv) tv.textContent = formatTime(state.timeLeft);
-        }
-        updateGameStats();
-        if(state.timeLeft <= 0) {
-          clearInterval(state.timer);
-          state.timer = null;
-          onEnd();
-        }
-      }, 1000);
-    }
-
-    function updateGameStats() {
-      const statsEl = document.getElementById('gameStats');
-      if(!statsEl) return;
-      const currentScore = state.currentGame === 'math' ? state.mathScore :
-                          state.currentGame === 'stroop' ? state.stroopScore :
-                          state.currentGame === 'memory' ? state.memScore :
-                          state.currentGame === 'reaction' ? state.reactionScore :
-                          state.score;
-      statsEl.textContent = formatTime(state.timeLeft) + ' | ' + currentScore + ' pts';
-    }
-
-    // ============ NAVIGATION ============
-    function switchTab(tabId) {
-      document.querySelectorAll('.tab-screen').forEach(function(t) { t.classList.remove('active'); });
-      document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove('active'); });
-      document.getElementById(tabId).classList.add('active');
-      const navBtn = document.querySelector('.nav-item[data-tab="' + tabId + '"]');
-      if(navBtn) navBtn.classList.add('active');
-      if(tabId === 'tabStats') renderStats();
-    }
-
-    function openLevelModal(game) {
-      state.pendingGame = game;
-      document.getElementById('levelModalTitle').textContent = getGameTitle(game);
-      document.getElementById('levelModalSubtitle').textContent = 'Escolhe o nível de dificuldade';
-      document.getElementById('levelModal').classList.add('active');
-    }
-
-    function closeLevelModal() {
-      document.getElementById('levelModal').classList.remove('active');
-      state.pendingGame = null;
-    }
-
-    function startGame(game, level) {
-      state.currentGame = game;
-      state.currentLevel = level || 1;
-      state.currentQ = 0;
-      state.score = 0;
-      document.getElementById('gameScreen').classList.add('active');
-      document.getElementById('timerBar').style.display = 'none';
-      document.getElementById('gameTitle').textContent = getGameTitle(game);
-      document.getElementById('levelIndicator').textContent = 'N' + state.currentLevel;
-
-      const starters = {
-        sequences: startSequences, math: startMath, memory: startMemory,
-        alphabet: startAlphabet, stroop: startStroop, analogies: startAnalogies,
-        figures: startFigures, matrices: startMatrices, reaction: startReaction,
-        spatial: startSpatial
-      };
-      if(starters[game]) starters[game]();
-    }
-
-    function exitGame() {
-      document.getElementById('gameScreen').classList.remove('active');
-      if(state.timer) { clearInterval(state.timer); state.timer = null; }
-      document.getElementById('timerBar').style.display = 'none';
-      if(state.simulationMode) {
-        continueSimulation();
-      }
-    }
-
-    function endGame(gameKey, score, maxScore) {
-      if(state.timer) { clearInterval(state.timer); state.timer = null; }
-      document.getElementById('timerBar').style.display = 'none';
-
-      state.totalScore += score;
-      state.gamesCompleted += 1;
-      if(!state.bestScores[gameKey] || score > state.bestScores[gameKey]) {
-        state.bestScores[gameKey] = score;
-      }
-      recordGame(gameKey, score, state.currentLevel);
-      saveState();
-
-      const pct = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
-      let icon = '🏆', msg = 'Excelente!';
-      if(pct < 50) { icon = '💪'; msg = 'Continua a treinar!'; }
-      else if(pct < 75) { icon = '👍'; msg = 'Bom trabalho!'; }
-      else if(pct < 90) { icon = '⭐'; msg = 'Muito bom!'; }
-
-      if(state.simulationMode && state.simData) {
-        state.simData.results.push({game: gameKey, score: score});
-        state.simData.totalScore += score;
-      }
-
-      document.getElementById('gameContent').innerHTML =
-        '<div class="result-screen">' +
-          '<div class="result-icon">' + icon + '</div>' +
-          '<div class="result-title">' + msg + '</div>' +
-          '<div class="result-score">+' + score + '</div>' +
-          '<div class="result-detail">' +
-            '<p><strong>' + score + ' pontos</strong> ganhos (Nível ' + state.currentLevel + ')</p>' +
-            '<p>Melhor pontuação: <strong>' + state.bestScores[gameKey] + '</strong></p>' +
-          '</div>' +
-          (state.simulationMode ?
-            '<button class="submit-btn" id="continueSimBtn"><i class="bi bi-arrow-right"></i> Próximo Jogo</button>' :
-            '<button class="submit-btn" id="exitBtn"><i class="bi bi-house"></i> Voltar ao Início</button>' +
-            '<button class="submit-btn" style="background:linear-gradient(135deg,#10b981,#059669);margin-top:10px;" id="replayBtn"><i class="bi bi-arrow-repeat"></i> Jogar Novamente</button>'
-          ) +
-        '</div>';
-
-      if(state.simulationMode) {
-        document.getElementById('continueSimBtn').addEventListener('click', function() {
-          document.getElementById('gameScreen').classList.remove('active');
-          continueSimulation();
-        });
-      } else {
-        document.getElementById('exitBtn').addEventListener('click', exitGame);
-        document.getElementById('replayBtn').addEventListener('click', function() {
-          startGame(gameKey, state.currentLevel);
-        });
-      }
-    }
-
-    // ============ GAME: SEQUENCES ============
-    function startSequences() {
-      const pool = state.currentLevel === 1 ? sequencesL1 : sequencesL2;
-      state.questions = shuffle(pool);
-      state.score = 0;
-      const duration = state.currentLevel === 1 ? 60 : 50;
-      startGameTimer(duration, function() {
-        endGame('sequences', state.score, Math.max(100, state.score + 20));
-      });
-      renderSequenceQ();
-    }
-    function renderSequenceQ() {
-      if(state.timeLeft <= 0) return;
-      if(state.currentQ >= state.questions.length) {
-        state.questions = shuffle(state.currentLevel === 1 ? sequencesL1 : sequencesL2);
-        state.currentQ = 0;
-      }
-      const q = state.questions[state.currentQ];
-      updateGameStats();
-      let html = renderTimerDisplay() +
-        '<div class="question-card">' +
-          '<div class="question-label">Sequência Numérica</div>' +
-          '<div class="question-text">' + q.seq + '</div>' +
-          '<div class="question-hint">Qual é o próximo número?</div>' +
-        '</div><div class="answer-grid">';
-      q.options.forEach(function(o) {
-        html += '<button class="answer-btn" data-answer="' + o + '" data-correct="' + q.answer + '">' + o + '</button>';
-      });
-      html += '</div>';
-      document.getElementById('gameContent').innerHTML = html;
-      document.querySelectorAll('.answer-btn').forEach(function(btn) {
-        btn.addEventListener('click', function() { checkSequence(this.dataset.answer, this.dataset.correct, this); });
-      });
-    }
-    function checkSequence(sel, ans, btn) {
-      if(state.timeLeft <= 0) return;
-      document.querySelectorAll('.answer-btn').forEach(function(b) { b.disabled = true; });
-      if(sel === ans) { btn.classList.add('correct'); state.score += state.currentLevel === 1 ? 20 : 30; }
-      else {
-        btn.classList.add('wrong');
-        document.querySelectorAll('.answer-btn').forEach(function(b) {
-          if(b.dataset.answer === ans) b.classList.add('correct');
-        });
-      }
-      setTimeout(function() { state.currentQ++; renderSequenceQ(); }, 700);
-    }
-
-    // ============ GAME: MATH ============
-    function startMath() {
-      state.mathScore = 0;
-      const duration = state.currentLevel === 1 ? 60 : 50;
-      startGameTimer(duration, function() {
-        endGame('math', state.mathScore, Math.max(100, state.mathScore + 20));
-      });
-      generateMathQ();
-    }
-    function generateMathQ() {
-      if(state.timeLeft <= 0) return;
-      let a, b, op, ans;
-      if(state.currentLevel === 1) {
-        const ops = ['+','-','×'];
-        op = ops[Math.floor(Math.random() * ops.length)];
-        if(op === '+') { a = Math.floor(Math.random() * 50) + 10; b = Math.floor(Math.random() * 50) + 10; ans = a + b; }
-        else if(op === '-') { a = Math.floor(Math.random() * 50) + 30; b = Math.floor(Math.random() * 30) + 5; ans = a - b; }
-        else { a = Math.floor(Math.random() * 12) + 2; b = Math.floor(Math.random() * 12) + 2; ans = a * b; }
-      } else {
-        const ops = ['+','-','×','÷'];
-        op = ops[Math.floor(Math.random() * ops.length)];
-        if(op === '+') { a = Math.floor(Math.random() * 200) + 50; b = Math.floor(Math.random() * 200) + 50; ans = a + b; }
-        else if(op === '-') { a = Math.floor(Math.random() * 200) + 100; b = Math.floor(Math.random() * 100) + 10; ans = a - b; }
-        else if(op === '×') { a = Math.floor(Math.random() * 15) + 5; b = Math.floor(Math.random() * 15) + 5; ans = a * b; }
-        else { b = Math.floor(Math.random() * 11) + 2; ans = Math.floor(Math.random() * 12) + 2; a = b * ans; }
-      }
-      const options = shuffle([ans, ans + Math.floor(Math.random() * 5) + 1, ans - Math.floor(Math.random() * 5) - 1, ans + Math.floor(Math.random() * 10) + 2]).slice(0, 4);
-      if(!options.includes(ans)) options[0] = ans;
-      updateGameStats();
-      let html = renderTimerDisplay() +
-        '<div class="question-card">' +
-          '<div class="question-label">Cálculo Mental</div>' +
-          '<div class="question-text">' + a + ' ' + op + ' ' + b + ' = ?</div>' +
-        '</div><div class="answer-grid">';
-      options.forEach(function(o) {
-        html += '<button class="answer-btn" data-answer="' + o + '" data-correct="' + ans + '">' + o + '</button>';
-      });
-      html += '</div>';
-      document.getElementById('gameContent').innerHTML = html;
-      document.querySelectorAll('.answer-btn').forEach(function(btn) {
-        btn.addEventListener('click', function() { checkMath(parseInt(this.dataset.answer), parseInt(this.dataset.correct), this); });
-      });
-    }
-    function checkMath(sel, ans, btn) {
-      if(state.timeLeft <= 0) return;
-      document.querySelectorAll('.answer-btn').forEach(function(b) { b.disabled = true; });
-      if(sel === ans) { btn.classList.add('correct'); state.mathScore += state.currentLevel === 1 ? 10 : 15; }
-      else { btn.classList.add('wrong'); }
-      setTimeout(generateMathQ, 500);
-    }
-
-    // ============ GAME: MEMORY ============
-    function startMemory() {
-      state.memLevel = state.currentLevel === 1 ? 3 : 5;
-      state.memScore = 0;
-      const duration = state.currentLevel === 1 ? 90 : 75;
-      startGameTimer(duration, function() {
-        endGame('memory', state.memScore, Math.max(100, state.memScore + 20));
-      });
-      showMemPhase();
-    }
-    function showMemPhase() {
-      if(state.timeLeft <= 0) return;
-      const maxLvl = state.currentLevel === 1 ? 8 : 12;
-      if(state.memLevel > maxLvl) {
-        endGame('memory', state.memScore, Math.max(100, state.memScore + 20));
-        return;
-      }
-      const digits = [];
-      for(let i = 0; i < state.memLevel; i++) digits.push(Math.floor(Math.random() * 10));
-      state.memDigits = digits.join('');
-      updateGameStats();
-      document.getElementById('gameContent').innerHTML = renderTimerDisplay() +
-        '<div class="question-card">' +
-          '<div class="question-label">Memoriza esta sequência</div>' +
-          '<div class="digit-display">' + state.memDigits + '</div>' +
-          '<div class="memory-phase">Nível ' + state.memLevel + ' • Tens 3 segundos...</div>' +
-        '</div>';
-      setTimeout(showMemInput, 3000);
-    }
-    function showMemInput() {
-      if(state.timeLeft <= 0) return;
-      document.getElementById('gameContent').innerHTML = renderTimerDisplay() +
-        '<div class="question-card">' +
-          '<div class="question-label">Agora escreve a sequência</div>' +
-          '<div class="memory-phase">Nível ' + state.memLevel + ' dígitos</div>' +
-          '<input type="tel" class="input-answer" id="memInput" maxlength="' + state.memLevel + '" inputmode="numeric" placeholder="???">' +
-          '<button class="submit-btn" id="memSubmitBtn">Confirmar</button>' +
-        '</div>';
-      setTimeout(function() { const input = document.getElementById('memInput'); if(input) input.focus(); }, 100);
-      document.getElementById('memSubmitBtn').addEventListener('click', checkMemory);
-    }
-    function checkMemory() {
-      if(state.timeLeft <= 0) return;
-      const input = document.getElementById('memInput');
-      if(!input) return;
-      if(input.value === state.memDigits) {
-        state.memScore += state.memLevel * 10;
-        state.memLevel++;
-        showMemPhase();
-      } else {
-        endGame('memory', state.memScore, Math.max(100, state.memScore + 20));
-      }
-    }
-
-    // ============ GAME: ALPHABET ============
-    function startAlphabet() {
-      const pool = state.currentLevel === 1 ? alphabetL1 : alphabetL2;
-      state.questions = shuffle(pool);
-      state.score = 0;
-      const duration = state.currentLevel === 1 ? 60 : 50;
-      startGameTimer(duration, function() {
-        endGame('alphabet', state.score, Math.max(100, state.score + 20));
-      });
-      renderAlphaQ();
-    }
-    function renderAlphaQ() {
-      if(state.timeLeft <= 0) return;
-      if(state.currentQ >= state.questions.length) {
-        state.questions = shuffle(state.currentLevel === 1 ? alphabetL1 : alphabetL2);
-        state.currentQ = 0;
-      }
-      const q = state.questions[state.currentQ];
-      updateGameStats();
-      let html = renderTimerDisplay() +
-        '<div class="question-card">' +
-          '<div class="question-label">Sequência Alfabética</div>' +
-          '<div class="question-text">' + q.seq + '</div>' +
-          '<div class="question-hint">Qual é a próxima letra?</div>' +
-        '</div><div class="answer-grid">';
-      q.options.forEach(function(o) {
-        html += '<button class="answer-btn" data-answer="' + o + '" data-correct="' + q.answer + '">' + o + '</button>';
-      });
-      html += '</div>';
-      document.getElementById('gameContent').innerHTML = html;
-      document.querySelectorAll('.answer-btn').forEach(function(btn) {
-        btn.addEventListener('click', function() { checkAlpha(this.dataset.answer, this.dataset.correct, this); });
-      });
-    }
-    function checkAlpha(sel, ans, btn) {
-      if(state.timeLeft <= 0) return;
-      document.querySelectorAll('.answer-btn').forEach(function(b) { b.disabled = true; });
-      if(sel === ans) { btn.classList.add('correct'); state.score += state.currentLevel === 1 ? 15 : 25; }
-      else {
-        btn.classList.add('wrong');
-        document.querySelectorAll('.answer-btn').forEach(function(b) {
-          if(b.dataset.answer === ans) b.classList.add('correct');
-        });
-      }
-      setTimeout(function() { state.currentQ++; renderAlphaQ(); }, 700);
-    }
-
-    // ============ GAME: STROOP ============
-    function startStroop() {
-      state.stroopScore = 0;
-      const duration = state.currentLevel === 1 ? 45 : 35;
-      startGameTimer(duration, function() {
-        endGame('stroop', state.stroopScore, Math.max(100, state.stroopScore + 20));
-      });
-      generateStroopQ();
-    }
-    function generateStroopQ() {
-      if(state.timeLeft <= 0) return;
-      const wordIdx = Math.floor(Math.random() * stroopColors.length);
-      let colorIdx = Math.floor(Math.random() * stroopColors.length);
-      while(colorIdx === wordIdx) colorIdx = Math.floor(Math.random() * stroopColors.length);
-      state.stroopAnswer = colorIdx;
-      const word = stroopColors[wordIdx];
-      const color = stroopColors[colorIdx];
-      updateGameStats();
-      let html = renderTimerDisplay() +
-        '<div class="question-card">' +
-          '<div class="question-label">Seleciona a COR da palavra</div>' +
-          '<div class="stroop-word" style="color:' + color.hex + '">' + word.name + '</div>' +
-        '</div><div class="color-grid">';
-      stroopColors.forEach(function(c, i) {
-        html += '<button class="color-btn" style="background:' + c.hex + '" data-idx="' + i + '">' + c.name + '</button>';
-      });
-      html += '</div>';
-      document.getElementById('gameContent').innerHTML = html;
-      document.querySelectorAll('.color-btn').forEach(function(btn) {
-        btn.addEventListener('click', function() { checkStroop(parseInt(this.dataset.idx), this); });
-      });
-    }
-    function checkStroop(idx, btn) {
-      if(state.timeLeft <= 0) return;
-      const btns = document.querySelectorAll('.color-btn');
-      btns.forEach(function(b) { b.disabled = true; });
-      if(idx === state.stroopAnswer) {
-        btn.style.outline = '4px solid white';
-        btn.style.boxShadow = '0 0 0 4px #10b981';
-        state.stroopScore += state.currentLevel === 1 ? 10 : 15;
-      } else {
-        btn.style.opacity = '0.4';
-        btns[state.stroopAnswer].style.outline = '4px solid white';
-        btns[state.stroopAnswer].style.boxShadow = '0 0 0 4px #10b981';
-      }
-      setTimeout(generateStroopQ, 600);
-    }
-
-    // ============ GAME: ANALOGIES ============
-    function startAnalogies() {
-      const pool = state.currentLevel === 1 ? analogiesL1 : analogiesL2;
-      state.questions = shuffle(pool);
-      state.score = 0;
-      const duration = state.currentLevel === 1 ? 60 : 50;
-      startGameTimer(duration, function() {
-        endGame('analogies', state.score, Math.max(100, state.score + 20));
-      });
-      renderAnalogyQ();
-    }
-    function renderAnalogyQ() {
-      if(state.timeLeft <= 0) return;
-      if(state.currentQ >= state.questions.length) {
-        state.questions = shuffle(state.currentLevel === 1 ? analogiesL1 : analogiesL2);
-        state.currentQ = 0;
-      }
-      const q = state.questions[state.currentQ];
-      updateGameStats();
-      let html = renderTimerDisplay() +
-        '<div class="question-card">' +
-          '<div class="question-label">Analogia Verbal</div>' +
-          '<div class="question-text" style="font-size:1.3rem;">' + q.q + '</div>' +
-        '</div><div class="answer-grid">';
-      q.options.forEach(function(o) {
-        html += '<button class="answer-btn" data-answer="' + o + '" data-correct="' + q.answer + '">' + o + '</button>';
-      });
-      html += '</div>';
-      document.getElementById('gameContent').innerHTML = html;
-      document.querySelectorAll('.answer-btn').forEach(function(btn) {
-        btn.addEventListener('click', function() { checkAnalogy(this.dataset.answer, this.dataset.correct, this); });
-      });
-    }
-    function checkAnalogy(sel, ans, btn) {
-      if(state.timeLeft <= 0) return;
-      document.querySelectorAll('.answer-btn').forEach(function(b) { b.disabled = true; });
-      if(sel === ans) { btn.classList.add('correct'); state.score += state.currentLevel === 1 ? 20 : 30; }
-      else {
-        btn.classList.add('wrong');
-        document.querySelectorAll('.answer-btn').forEach(function(b) {
-          if(b.dataset.answer === ans) b.classList.add('correct');
-        });
-      }
-      setTimeout(function() { state.currentQ++; renderAnalogyQ(); }, 700);
-    }
-
-    // ============ GAME: FIGURES ============
-    function startFigures() {
-      const pool = state.currentLevel === 1 ? figuresL1 : figuresL2;
-      state.questions = shuffle(pool);
-      state.score = 0;
-      const duration = state.currentLevel === 1 ? 75 : 60;
-      startGameTimer(duration, function() {
-        endGame('figures', state.score, Math.max(100, state.score + 20));
-      });
-      renderFigureQ();
-    }
-    function renderFigureQ() {
-      if(state.timeLeft <= 0) return;
-      if(state.currentQ >= state.questions.length) {
-        state.questions = shuffle(state.currentLevel === 1 ? figuresL1 : figuresL2);
-        state.currentQ = 0;
-      }
-      const q = state.questions[state.currentQ];
-      updateGameStats();
-      let sequenceHTML = '';
-      q.sequence.forEach(function(item, i) {
-        sequenceHTML += '<div class="figure-item">' + item + '</div>';
-        if(i < q.sequence.length - 1) sequenceHTML += '<div class="figure-arrow">→</div>';
-      });
-      sequenceHTML += '<div class="figure-arrow">→</div>';
-      sequenceHTML += '<div class="figure-item question-mark">?</div>';
-      let html = renderTimerDisplay() +
-        '<div class="question-card">' +
-          '<div class="question-label">Série de Figuras</div>' +
-          '<div class="question-hint" style="margin-bottom:8px;">Descobre o padrão</div>' +
-          '<div class="figure-sequence">' + sequenceHTML + '</div>' +
-          '<div class="question-hint">Qual figura substitui o ?</div>' +
-        '</div><div class="answer-grid">';
-      q.options.forEach(function(o) {
-        html += '<button class="answer-btn figure-answer" data-answer="' + o + '" data-correct="' + q.answer + '">' + o + '</button>';
-      });
-      html += '</div>';
-      document.getElementById('gameContent').innerHTML = html;
-      document.querySelectorAll('.answer-btn').forEach(function(btn) {
-        btn.addEventListener('click', function() { checkFigure(this.dataset.answer, this.dataset.correct, this); });
-      });
-    }
-    function checkFigure(sel, ans, btn) {
-      if(state.timeLeft <= 0) return;
-      document.querySelectorAll('.answer-btn').forEach(function(b) { b.disabled = true; });
-      if(sel === ans) { btn.classList.add('correct'); state.score += state.currentLevel === 1 ? 25 : 35; }
-      else {
-        btn.classList.add('wrong');
-        document.querySelectorAll('.answer-btn').forEach(function(b) {
-          if(b.dataset.answer === ans) b.classList.add('correct');
-        });
-      }
-      setTimeout(function() { state.currentQ++; renderFigureQ(); }, 800);
-    }
-
-    // ============ GAME: MATRICES ============
-    function startMatrices() {
-      const pool = state.currentLevel === 1 ? matricesL1 : matricesL2;
-      state.questions = shuffle(pool);
-      state.score = 0;
-      const duration = state.currentLevel === 1 ? 75 : 60;
-      startGameTimer(duration, function() {
-        endGame('matrices', state.score, Math.max(100, state.score + 20));
-      });
-      renderMatrixQ();
-    }
-    function renderMatrixQ() {
-      if(state.timeLeft <= 0) return;
-      if(state.currentQ >= state.questions.length) {
-        state.questions = shuffle(state.currentLevel === 1 ? matricesL1 : matricesL2);
-        state.currentQ = 0;
-      }
-      const q = state.questions[state.currentQ];
-      updateGameStats();
-      let gridHTML = '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:280px;margin:20px auto;">';
-      q.grid.forEach(function(cell) {
-        if(cell === '?') {
-          gridHTML += '<div class="figure-item question-mark">?</div>';
-        } else {
-          gridHTML += '<div class="figure-item" style="font-size:1.8rem;">' + cell + '</div>';
-        }
-      });
-      gridHTML += '</div>';
-      let html = renderTimerDisplay() +
-        '<div class="question-card">' +
-          '<div class="question-label">Matriz Lógica 3×3</div>' +
-          '<div class="question-hint" style="margin-bottom:8px;">Descobre o padrão e completa</div>' +
-          gridHTML +
-        '</div><div class="answer-grid">';
-      q.options.forEach(function(o) {
-        html += '<button class="answer-btn" data-answer="' + o + '" data-correct="' + q.answer + '">' + o + '</button>';
-      });
-      html += '</div>';
-      document.getElementById('gameContent').innerHTML = html;
-      document.querySelectorAll('.answer-btn').forEach(function(btn) {
-        btn.addEventListener('click', function() { checkMatrix(this.dataset.answer, this.dataset.correct, this); });
-      });
-    }
-    function checkMatrix(sel, ans, btn) {
-      if(state.timeLeft <= 0) return;
-      document.querySelectorAll('.answer-btn').forEach(function(b) { b.disabled = true; });
-      if(sel === ans) { btn.classList.add('correct'); state.score += state.currentLevel === 1 ? 25 : 40; }
-      else {
-        btn.classList.add('wrong');
-        document.querySelectorAll('.answer-btn').forEach(function(b) {
-          if(b.dataset.answer === ans) b.classList.add('correct');
-        });
-      }
-      setTimeout(function() { state.currentQ++; renderMatrixQ(); }, 800);
-    }
-
-    // ============ GAME: REACTION ============
-    function startReaction() {
-      state.reactionScore = 0;
-      state.reactionHits = 0;
-      state.reactionMisses = 0;
-      const duration = state.currentLevel === 1 ? 30 : 25;
-      startGameTimer(duration, function() {
-        endGame('reaction', state.reactionScore, Math.max(100, state.reactionScore + 20));
-      });
-      nextReactionRound();
-    }
-    function nextReactionRound() {
-      if(state.timeLeft <= 0) return;
-      const isGo = Math.random() < 0.7;
-      state.reactionIsGo = isGo;
-      state.reactionClicked = false;
-      const targetSymbol = state.currentLevel === 1 ? '●' : (Math.random() < 0.5 ? '●' : '★');
-      state.reactionTargetSymbol = targetSymbol;
-
-      document.getElementById('gameContent').innerHTML = renderTimerDisplay() +
-        '<div class="question-card">' +
-          '<div class="question-label">Reação Rápida</div>' +
-          '<div class="question-hint">' + (state.currentLevel === 1 ?
-            'Clica quando aparecer <strong>●</strong>. Não cliques se aparecer <strong>■</strong>' :
-            'Clica apenas em <strong>●</strong>. Ignora <strong>★</strong> e <strong>■</strong>') + '</div>' +
-        '</div>' +
-        '<div class="reaction-area wait" id="reactionArea"><span>Preparar...</span></div>' +
-        '<div style="text-align:center;margin-top:12px;color:var(--muted);font-size:.85rem;">' +
-          'Acertos: <strong>' + state.reactionHits + '</strong> | Erros: <strong>' + state.reactionMisses + '</strong>' +
-        '</div>';
-
-      setTimeout(function() {
-        if(state.timeLeft <= 0) return;
-        const area = document.getElementById('reactionArea');
-        if(!area) return;
-        if(isGo) {
-          area.className = 'reaction-area go';
-          area.innerHTML = '<span>' + targetSymbol + '</span>';
-        } else {
-          area.className = 'reaction-area no-go';
-          area.innerHTML = '<span>■</span>';
-        }
-        state.reactionStartTime = Date.now();
-        state.reactionWaiting = true;
-
-        state.reactionTimeout = setTimeout(function() {
-          if(!state.reactionClicked && state.reactionWaiting) {
-            if(isGo) {
-              state.reactionMisses++;
-            } else {
-              state.reactionScore += state.currentLevel === 1 ? 10 : 15;
-              state.reactionHits++;
-            }
-            nextReactionRound();
-          }
-        }, state.currentLevel === 1 ? 1500 : 1200);
-      }, 800 + Math.random() * 800);
-
-      document.getElementById('reactionArea').addEventListener('click', handleReactionClick);
-    }
-    function handleReactionClick() {
-      if(!state.reactionWaiting || state.reactionClicked) return;
-      state.reactionClicked = true;
-      state.reactionWaiting = false;
-      clearTimeout(state.reactionTimeout);
-      const rt = Date.now() - state.reactionStartTime;
-      if(state.reactionIsGo && rt < 800) {
-        state.reactionScore += state.currentLevel === 1 ? 15 : 25;
-        state.reactionHits++;
-      } else {
-        state.reactionMisses++;
-      }
-      nextReactionRound();
-    }
-
-    // ============ GAME: SPATIAL ============
-    function startSpatial() {
-      const pool = state.currentLevel === 1 ? spatialL1 : spatialL2;
-      state.questions = shuffle(pool);
-      state.score = 0;
-      const duration = state.currentLevel === 1 ? 60 : 50;
-      startGameTimer(duration, function() {
-        endGame('spatial', state.score, Math.max(100, state.score + 20));
-      });
-      renderSpatialQ();
-    }
-    function renderSpatialQ() {
-      if(state.timeLeft <= 0) return;
-      if(state.currentQ >= state.questions.length) {
-        state.questions = shuffle(state.currentLevel === 1 ? spatialL1 : spatialL2);
-        state.currentQ = 0;
-      }
-      const q = state.questions[state.currentQ];
-      updateGameStats();
-      let html = renderTimerDisplay() +
-        '<div class="question-card">' +
-          '<div class="question-label">Raciocínio Espacial</div>' +
-          '<div class="question-text" style="font-size:1.2rem;">' + q.q + '</div>' +
-        '</div><div class="answer-grid">';
-      q.options.forEach(function(o) {
-        html += '<button class="answer-btn" data-answer="' + o + '" data-correct="' + q.answer + '">' + o + '</button>';
-      });
-      html += '</div>';
-      document.getElementById('gameContent').innerHTML = html;
-      document.querySelectorAll('.answer-btn').forEach(function(btn) {
-        btn.addEventListener('click', function() { checkSpatial(this.dataset.answer, this.dataset.correct, this); });
-      });
-    }
-    function checkSpatial(sel, ans, btn) {
-      if(state.timeLeft <= 0) return;
-      document.querySelectorAll('.answer-btn').forEach(function(b) { b.disabled = true; });
-      if(sel === ans) { btn.classList.add('correct'); state.score += state.currentLevel === 1 ? 20 : 35; }
-      else {
-        btn.classList.add('wrong');
-        document.querySelectorAll('.answer-btn').forEach(function(b) {
-          if(b.dataset.answer === ans) b.classList.add('correct');
-        });
-      }
-      setTimeout(function() { state.currentQ++; renderSpatialQ(); }, 800);
-    }
-
-    // ============ SIMULATION MODE ============
-    function startSimulation(type) {
-      const games = type === 'full' ?
-        ['sequences','math','memory','stroop','analogies'] :
-        ['sequences','math','stroop'];
-      const totalTime = type === 'full' ? 300 : 180;
-      const timePerGame = Math.floor(totalTime / games.length);
-
-      state.simulationMode = true;
-      state.simData = {
-        type: type,
-        games: games,
-        timePerGame: timePerGame,
-        currentIndex: 0,
-        results: [],
-        totalScore: 0,
-        startTime: Date.now()
-      };
-
-      switchTab('tabSim');
-      showSimProgress();
-      startNextSimGame();
-    }
-
-    function showSimProgress() {
-      const sim = state.simData;
-      let stepsHTML = '';
-      sim.games.forEach(function(g, i) {
-        let cls = '';
-        if(i < sim.currentIndex) cls = 'done';
-        else if(i === sim.currentIndex) cls = 'current';
-        const scoreText = sim.results[i] ? '+' + sim.results[i].score : '';
-        stepsHTML += '<div class="sim-step ' + cls + '">' +
-          '<div class="step-num">' + (i + 1) + '</div>' +
-          '<div class="step-name">' + getGameTitle(g) + '</div>' +
-          '<div class="step-score">' + scoreText + '</div>' +
-        '</div>';
-      });
-      document.getElementById('gameContent').innerHTML =
-        '<div class="sim-progress">' +
-          '<div class="sim-progress-title"><i class="bi bi-bullseye"></i> Simulação em Curso</div>' +
-          stepsHTML +
-        '</div>' +
-        '<div style="text-align:center;margin-top:20px;">' +
-          '<button class="submit-btn" id="startNextSimGameBtn" style="max-width:300px;margin:0 auto;">' +
-            '<i class="bi bi-play-fill"></i> Iniciar Próximo Jogo</button>' +
-        '</div>';
-      document.getElementById('startNextSimGameBtn').addEventListener('click', function() {
-        startNextSimGame();
-      });
-    }
-
-    function startNextSimGame() {
-      const sim = state.simData;
-      if(sim.currentIndex >= sim.games.length) {
-        finishSimulation();
-        return;
-      }
-      const game = sim.games[sim.currentIndex];
-      startGame(game, 1);
-      if(state.timer) clearInterval(state.timer);
-      state.totalTime = sim.timePerGame;
-      state.timeLeft = sim.timePerGame;
-      document.getElementById('timerBar').style.display = 'block';
-      document.getElementById('timerBar').style.width = '100%';
-      state.timer = setInterval(function() {
-        state.timeLeft--;
-        const pct = (state.timeLeft / state.totalTime) * 100;
-        document.getElementById('timerBar').style.width = pct + '%';
-        const timerEl = document.getElementById('timerDisplay');
-        if(timerEl) {
-          const danger = state.timeLeft <= 10;
-          const warning = state.timeLeft <= 20 && !danger;
-          timerEl.className = 'timer-display ' + (danger ? 'danger' : (warning ? 'warning' : ''));
-          const tv = timerEl.querySelector('.time-value');
-          if(tv) tv.textContent = formatTime(state.timeLeft);
-        }
-        updateGameStats();
-        if(state.timeLeft <= 0) {
-          clearInterval(state.timer);
-          state.timer = null;
-          const gameKey = state.currentGame;
-          const score = gameKey === 'math' ? state.mathScore :
-                        gameKey === 'stroop' ? state.stroopScore :
-                        gameKey === 'memory' ? state.memScore :
-                        gameKey === 'reaction' ? state.reactionScore :
-                        state.score;
-          endGame(gameKey, score, Math.max(100, score + 20));
-        }
-      }, 1000);
-    }
-
-    function continueSimulation() {
-      if(!state.simulationMode || !state.simData) return;
-      state.simData.currentIndex++;
-      if(state.simData.currentIndex >= state.simData.games.length) {
-        finishSimulation();
-      } else {
-        showSimProgress();
-      }
-    }
-
-    function finishSimulation() {
-      const sim = state.simData;
-      const totalTime = Math.round((Date.now() - sim.startTime) / 1000);
-      state.simulationMode = false;
-
-      state.simHistory.push({
-        type: sim.type,
-        totalScore: sim.totalScore,
-        results: sim.results,
-        duration: totalTime,
-        timestamp: Date.now()
-      });
-      if(state.simHistory.length > 10) state.simHistory = state.simHistory.slice(-10);
-      saveState();
-
-      document.getElementById('gameScreen').classList.remove('active');
-      if(state.timer) { clearInterval(state.timer); state.timer = null; }
-      document.getElementById('timerBar').style.display = 'none';
-
-      switchTab('tabSim');
-      let resultsHTML = '';
-      sim.results.forEach(function(r, i) {
-        resultsHTML += '<div class="stat-row">' +
-          '<span class="stat-label">' + getGameTitle(r.game) + '</span>' +
-          '<span class="stat-value">+' + r.score + '</span>' +
-        '</div>';
-      });
-
-      const container = document.querySelector('#tabSim .container');
-      const resultDiv = document.createElement('div');
-      resultDiv.style.marginTop = '20px';
-      resultDiv.innerHTML =
-        '<div class="result-screen" style="padding:20px;">' +
-          '<div class="result-icon"></div>' +
-          '<div class="result-title">Simulação Concluída!</div>' +
-          '<div class="result-score">' + sim.totalScore + '</div>' +
-          '<div class="result-detail">' +
-            '<p><strong>pontos totais</strong> em ' + formatTime(totalTime) + '</p>' +
-          '</div>' +
-        '</div>' +
-        '<div class="stat-card">' + resultsHTML + '</div>' +
-        '<button class="submit-btn" id="backToSimBtn"><i class="bi bi-arrow-left"></i> Voltar</button>';
-      container.insertBefore(resultDiv, container.firstChild.nextSibling);
-      document.getElementById('backToSimBtn').addEventListener('click', function() {
-        resultDiv.remove();
-        renderSimHistory();
-      });
-
-      state.simData = null;
-    }
-
-    function renderSimHistory() {
-      const section = document.getElementById('simHistorySection');
-      const list = document.getElementById('simHistoryList');
-      if(state.simHistory.length === 0) {
-        section.style.display = 'none';
-        return;
-      }
-      section.style.display = 'block';
-      let html = '';
-      state.simHistory.slice().reverse().forEach(function(s, idx) {
-        const date = new Date(s.timestamp);
-        const dateStr = date.toLocaleDateString('pt-PT') + ' ' + date.toLocaleTimeString('pt-PT', {hour:'2-digit', minute:'2-digit'});
-        html += '<div class="stat-card">' +
-          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">' +
-            '<strong>' + (s.type === 'full' ? '🎯 Exame Completo' : '⚡ Exame Rápido') + '</strong>' +
-            '<span style="font-size:.75rem;color:var(--muted);">' + dateStr + '</span>' +
-          '</div>' +
-          '<div class="stat-row">' +
-            '<span class="stat-label">Pontuação Total</span>' +
-            '<span class="stat-value" style="color:var(--primary);">' + s.totalScore + ' pts</span>' +
-          '</div>' +
-          '<div class="stat-row">' +
-            '<span class="stat-label">Duração</span>' +
-            '<span class="stat-value">' + formatTime(s.duration) + '</span>' +
-          '</div>' +
-        '</div>';
-      });
-      list.innerHTML = html;
-    }
-
-    // ============ STATS ============
-    let evolutionChart = null;
-    let gamesChart = null;
-
-    function renderStats() {
-      document.getElementById('statTotalGames').textContent = state.gamesCompleted;
-      document.getElementById('statTotalPoints').textContent = state.totalScore;
-      document.getElementById('statSimulations').textContent = state.simHistory.length;
-
-      let bestGame = 0;
-      Object.keys(state.bestScores).forEach(function(g) {
-        if(state.bestScores[g] > bestGame) bestGame = state.bestScores[g];
-      });
-      document.getElementById('statBestGame').textContent = bestGame;
-
-      const avg = state.gamesCompleted > 0 ? Math.round(state.totalScore / state.gamesCompleted) : 0;
-      document.getElementById('statAverage').textContent = avg;
-
-      const bestList = document.getElementById('bestScoresList');
-      let bestHTML = '';
-      const gameKeys = ['sequences','math','memory','alphabet','stroop','analogies','figures','matrices','reaction','spatial'];
-      gameKeys.forEach(function(g) {
-        if(state.bestScores[g]) {
-          bestHTML += '<div class="stat-row">' +
-            '<span class="stat-label">' + getGameTitle(g) + '</span>' +
-            '<span class="stat-value">' + state.bestScores[g] + '</span>' +
-          '</div>';
-        }
-      });
-      if(!bestHTML) bestHTML = '<div class="empty-state"><i class="bi bi-trophy"></i><p>Ainda sem pontuações</p></div>';
-      bestList.innerHTML = bestHTML;
-
-      renderEvolutionChart();
-      renderGamesChart();
-      renderSimHistory();
-    }
-
-    function renderEvolutionChart() {
-      const canvas = document.getElementById('evolutionChart');
-      if(!canvas) return;
-      if(evolutionChart) evolutionChart.destroy();
-
-      const last20 = state.history.slice(-20);
-      const labels = last20.map(function(h, i) { return '#' + (i + 1); });
-      const data = last20.map(function(h) { return h.score; });
-
-      if(data.length === 0) {
-        const ctx = canvas.getContext('2d');
-        ctx.font = '14px sans-serif';
-        ctx.fillStyle = '#94a3b8';
-        ctx.textAlign = 'center';
-        ctx.fillText('Joga alguns jogos para ver a evolução', canvas.width / 2, canvas.height / 2);
-        return;
-      }
-
-      evolutionChart = new Chart(canvas, {
-        type: 'line',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'Pontuação',
-            data: data,
-            borderColor: '#4f46e5',
-            backgroundColor: 'rgba(79,70,229,0.1)',
-            tension: 0.3,
-            fill: true,
-            pointBackgroundColor: '#4f46e5',
-            pointRadius: 4,
-            pointHoverRadius: 6
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false },
-            tooltip: {
-              callbacks: {
-                title: function(items) {
-                  const idx = items[0].dataIndex;
-                  const h = last20[idx];
-                  return getGameTitle(h.game) + ' (N' + h.level + ')';
-                },
-                label: function(item) { return item.raw + ' pontos'; }
-              }
-            }
-          },
-          scales: {
-            y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
-            x: { grid: { display: false } }
-          }
-        }
-      });
-    }
-
-    function renderGamesChart() {
-      const canvas = document.getElementById('gamesChart');
-      if(!canvas) return;
-      if(gamesChart) gamesChart.destroy();
-
-      const gameKeys = ['sequences','math','memory','alphabet','stroop','analogies','figures','matrices','reaction','spatial'];
-      const labels = [];
-      const data = [];
-      const colors = ['#4f46e5','#ec4899','#10b981','#f59e0b','#ef4444','#06b6d4','#8b5cf6','#0ea5e9','#f97316','#14b8a6'];
-
-      gameKeys.forEach(function(g, i) {
-        if(state.bestScores[g]) {
-          labels.push(getGameTitle(g).split(' ')[0]);
-          data.push(state.bestScores[g]);
-        }
-      });
-
-      if(data.length === 0) {
-        const ctx = canvas.getContext('2d');
-        ctx.font = '14px sans-serif';
-        ctx.fillStyle = '#94a3b8';
-        ctx.textAlign = 'center';
-        ctx.fillText('Ainda sem dados', canvas.width / 2, canvas.height / 2);
-        return;
-      }
-
-      gamesChart = new Chart(canvas, {
-        type: 'bar',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'Melhor Pontuação',
-            data: data,
-            backgroundColor: colors.slice(0, data.length),
-            borderRadius: 8
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
-            x: { grid: { display: false } }
-          }
-        }
-      });
-    }
-
-    // ============ INIT ============
-    document.addEventListener('DOMContentLoaded', function() {
-      updateHomeDisplay();
-
-      document.querySelectorAll('.nav-item').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-          switchTab(this.dataset.tab);
-        });
-      });
-
-      document.querySelectorAll('.game-card').forEach(function(card) {
-        card.addEventListener('click', function() {
-          const game = this.dataset.game;
-          if(game) openLevelModal(game);
-        });
-      });
-
-      document.querySelectorAll('.level-btn').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-          const level = parseInt(this.dataset.level);
-          const game = state.pendingGame;
-          closeLevelModal();
-          if(game) startGame(game, level);
-        });
-      });
-      document.getElementById('levelModalCancel').addEventListener('click', closeLevelModal);
-      document.getElementById('levelModal').addEventListener('click', function(e) {
-        if(e.target === this) closeLevelModal();
-      });
-
-      document.getElementById('backBtn').addEventListener('click', function() {
-        if(confirm('Sair do jogo? Perderás o progresso atual.')) {
-          if(state.simulationMode) {
-            state.simulationMode = false;
-            state.simData = null;
-          }
-          exitGame();
-        }
-      });
-
-      document.getElementById('resetBtn').addEventListener('click', function() {
-        if(confirm('Repor TODA a pontuação, histórico e simulações?')) {
-          state.totalScore = 0;
-          state.gamesCompleted = 0;
-          state.bestScores = {};
-          state.history = [];
-          state.simHistory = [];
-          saveState();
-          renderStats();
-        }
-      });
-
-      document.getElementById('startSimBtn').addEventListener('click', function() {
-        startSimulation('full');
-      });
-      document.getElementById('startQuickSimBtn').addEventListener('click', function() {
-        startSimulation('quick');
-      });
-
-      renderSimHistory();
-    });
-
-  })();
-  </script>
-  </body>
-  </html>
-
-
-                <script>
-                                const CACHE_NAME = 'psicotreino-v3';
-  const ASSETS_TO_CACHE = [
-    './',
-    './index.html',
-    './manifest.json',
-    'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css',
-    'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css',
-    'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js',
-    'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js',
-    'https://cdn.jsdelivr.net/npm/fontsource-roboto@4.0.0/index.min.css'
+  };
+
+  const state = {
+    totalScore: storage.get('pt_totalScore', 0),
+    gamesCompleted: storage.get('pt_gamesCompleted', 0),
+    bestScores: storage.get('pt_bestScores', {}),
+    history: storage.get('pt_history', []),
+    simHistory: storage.get('pt_simHistory', []),
+    currentGame: null, currentLevel: 1, currentQ: 0, score: 0,
+    timer: null, timeLeft: 0, totalTime: 0,
+    questions: [], maxScore: 0, pendingGame: null,
+    simulationMode: false, simData: null
+  };
+
+  // ============ QUESTIONS DATABASE ============
+  const sequencesL1 = [
+    {seq:'2, 4, 8, 16, ?', options:['24','32','30','28'], answer:'32'},
+    {seq:'3, 6, 12, 24, ?', options:['36','42','48','30'], answer:'48'},
+    {seq:'1, 4, 9, 16, 25, ?', options:['30','36','49','35'], answer:'36'},
+    {seq:'5, 10, 20, 40, ?', options:['60','80','100','70'], answer:'80'},
+    {seq:'100, 95, 90, 85, ?', options:['75','80','70','90'], answer:'80'},
+    {seq:'7, 14, 28, 56, ?', options:['84','112','100','96'], answer:'112'}
+  ];
+  const sequencesL2 = [
+    {seq:'2, 6, 12, 20, 30, ?', options:['40','42','38','44'], answer:'42'},
+    {seq:'1, 1, 2, 3, 5, 8, ?', options:['11','12','13','14'], answer:'13'},
+    {seq:'3, 5, 9, 15, 23, ?', options:['30','33','31','35'], answer:'33'},
+    {seq:'10, 20, 40, 70, 110, ?', options:['150','160','140','170'], answer:'160'},
+    {seq:'2, 3, 5, 8, 13, 21, ?', options:['28','34','26','30'], answer:'34'},
+    {seq:'1, 4, 2, 8, 4, 16, ?', options:['6','8','12','32'], answer:'8'},
+    {seq:'3, 7, 15, 31, 63, ?', options:['95','127','100','115'], answer:'127'},
+    {seq:'0, 1, 3, 6, 10, 15, ?', options:['18','21','20','25'], answer:'21'}
+  ];
+  const alphabetL1 = [
+    {seq:'A, C, E, G, ?', options:['H','I','J','K'], answer:'I'},
+    {seq:'B, D, F, H, ?', options:['I','J','K','L'], answer:'J'},
+    {seq:'Z, X, V, T, ?', options:['S','R','Q','P'], answer:'R'},
+    {seq:'C, F, I, L, ?', options:['M','N','O','P'], answer:'O'},
+    {seq:'D, G, J, M, ?', options:['N','O','P','Q'], answer:'P'},
+    {seq:'A, D, G, J, ?', options:['K','L','M','N'], answer:'M'}
+  ];
+  const alphabetL2 = [
+    {seq:'A, B, D, G, K, ?', options:['N','O','P','Q'], answer:'P'},
+    {seq:'M, N, P, S, W, ?', options:['A','B','C','D'], answer:'B'},
+    {seq:'B, E, I, N, S, ?', options:['X','Y','Z','W'], answer:'X'},
+    {seq:'A, Z, B, Y, C, X, ?', options:['D','W','E','V'], answer:'D'},
+    {seq:'J, F, M, A, M, ?', options:['J','A','S','O'], answer:'J'},
+    {seq:'O, T, T, F, F, S, S, ?', options:['E','N','T','O'], answer:'E'}
+  ];
+  const analogiesL1 = [
+    {q:'LIVRO está para LER assim como GARFO está para...', options:['Cozinhar','Cortar','Comer','Servir'], answer:'Comer'},
+    {q:'MÉDICO está para HOSPITAL assim como PROFESSOR está para...', options:['Livro','Escola','Aluno','Aula'], answer:'Escola'},
+    {q:'QUENTE está para FRIO assim como CLARO está para...', options:['Luz','Escuro','Brilhante','Sol'], answer:'Escuro'},
+    {q:'OLHO está para VER assim como OUVIDO está para...', options:['Falar','Ouvir','Cheirar','Tocar'], answer:'Ouvir'},
+    {q:'DIA está para NOITE assim como VERÃO está para...', options:['Primavera','Outono','Inverno','Estação'], answer:'Inverno'},
+    {q:'PORTUGAL está para LISBOA assim como ESPANHA está para...', options:['Barcelona','Madrid','Sevilha','Valência'], answer:'Madrid'}
+  ];
+  const analogiesL2 = [
+    {q:'PINTOR está para PINCEL assim como ESCULTOR está para...', options:['Pedra','Cinzel','Estátua','Museu'], answer:'Cinzel'},
+    {q:'PAI está para FILHO assim como MÃE está para...', options:['Pai','Filha','Tia','Avó'], answer:'Filha'},
+    {q:'ÁGUA está para SEDENTO assim como COMIDA está para...', options:['Cozinha','Faminto','Restaurante','Prato'], answer:'Faminto'},
+    {q:'PÁSSARO está para NINHO assim como PESSOA está para...', options:['Rua','Casa','Cidade','Quarto'], answer:'Casa'},
+    {q:'TESOURA está para CORTAR assim como CHAVE está para...', options:['Fechadura','Abrir','Porta','Metal'], answer:'Abrir'},
+    {q:'PRÉDIO está para ARQUITETO assim como LEI está para...', options:['Juiz','Advogado','Legislador','Tribunal'], answer:'Legislador'},
+    {q:'ORQUESTRA está para MAESTRO assim como EQUIPA está para...', options:['Jogador','Capitão','Treinador','Clube'], answer:'Capitão'}
+  ];
+  const figuresL1 = [
+    {sequence:['↑','→','↓','←','↑'], options:['↑','→','↓','←'], answer:'→'},
+    {sequence:['▲','▼','▲','▼','▲'], options:['▲','▼','■','●'], answer:'▼'},
+    {sequence:['●','■','●','■','●'], options:['●','■','▲','◆'], answer:'■'},
+    {sequence:['↖','↗','↘','↙','↖'], options:['↖','↗','↘','↙'], answer:'↗'},
+    {sequence:['↖','↗','↙','↘','↖'], options:['↖','↗','↙','↘'], answer:'↗'}
+  ];
+  const figuresL2 = [
+    {sequence:['●','●●','●●●','●●●●'], options:['●●●','●●●●','●●●●●','●●●●●●'], answer:'●●●●●'},
+    {sequence:['◰','◳','◲','◱','◰'], options:['◰','◳','◲','◱'], answer:'◳'},
+    {sequence:['→','↘','↓','↙','←'], options:['↑','↗','↖','↙'], answer:'↖'},
+    {sequence:['▲','▲▲','▲▲▲','▲▲▲▲'], options:['▲▲▲','▲▲▲▲','▲▲▲▲▲','▲▲▲▲▲▲'], answer:'▲▲▲▲▲'},
+    {sequence:['⊢','⊥','⊣','⊤','⊢'], options:['⊢','⊥','⊣','⊤'], answer:'⊥'},
+    {sequence:['◐','◓','◑','◒','◐'], options:['◐','◓','◑','◒'], answer:'◓'}
+  ];
+  const matricesL1 = [
+    {grid:['●','●','●','●','●','●','●','●','?'], options:['●','○','■','▲'], answer:'●'},
+    {grid:['▲','■','▲','■','▲','■','▲','■','?'], options:['▲','■','●','○'], answer:'▲'},
+    {grid:['↑','→','↓','←','↑','→','↓','←','?'], options:['↑','→','↓','←'], answer:'↑'},
+    {grid:['1','2','3','4','5','6','7','8','?'], options:['8','9','10','0'], answer:'9'},
+    {grid:['●','○','●','○','●','○','●','○','?'], options:['●','○','■','▲'], answer:'●'}
+  ];
+  const matricesL2 = [
+    {grid:['1','2','4','2','4','8','4','8','?'], options:['12','16','10','14'], answer:'16'},
+    {grid:['A','B','C','B','C','D','C','D','?'], options:['D','E','A','F'], answer:'E'},
+    {grid:['●','●●','●●●','●●','●●●','●●●●','●●●','●●●●','?'], options:['●●●●','●●●●●','●●●','●●●●●●'], answer:'●●●●●'},
+    {grid:['↖','→','↙','→','↙','↖','↙','↖','?'], options:['↖','→','↙','↗'], answer:'→'},
+    {grid:['2','4','8','4','8','16','8','16','?'], options:['24','32','20','28'], answer:'32'}
+  ];
+  const spatialL1 = [
+    {q:'Se rodarmos "L" 90° no sentido horário, fica parecido com:', options:['J','L','Γ','⅃'], answer:'Γ'},
+    {q:'Se rodarmos "F" 180°, fica:', options:['ᖢ','Ϝ','Ⅎ','ⅎ'], answer:'ⅎ'},
+    {q:'Qual figura é diferente das outras?', options:['▲','▲','▲','▼'], answer:'▼'},
+    {q:'Se um cubo tem ● em cima e ■ em frente, ao rodar 90° para a frente, o que fica em cima?', options:['●','■','○','□'], answer:'■'},
+    {q:'Qual é o simétrico horizontal de "b"?', options:['d','p','q','b'], answer:'d'}
+  ];
+  const spatialL2 = [
+    {q:'Um cubo tem 6 faces. Quantas arestas tem?', options:['6','8','10','12'], answer:'12'},
+    {q:'Se rodarmos "E" 90° anti-horário, parece:', options:['M','W','Ǝ','∃'], answer:'M'},
+    {q:'Quantos cubos pequenos formam um cubo 3x3x3?', options:['9','18','27','36'], answer:'27'},
+    {q:'Se um dado tem 1 oposto a 6, 2 oposto a 5, quanto é oposto a 3?', options:['1','2','4','6'], answer:'4'},
+    {q:'Qual figura não é um cubo visto de um ângulo?', options:['◇','▱','▢','△'], answer:'△'},
+    {q:'Quantas faces visíveis tem um cubo pousado numa mesa?', options:['3','4','5','6'], answer:'5'}
+  ];
+  const stroopColors = [
+    {name:'VERMELHO',hex:'#ef4444'},
+    {name:'AZUL',hex:'#3b82f6'},
+    {name:'VERDE',hex:'#10b981'},
+    {name:'AMARELO',hex:'#eab308'},
+    {name:'ROXO',hex:'#8b5cf6'}
   ];
 
-  // Install - cache assets
-  self.addEventListener('install', function(event) {
-    event.waitUntil(
-      caches.open(CACHE_NAME)
-        .then(function(cache) {
-          console.log('Cache opened');
-          return cache.addAll(ASSETS_TO_CACHE);
-        })
-        .catch(function(err) {
-          console.warn('Cache failed for some assets:', err);
-        })
-    );
-    self.skipWaiting();
-  });
+  // ============ UTILS ============
+  function shuffle(arr) {
+    const a = [...arr];
+    for(let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+  function saveState() {
+    storage.set('pt_totalScore', state.totalScore);
+    storage.set('pt_gamesCompleted', state.gamesCompleted);
+    storage.set('pt_bestScores', state.bestScores);
+    storage.set('pt_history', state.history);
+    storage.set('pt_simHistory', state.simHistory);
+    updateHomeDisplay();
+  }
+  function recordGame(game, score, level) {
+    state.history.push({game: game, score: score, level: level, timestamp: Date.now()});
+    if(state.history.length > 30) state.history = state.history.slice(-30);
+  }
+  function updateHomeDisplay() {
+    document.getElementById('totalScore').textContent = state.totalScore;
+    document.getElementById('gamesCompleted').textContent = state.gamesCompleted;
+    ['sequences','math','memory','alphabet','stroop','analogies','figures','matrices','reaction','spatial'].forEach(function(g) {
+      const el = document.getElementById('best-' + g);
+      if(el) el.textContent = 'Melhor: ' + (state.bestScores[g] || 0);
+    });
+  }
+  function formatTime(s) {
+    const m = Math.floor(s / 60);
+    const sec = s % 60;
+    return m + ':' + (sec < 10 ? '0' : '') + sec;
+  }
+  function getGameTitle(g) {
+    const titles = {
+      sequences:'Sequências Numéricas', math:'Cálculo Mental', memory:'Memória de Dígitos',
+      alphabet:'Sequências Alfabéticas', stroop:'Teste Stroop', analogies:'Analogias Verbais',
+      figures:'Séries de Figuras', matrices:'Matrizes Lógicas', reaction:'Reação Rápida',
+      spatial:'Raciocínio Espacial'
+    };
+    return titles[g] || g;
+  }
+  function renderTimerDisplay() {
+    const danger = state.timeLeft <= 10;
+    const warning = state.timeLeft <= 20 && !danger;
+    const cls = danger ? 'danger' : (warning ? 'warning' : '');
+    return '<div class="timer-display ' + cls + '" id="timerDisplay">' +
+      '<i class="bi bi-clock-fill"></i>' +
+      '<span class="time-value">' + formatTime(state.timeLeft) + '</span></div>';
+  }
+  function startGameTimer(duration, onEnd) {
+    state.totalTime = duration;
+    state.timeLeft = duration;
+    document.getElementById('timerBar').style.display = 'block';
+    document.getElementById('timerBar').style.width = '100%';
+    if(state.timer) clearInterval(state.timer);
+    state.timer = setInterval(function() {
+      state.timeLeft--;
+      const pct = (state.timeLeft / state.totalTime) * 100;
+      document.getElementById('timerBar').style.width = pct + '%';
+      const timerEl = document.getElementById('timerDisplay');
+      if(timerEl) {
+        const danger = state.timeLeft <= 10;
+        const warning = state.timeLeft <= 20 && !danger;
+        timerEl.className = 'timer-display ' + (danger ? 'danger' : (warning ? 'warning' : ''));
+        const tv = timerEl.querySelector('.time-value');
+        if(tv) tv.textContent = formatTime(state.timeLeft);
+      }
+      updateGameStats();
+      if(state.timeLeft <= 0) {
+        clearInterval(state.timer); state.timer = null;
+        onEnd();
+      }
+    }, 1000);
+  }
+  function updateGameStats() {
+    const statsEl = document.getElementById('gameStats');
+    if(!statsEl) return;
+    const currentScore = state.currentGame === 'math' ? state.mathScore :
+                         state.currentGame === 'stroop' ? state.stroopScore :
+                         state.currentGame === 'memory' ? state.memScore :
+                         state.currentGame === 'reaction' ? state.reactionScore :
+                         state.score;
+    statsEl.textContent = formatTime(state.timeLeft) + ' | ' + currentScore + ' pts';
+  }
 
-  // Activate - clean old caches
-  self.addEventListener('activate', function(event) {
-    event.waitUntil(
-      caches.keys().then(function(cacheNames) {
-        return Promise.all(
-          cacheNames.filter(function(name) {
-            return name !== CACHE_NAME;
-          }).map(function(name) {
-            console.log('Deleting old cache:', name);
-            return caches.delete(name);
-          })
-        );
-      })
-    );
-    self.clients.claim();
-  });
+  function switchTab(tabId) {
+    document.querySelectorAll('.tab-screen').forEach(function(t) { t.classList.remove('active'); });
+    document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove('active'); });
+    document.getElementById(tabId).classList.add('active');
+    const navBtn = document.querySelector('.nav-item[data-tab="' + tabId + '"]');
+    if(navBtn) navBtn.classList.add('active');
+    if(tabId === 'tabStats') renderStats();
+  }
+  function openLevelModal(game) {
+    state.pendingGame = game;
+    document.getElementById('levelModalTitle').textContent = getGameTitle(game);
+    document.getElementById('levelModalSubtitle').textContent = 'Escolhe o nível de dificuldade';
+    document.getElementById('levelModal').classList.add('active');
+  }
+  function closeLevelModal() {
+    document.getElementById('levelModal').classList.remove('active');
+    state.pendingGame = null;
+  }
+  function startGame(game, level) {
+    state.currentGame = game;
+    state.currentLevel = level || 1;
+    state.currentQ = 0;
+    state.score = 0;
+    document.getElementById('gameScreen').classList.add('active');
+    document.getElementById('timerBar').style.display = 'none';
+    document.getElementById('gameTitle').textContent = getGameTitle(game);
+    document.getElementById('levelIndicator').textContent = 'N' + state.currentLevel;
+    const starters = {
+      sequences: startSequences, math: startMath, memory: startMemory,
+      alphabet: startAlphabet, stroop: startStroop, analogies: startAnalogies,
+      figures: startFigures, matrices: startMatrices, reaction: startReaction,
+      spatial: startSpatial
+    };
+    if(starters[game]) starters[game]();
+  }
+  function exitGame() {
+    document.getElementById('gameScreen').classList.remove('active');
+    if(state.timer) { clearInterval(state.timer); state.timer = null; }
+    document.getElementById('timerBar').style.display = 'none';
+    if(state.simulationMode) continueSimulation();
+  }
+  function endGame(gameKey, score, maxScore) {
+    if(state.timer) { clearInterval(state.timer); state.timer = null; }
+    document.getElementById('timerBar').style.display = 'none';
+    state.totalScore += score;
+    state.gamesCompleted += 1;
+    if(!state.bestScores[gameKey] || score > state.bestScores[gameKey]) state.bestScores[gameKey] = score;
+    recordGame(gameKey, score, state.currentLevel);
+    saveState();
+    const pct = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
+    let icon = '🏆', msg = 'Excelente!';
+    if(pct < 50) { icon = '💪'; msg = 'Continua a treinar!'; }
+    else if(pct < 75) { icon = '👍'; msg = 'Bom trabalho!'; }
+    else if(pct < 90) { icon = '⭐'; msg = 'Muito bom!'; }
+    if(state.simulationMode && state.simData) {
+      state.simData.results.push({game: gameKey, score: score});
+      state.simData.totalScore += score;
+    }
+    document.getElementById('gameContent').innerHTML =
+      '<div class="result-screen">' +
+        '<div class="result-icon">' + icon + '</div>' +
+        '<div class="result-title">' + msg + '</div>' +
+        '<div class="result-score">+' + score + '</div>' +
+        '<div class="result-detail">' +
+          '<p><strong>' + score + ' pontos</strong> ganhos (Nível ' + state.currentLevel + ')</p>' +
+          '<p>Melhor pontuação: <strong>' + state.bestScores[gameKey] + '</strong></p>' +
+        '</div>' +
+        (state.simulationMode ?
+          '<button class="submit-btn" id="continueSimBtn"><i class="bi bi-arrow-right"></i> Próximo Jogo</button>' :
+          '<button class="submit-btn" id="exitBtn"><i class="bi bi-house"></i> Voltar ao Início</button>' +
+          '<button class="submit-btn" style="background:linear-gradient(135deg,#10b981,#059669);margin-top:10px;" id="replayBtn"><i class="bi bi-arrow-repeat"></i> Jogar Novamente</button>'
+        ) +
+      '</div>';
+    if(state.simulationMode) {
+      document.getElementById('continueSimBtn').addEventListener('click', function() {
+        document.getElementById('gameScreen').classList.remove('active');
+        continueSimulation();
+      });
+    } else {
+      document.getElementById('exitBtn').addEventListener('click', exitGame);
+      document.getElementById('replayBtn').addEventListener('click', function() {
+        startGame(gameKey, state.currentLevel);
+      });
+    }
+  }
 
-  // Fetch - network first, fallback to cache
-  self.addEventListener('fetch', function(event) {
-    // Skip non-GET requests
-    if (event.request.method !== 'GET') return;
-    
-    event.respondWith(
-      fetch(event.request)
-        .then(function(response) {
-          // Clone and cache successful responses
-          if (response && response.status === 200) {
-            const responseClone = response.clone();
-            caches.open(CACHE_NAME).then(function(cache) {
-              cache.put(event.request, responseClone);
-            });
+  // ============ GAMES ============
+  function startSequences() {
+    state.questions = shuffle(state.currentLevel === 1 ? sequencesL1 : sequencesL2);
+    state.score = 0;
+    startGameTimer(state.currentLevel === 1 ? 60 : 50, function() {
+      endGame('sequences', state.score, Math.max(100, state.score + 20));
+    });
+    renderSequenceQ();
+  }
+  function renderSequenceQ() {
+    if(state.timeLeft <= 0) return;
+    if(state.currentQ >= state.questions.length) {
+      state.questions = shuffle(state.currentLevel === 1 ? sequencesL1 : sequencesL2);
+      state.currentQ = 0;
+    }
+    const q = state.questions[state.currentQ];
+    updateGameStats();
+    let html = renderTimerDisplay() +
+      '<div class="question-card"><div class="question-label">Sequência Numérica</div>' +
+      '<div class="question-text">' + q.seq + '</div>' +
+      '<div class="question-hint">Qual é o próximo número?</div></div><div class="answer-grid">';
+    q.options.forEach(function(o) {
+      html += '<button class="answer-btn" data-answer="' + o + '" data-correct="' + q.answer + '">' + o + '</button>';
+    });
+    html += '</div>';
+    document.getElementById('gameContent').innerHTML = html;
+    document.querySelectorAll('.answer-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() { checkSequence(this.dataset.answer, this.dataset.correct, this); });
+    });
+  }
+  function checkSequence(sel, ans, btn) {
+    if(state.timeLeft <= 0) return;
+    document.querySelectorAll('.answer-btn').forEach(function(b) { b.disabled = true; });
+    if(sel === ans) { btn.classList.add('correct'); state.score += state.currentLevel === 1 ? 20 : 30; }
+    else {
+      btn.classList.add('wrong');
+      document.querySelectorAll('.answer-btn').forEach(function(b) {
+        if(b.dataset.answer === ans) b.classList.add('correct');
+      });
+    }
+    setTimeout(function() { state.currentQ++; renderSequenceQ(); }, 700);
+  }
+
+  function startMath() {
+    state.mathScore = 0;
+    startGameTimer(state.currentLevel === 1 ? 60 : 50, function() {
+      endGame('math', state.mathScore, Math.max(100, state.mathScore + 20));
+    });
+    generateMathQ();
+  }
+  function generateMathQ() {
+    if(state.timeLeft <= 0) return;
+    let a, b, op, ans;
+    if(state.currentLevel === 1) {
+      const ops = ['+','-','×'];
+      op = ops[Math.floor(Math.random() * ops.length)];
+      if(op === '+') { a = Math.floor(Math.random() * 50) + 10; b = Math.floor(Math.random() * 50) + 10; ans = a + b; }
+      else if(op === '-') { a = Math.floor(Math.random() * 50) + 30; b = Math.floor(Math.random() * 30) + 5; ans = a - b; }
+      else { a = Math.floor(Math.random() * 12) + 2; b = Math.floor(Math.random() * 12) + 2; ans = a * b; }
+    } else {
+      const ops = ['+','-','×','÷'];
+      op = ops[Math.floor(Math.random() * ops.length)];
+      if(op === '+') { a = Math.floor(Math.random() * 200) + 50; b = Math.floor(Math.random() * 200) + 50; ans = a + b; }
+      else if(op === '-') { a = Math.floor(Math.random() * 200) + 100; b = Math.floor(Math.random() * 100) + 10; ans = a - b; }
+      else if(op === '×') { a = Math.floor(Math.random() * 15) + 5; b = Math.floor(Math.random() * 15) + 5; ans = a * b; }
+      else { b = Math.floor(Math.random() * 11) + 2; ans = Math.floor(Math.random() * 12) + 2; a = b * ans; }
+    }
+    const options = shuffle([ans, ans + Math.floor(Math.random() * 5) + 1, ans - Math.floor(Math.random() * 5) - 1, ans + Math.floor(Math.random() * 10) + 2]).slice(0, 4);
+    if(!options.includes(ans)) options[0] = ans;
+    updateGameStats();
+    let html = renderTimerDisplay() +
+      '<div class="question-card"><div class="question-label">Cálculo Mental</div>' +
+      '<div class="question-text">' + a + ' ' + op + ' ' + b + ' = ?</div></div><div class="answer-grid">';
+    options.forEach(function(o) {
+      html += '<button class="answer-btn" data-answer="' + o + '" data-correct="' + ans + '">' + o + '</button>';
+    });
+    html += '</div>';
+    document.getElementById('gameContent').innerHTML = html;
+    document.querySelectorAll('.answer-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() { checkMath(parseInt(this.dataset.answer), parseInt(this.dataset.correct), this); });
+    });
+  }
+  function checkMath(sel, ans, btn) {
+    if(state.timeLeft <= 0) return;
+    document.querySelectorAll('.answer-btn').forEach(function(b) { b.disabled = true; });
+    if(sel === ans) { btn.classList.add('correct'); state.mathScore += state.currentLevel === 1 ? 10 : 15; }
+    else { btn.classList.add('wrong'); }
+    setTimeout(generateMathQ, 500);
+  }
+
+  function startMemory() {
+    state.memLevel = state.currentLevel === 1 ? 3 : 5;
+    state.memScore = 0;
+    startGameTimer(state.currentLevel === 1 ? 90 : 75, function() {
+      endGame('memory', state.memScore, Math.max(100, state.memScore + 20));
+    });
+    showMemPhase();
+  }
+  function showMemPhase() {
+    if(state.timeLeft <= 0) return;
+    const maxLvl = state.currentLevel === 1 ? 8 : 12;
+    if(state.memLevel > maxLvl) {
+      endGame('memory', state.memScore, Math.max(100, state.memScore + 20));
+      return;
+    }
+    const digits = [];
+    for(let i = 0; i < state.memLevel; i++) digits.push(Math.floor(Math.random() * 10));
+    state.memDigits = digits.join('');
+    updateGameStats();
+    document.getElementById('gameContent').innerHTML = renderTimerDisplay() +
+      '<div class="question-card"><div class="question-label">Memoriza esta sequência</div>' +
+      '<div class="digit-display">' + state.memDigits + '</div>' +
+      '<div class="memory-phase">Nível ' + state.memLevel + ' • Tens 3 segundos...</div></div>';
+    setTimeout(showMemInput, 3000);
+  }
+  function showMemInput() {
+    if(state.timeLeft <= 0) return;
+    document.getElementById('gameContent').innerHTML = renderTimerDisplay() +
+      '<div class="question-card"><div class="question-label">Agora escreve a sequência</div>' +
+      '<div class="memory-phase">Nível ' + state.memLevel + ' dígitos</div>' +
+      '<input type="tel" class="input-answer" id="memInput" maxlength="' + state.memLevel + '" inputmode="numeric" placeholder="???">' +
+      '<button class="submit-btn" id="memSubmitBtn">Confirmar</button></div>';
+    setTimeout(function() { const input = document.getElementById('memInput'); if(input) input.focus(); }, 100);
+    document.getElementById('memSubmitBtn').addEventListener('click', checkMemory);
+  }
+  function checkMemory() {
+    if(state.timeLeft <= 0) return;
+    const input = document.getElementById('memInput');
+    if(!input) return;
+    if(input.value === state.memDigits) {
+      state.memScore += state.memLevel * 10;
+      state.memLevel++;
+      showMemPhase();
+    } else {
+      endGame('memory', state.memScore, Math.max(100, state.memScore + 20));
+    }
+  }
+
+  function startAlphabet() {
+    state.questions = shuffle(state.currentLevel === 1 ? alphabetL1 : alphabetL2);
+    state.score = 0;
+    startGameTimer(state.currentLevel === 1 ? 60 : 50, function() {
+      endGame('alphabet', state.score, Math.max(100, state.score + 20));
+    });
+    renderAlphaQ();
+  }
+  function renderAlphaQ() {
+    if(state.timeLeft <= 0) return;
+    if(state.currentQ >= state.questions.length) {
+      state.questions = shuffle(state.currentLevel === 1 ? alphabetL1 : alphabetL2);
+      state.currentQ = 0;
+    }
+    const q = state.questions[state.currentQ];
+    updateGameStats();
+    let html = renderTimerDisplay() +
+      '<div class="question-card"><div class="question-label">Sequência Alfabética</div>' +
+      '<div class="question-text">' + q.seq + '</div>' +
+      '<div class="question-hint">Qual é a próxima letra?</div></div><div class="answer-grid">';
+    q.options.forEach(function(o) {
+      html += '<button class="answer-btn" data-answer="' + o + '" data-correct="' + q.answer + '">' + o + '</button>';
+    });
+    html += '</div>';
+    document.getElementById('gameContent').innerHTML = html;
+    document.querySelectorAll('.answer-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() { checkAlpha(this.dataset.answer, this.dataset.correct, this); });
+    });
+  }
+  function checkAlpha(sel, ans, btn) {
+    if(state.timeLeft <= 0) return;
+    document.querySelectorAll('.answer-btn').forEach(function(b) { b.disabled = true; });
+    if(sel === ans) { btn.classList.add('correct'); state.score += state.currentLevel === 1 ? 15 : 25; }
+    else {
+      btn.classList.add('wrong');
+      document.querySelectorAll('.answer-btn').forEach(function(b) {
+        if(b.dataset.answer === ans) b.classList.add('correct');
+      });
+    }
+    setTimeout(function() { state.currentQ++; renderAlphaQ(); }, 700);
+  }
+
+  function startStroop() {
+    state.stroopScore = 0;
+    startGameTimer(state.currentLevel === 1 ? 45 : 35, function() {
+      endGame('stroop', state.stroopScore, Math.max(100, state.stroopScore + 20));
+    });
+    generateStroopQ();
+  }
+  function generateStroopQ() {
+    if(state.timeLeft <= 0) return;
+    const wordIdx = Math.floor(Math.random() * stroopColors.length);
+    let colorIdx = Math.floor(Math.random() * stroopColors.length);
+    while(colorIdx === wordIdx) colorIdx = Math.floor(Math.random() * stroopColors.length);
+    state.stroopAnswer = colorIdx;
+    const word = stroopColors[wordIdx];
+    const color = stroopColors[colorIdx];
+    updateGameStats();
+    let html = renderTimerDisplay() +
+      '<div class="question-card"><div class="question-label">Seleciona a COR da palavra</div>' +
+      '<div class="stroop-word" style="color:' + color.hex + '">' + word.name + '</div></div><div class="color-grid">';
+    stroopColors.forEach(function(c, i) {
+      html += '<button class="color-btn" style="background:' + c.hex + '" data-idx="' + i + '">' + c.name + '</button>';
+    });
+    html += '</div>';
+    document.getElementById('gameContent').innerHTML = html;
+    document.querySelectorAll('.color-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() { checkStroop(parseInt(this.dataset.idx), this); });
+    });
+  }
+  function checkStroop(idx, btn) {
+    if(state.timeLeft <= 0) return;
+    const btns = document.querySelectorAll('.color-btn');
+    btns.forEach(function(b) { b.disabled = true; });
+    if(idx === state.stroopAnswer) {
+      btn.style.outline = '4px solid white';
+      btn.style.boxShadow = '0 0 0 4px #10b981';
+      state.stroopScore += state.currentLevel === 1 ? 10 : 15;
+    } else {
+      btn.style.opacity = '0.4';
+      btns[state.stroopAnswer].style.outline = '4px solid white';
+      btns[state.stroopAnswer].style.boxShadow = '0 0 0 4px #10b981';
+    }
+    setTimeout(generateStroopQ, 600);
+  }
+
+  function startAnalogies() {
+    state.questions = shuffle(state.currentLevel === 1 ? analogiesL1 : analogiesL2);
+    state.score = 0;
+    startGameTimer(state.currentLevel === 1 ? 60 : 50, function() {
+      endGame('analogies', state.score, Math.max(100, state.score + 20));
+    });
+    renderAnalogyQ();
+  }
+  function renderAnalogyQ() {
+    if(state.timeLeft <= 0) return;
+    if(state.currentQ >= state.questions.length) {
+      state.questions = shuffle(state.currentLevel === 1 ? analogiesL1 : analogiesL2);
+      state.currentQ = 0;
+    }
+    const q = state.questions[state.currentQ];
+    updateGameStats();
+    let html = renderTimerDisplay() +
+      '<div class="question-card"><div class="question-label">Analogia Verbal</div>' +
+      '<div class="question-text" style="font-size:1.3rem;">' + q.q + '</div></div><div class="answer-grid">';
+    q.options.forEach(function(o) {
+      html += '<button class="answer-btn" data-answer="' + o + '" data-correct="' + q.answer + '">' + o + '</button>';
+    });
+    html += '</div>';
+    document.getElementById('gameContent').innerHTML = html;
+    document.querySelectorAll('.answer-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() { checkAnalogy(this.dataset.answer, this.dataset.correct, this); });
+    });
+  }
+  function checkAnalogy(sel, ans, btn) {
+    if(state.timeLeft <= 0) return;
+    document.querySelectorAll('.answer-btn').forEach(function(b) { b.disabled = true; });
+    if(sel === ans) { btn.classList.add('correct'); state.score += state.currentLevel === 1 ? 20 : 30; }
+    else {
+      btn.classList.add('wrong');
+      document.querySelectorAll('.answer-btn').forEach(function(b) {
+        if(b.dataset.answer === ans) b.classList.add('correct');
+      });
+    }
+    setTimeout(function() { state.currentQ++; renderAnalogyQ(); }, 700);
+  }
+
+  function startFigures() {
+    state.questions = shuffle(state.currentLevel === 1 ? figuresL1 : figuresL2);
+    state.score = 0;
+    startGameTimer(state.currentLevel === 1 ? 75 : 60, function() {
+      endGame('figures', state.score, Math.max(100, state.score + 20));
+    });
+    renderFigureQ();
+  }
+  function renderFigureQ() {
+    if(state.timeLeft <= 0) return;
+    if(state.currentQ >= state.questions.length) {
+      state.questions = shuffle(state.currentLevel === 1 ? figuresL1 : figuresL2);
+      state.currentQ = 0;
+    }
+    const q = state.questions[state.currentQ];
+    updateGameStats();
+    let sequenceHTML = '';
+    q.sequence.forEach(function(item, i) {
+      sequenceHTML += '<div class="figure-item">' + item + '</div>';
+      if(i < q.sequence.length - 1) sequenceHTML += '<div class="figure-arrow">→</div>';
+    });
+    sequenceHTML += '<div class="figure-arrow">→</div>';
+    sequenceHTML += '<div class="figure-item question-mark">?</div>';
+    let html = renderTimerDisplay() +
+      '<div class="question-card"><div class="question-label">Série de Figuras</div>' +
+      '<div class="question-hint" style="margin-bottom:8px;">Descobre o padrão</div>' +
+      '<div class="figure-sequence">' + sequenceHTML + '</div>' +
+      '<div class="question-hint">Qual figura substitui o ?</div></div><div class="answer-grid">';
+    q.options.forEach(function(o) {
+      html += '<button class="answer-btn figure-answer" data-answer="' + o + '" data-correct="' + q.answer + '">' + o + '</button>';
+    });
+    html += '</div>';
+    document.getElementById('gameContent').innerHTML = html;
+    document.querySelectorAll('.answer-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() { checkFigure(this.dataset.answer, this.dataset.correct, this); });
+    });
+  }
+  function checkFigure(sel, ans, btn) {
+    if(state.timeLeft <= 0) return;
+    document.querySelectorAll('.answer-btn').forEach(function(b) { b.disabled = true; });
+    if(sel === ans) { btn.classList.add('correct'); state.score += state.currentLevel === 1 ? 25 : 35; }
+    else {
+      btn.classList.add('wrong');
+      document.querySelectorAll('.answer-btn').forEach(function(b) {
+        if(b.dataset.answer === ans) b.classList.add('correct');
+      });
+    }
+    setTimeout(function() { state.currentQ++; renderFigureQ(); }, 800);
+  }
+
+  function startMatrices() {
+    state.questions = shuffle(state.currentLevel === 1 ? matricesL1 : matricesL2);
+    state.score = 0;
+    startGameTimer(state.currentLevel === 1 ? 75 : 60, function() {
+      endGame('matrices', state.score, Math.max(100, state.score + 20));
+    });
+    renderMatrixQ();
+  }
+  function renderMatrixQ() {
+    if(state.timeLeft <= 0) return;
+    if(state.currentQ >= state.questions.length) {
+      state.questions = shuffle(state.currentLevel === 1 ? matricesL1 : matricesL2);
+      state.currentQ = 0;
+    }
+    const q = state.questions[state.currentQ];
+    updateGameStats();
+    let gridHTML = '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:280px;margin:20px auto;">';
+    q.grid.forEach(function(cell) {
+      if(cell === '?') gridHTML += '<div class="figure-item question-mark">?</div>';
+      else gridHTML += '<div class="figure-item" style="font-size:1.8rem;">' + cell + '</div>';
+    });
+    gridHTML += '</div>';
+    let html = renderTimerDisplay() +
+      '<div class="question-card"><div class="question-label">Matriz Lógica 3×3</div>' +
+      '<div class="question-hint" style="margin-bottom:8px;">Descobre o padrão e completa</div>' +
+      gridHTML + '</div><div class="answer-grid">';
+    q.options.forEach(function(o) {
+      html += '<button class="answer-btn" data-answer="' + o + '" data-correct="' + q.answer + '">' + o + '</button>';
+    });
+    html += '</div>';
+    document.getElementById('gameContent').innerHTML = html;
+    document.querySelectorAll('.answer-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() { checkMatrix(this.dataset.answer, this.dataset.correct, this); });
+    });
+  }
+  function checkMatrix(sel, ans, btn) {
+    if(state.timeLeft <= 0) return;
+    document.querySelectorAll('.answer-btn').forEach(function(b) { b.disabled = true; });
+    if(sel === ans) { btn.classList.add('correct'); state.score += state.currentLevel === 1 ? 25 : 40; }
+    else {
+      btn.classList.add('wrong');
+      document.querySelectorAll('.answer-btn').forEach(function(b) {
+        if(b.dataset.answer === ans) b.classList.add('correct');
+      });
+    }
+    setTimeout(function() { state.currentQ++; renderMatrixQ(); }, 800);
+  }
+
+  function startReaction() {
+    state.reactionScore = 0;
+    state.reactionHits = 0;
+    state.reactionMisses = 0;
+    startGameTimer(state.currentLevel === 1 ? 30 : 25, function() {
+      endGame('reaction', state.reactionScore, Math.max(100, state.reactionScore + 20));
+    });
+    nextReactionRound();
+  }
+  function nextReactionRound() {
+    if(state.timeLeft <= 0) return;
+    const isGo = Math.random() < 0.7;
+    state.reactionIsGo = isGo;
+    state.reactionClicked = false;
+    const targetSymbol = state.currentLevel === 1 ? '●' : (Math.random() < 0.5 ? '●' : '★');
+    state.reactionTargetSymbol = targetSymbol;
+    document.getElementById('gameContent').innerHTML = renderTimerDisplay() +
+      '<div class="question-card"><div class="question-label">Reação Rápida</div>' +
+      '<div class="question-hint">' + (state.currentLevel === 1 ?
+        'Clica quando aparecer <strong>●</strong>. Não cliques se aparecer <strong>■</strong>' :
+        'Clica apenas em <strong>●</strong>. Ignora <strong>★</strong> e <strong>■</strong>') + '</div></div>' +
+      '<div class="reaction-area wait" id="reactionArea"><span>Preparar...</span></div>' +
+      '<div style="text-align:center;margin-top:12px;color:var(--muted);font-size:.85rem;">' +
+      'Acertos: <strong>' + state.reactionHits + '</strong> | Erros: <strong>' + state.reactionMisses + '</strong></div>';
+    setTimeout(function() {
+      if(state.timeLeft <= 0) return;
+      const area = document.getElementById('reactionArea');
+      if(!area) return;
+      if(isGo) {
+        area.className = 'reaction-area go';
+        area.innerHTML = '<span>' + targetSymbol + '</span>';
+      } else {
+        area.className = 'reaction-area no-go';
+        area.innerHTML = '<span>■</span>';
+      }
+      state.reactionStartTime = Date.now();
+      state.reactionWaiting = true;
+      state.reactionTimeout = setTimeout(function() {
+        if(!state.reactionClicked && state.reactionWaiting) {
+          if(isGo) state.reactionMisses++;
+          else { state.reactionScore += state.currentLevel === 1 ? 10 : 15; state.reactionHits++; }
+          nextReactionRound();
+        }
+      }, state.currentLevel === 1 ? 1500 : 1200);
+    }, 800 + Math.random() * 800);
+    document.getElementById('reactionArea').addEventListener('click', handleReactionClick);
+  }
+  function handleReactionClick() {
+    if(!state.reactionWaiting || state.reactionClicked) return;
+    state.reactionClicked = true;
+    state.reactionWaiting = false;
+    clearTimeout(state.reactionTimeout);
+    const rt = Date.now() - state.reactionStartTime;
+    if(state.reactionIsGo && rt < 800) {
+      state.reactionScore += state.currentLevel === 1 ? 15 : 25;
+      state.reactionHits++;
+    } else {
+      state.reactionMisses++;
+    }
+    nextReactionRound();
+  }
+
+  function startSpatial() {
+    state.questions = shuffle(state.currentLevel === 1 ? spatialL1 : spatialL2);
+    state.score = 0;
+    startGameTimer(state.currentLevel === 1 ? 60 : 50, function() {
+      endGame('spatial', state.score, Math.max(100, state.score + 20));
+    });
+    renderSpatialQ();
+  }
+  function renderSpatialQ() {
+    if(state.timeLeft <= 0) return;
+    if(state.currentQ >= state.questions.length) {
+      state.questions = shuffle(state.currentLevel === 1 ? spatialL1 : spatialL2);
+      state.currentQ = 0;
+    }
+    const q = state.questions[state.currentQ];
+    updateGameStats();
+    let html = renderTimerDisplay() +
+      '<div class="question-card"><div class="question-label">Raciocínio Espacial</div>' +
+      '<div class="question-text" style="font-size:1.2rem;">' + q.q + '</div></div><div class="answer-grid">';
+    q.options.forEach(function(o) {
+      html += '<button class="answer-btn" data-answer="' + o + '" data-correct="' + q.answer + '">' + o + '</button>';
+    });
+    html += '</div>';
+    document.getElementById('gameContent').innerHTML = html;
+    document.querySelectorAll('.answer-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() { checkSpatial(this.dataset.answer, this.dataset.correct, this); });
+    });
+  }
+  function checkSpatial(sel, ans, btn) {
+    if(state.timeLeft <= 0) return;
+    document.querySelectorAll('.answer-btn').forEach(function(b) { b.disabled = true; });
+    if(sel === ans) { btn.classList.add('correct'); state.score += state.currentLevel === 1 ? 20 : 35; }
+    else {
+      btn.classList.add('wrong');
+      document.querySelectorAll('.answer-btn').forEach(function(b) {
+        if(b.dataset.answer === ans) b.classList.add('correct');
+      });
+    }
+    setTimeout(function() { state.currentQ++; renderSpatialQ(); }, 800);
+  }
+
+  // ============ SIMULATION ============
+  function startSimulation(type) {
+    const games = type === 'full' ? ['sequences','math','memory','stroop','analogies'] : ['sequences','math','stroop'];
+    const totalTime = type === 'full' ? 300 : 180;
+    const timePerGame = Math.floor(totalTime / games.length);
+    state.simulationMode = true;
+    state.simData = {
+      type: type, games: games, timePerGame: timePerGame,
+      currentIndex: 0, results: [], totalScore: 0, startTime: Date.now()
+    };
+    switchTab('tabSim');
+    showSimProgress();
+    startNextSimGame();
+  }
+  function showSimProgress() {
+    const sim = state.simData;
+    let stepsHTML = '';
+    sim.games.forEach(function(g, i) {
+      let cls = '';
+      if(i < sim.currentIndex) cls = 'done';
+      else if(i === sim.currentIndex) cls = 'current';
+      const scoreText = sim.results[i] ? '+' + sim.results[i].score : '';
+      stepsHTML += '<div class="sim-step ' + cls + '">' +
+        '<div class="step-num">' + (i + 1) + '</div>' +
+        '<div class="step-name">' + getGameTitle(g) + '</div>' +
+        '<div class="step-score">' + scoreText + '</div></div>';
+    });
+    document.getElementById('gameContent').innerHTML =
+      '<div class="sim-progress"><div class="sim-progress-title"><i class="bi bi-bullseye"></i> Simulação em Curso</div>' +
+      stepsHTML + '</div>' +
+      '<div style="text-align:center;margin-top:20px;">' +
+      '<button class="submit-btn" id="startNextSimGameBtn" style="max-width:300px;margin:0 auto;">' +
+      '<i class="bi bi-play-fill"></i> Iniciar Próximo Jogo</button></div>';
+    document.getElementById('startNextSimGameBtn').addEventListener('click', startNextSimGame);
+  }
+  function startNextSimGame() {
+    const sim = state.simData;
+    if(sim.currentIndex >= sim.games.length) { finishSimulation(); return; }
+    const game = sim.games[sim.currentIndex];
+    startGame(game, 1);
+    if(state.timer) clearInterval(state.timer);
+    state.totalTime = sim.timePerGame;
+    state.timeLeft = sim.timePerGame;
+    document.getElementById('timerBar').style.display = 'block';
+    document.getElementById('timerBar').style.width = '100%';
+    state.timer = setInterval(function() {
+      state.timeLeft--;
+      const pct = (state.timeLeft / state.totalTime) * 100;
+      document.getElementById('timerBar').style.width = pct + '%';
+      const timerEl = document.getElementById('timerDisplay');
+      if(timerEl) {
+        const danger = state.timeLeft <= 10;
+        const warning = state.timeLeft <= 20 && !danger;
+        timerEl.className = 'timer-display ' + (danger ? 'danger' : (warning ? 'warning' : ''));
+        const tv = timerEl.querySelector('.time-value');
+        if(tv) tv.textContent = formatTime(state.timeLeft);
+      }
+      updateGameStats();
+      if(state.timeLeft <= 0) {
+        clearInterval(state.timer); state.timer = null;
+        const gameKey = state.currentGame;
+        const score = gameKey === 'math' ? state.mathScore :
+                      gameKey === 'stroop' ? state.stroopScore :
+                      gameKey === 'memory' ? state.memScore :
+                      gameKey === 'reaction' ? state.reactionScore :
+                      state.score;
+        endGame(gameKey, score, Math.max(100, score + 20));
+      }
+    }, 1000);
+  }
+  function continueSimulation() {
+    if(!state.simulationMode || !state.simData) return;
+    state.simData.currentIndex++;
+    if(state.simData.currentIndex >= state.simData.games.length) finishSimulation();
+    else showSimProgress();
+  }
+  function finishSimulation() {
+    const sim = state.simData;
+    const totalTime = Math.round((Date.now() - sim.startTime) / 1000);
+    state.simulationMode = false;
+    state.simHistory.push({
+      type: sim.type, totalScore: sim.totalScore,
+      results: sim.results, duration: totalTime, timestamp: Date.now()
+    });
+    if(state.simHistory.length > 10) state.simHistory = state.simHistory.slice(-10);
+    saveState();
+    document.getElementById('gameScreen').classList.remove('active');
+    if(state.timer) { clearInterval(state.timer); state.timer = null; }
+    document.getElementById('timerBar').style.display = 'none';
+    switchTab('tabSim');
+    let resultsHTML = '';
+    sim.results.forEach(function(r) {
+      resultsHTML += '<div class="stat-row"><span class="stat-label">' + getGameTitle(r.game) + '</span>' +
+        '<span class="stat-value">+' + r.score + '</span></div>';
+    });
+    const container = document.querySelector('#tabSim .container');
+    const resultDiv = document.createElement('div');
+    resultDiv.style.marginTop = '20px';
+    resultDiv.innerHTML =
+      '<div class="result-screen" style="padding:20px;">' +
+      '<div class="result-icon">🏆</div>' +
+      '<div class="result-title">Simulação Concluída!</div>' +
+      '<div class="result-score">' + sim.totalScore + '</div>' +
+      '<div class="result-detail"><p><strong>pontos totais</strong> em ' + formatTime(totalTime) + '</p></div></div>' +
+      '<div class="stat-card">' + resultsHTML + '</div>' +
+      '<button class="submit-btn" id="backToSimBtn"><i class="bi bi-arrow-left"></i> Voltar</button>';
+    container.insertBefore(resultDiv, container.firstChild.nextSibling);
+    document.getElementById('backToSimBtn').addEventListener('click', function() {
+      resultDiv.remove();
+      renderSimHistory();
+    });
+    state.simData = null;
+  }
+  function renderSimHistory() {
+    const section = document.getElementById('simHistorySection');
+    const list = document.getElementById('simHistoryList');
+    if(state.simHistory.length === 0) { section.style.display = 'none'; return; }
+    section.style.display = 'block';
+    let html = '';
+    state.simHistory.slice().reverse().forEach(function(s) {
+      const date = new Date(s.timestamp);
+      const dateStr = date.toLocaleDateString('pt-PT') + ' ' + date.toLocaleTimeString('pt-PT', {hour:'2-digit', minute:'2-digit'});
+      html += '<div class="stat-card">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">' +
+        '<strong>' + (s.type === 'full' ? '🎯 Exame Completo' : '⚡ Exame Rápido') + '</strong>' +
+        '<span style="font-size:.75rem;color:var(--muted);">' + dateStr + '</span></div>' +
+        '<div class="stat-row"><span class="stat-label">Pontuação Total</span>' +
+        '<span class="stat-value" style="color:var(--primary);">' + s.totalScore + ' pts</span></div>' +
+        '<div class="stat-row"><span class="stat-label">Duração</span>' +
+        '<span class="stat-value">' + formatTime(s.duration) + '</span></div></div>';
+    });
+    list.innerHTML = html;
+  }
+
+  // ============ STATS ============
+  let evolutionChart = null, gamesChart = null;
+  function renderStats() {
+    document.getElementById('statTotalGames').textContent = state.gamesCompleted;
+    document.getElementById('statTotalPoints').textContent = state.totalScore;
+    document.getElementById('statSimulations').textContent = state.simHistory.length;
+    let bestGame = 0;
+    Object.keys(state.bestScores).forEach(function(g) {
+      if(state.bestScores[g] > bestGame) bestGame = state.bestScores[g];
+    });
+    document.getElementById('statBestGame').textContent = bestGame;
+    document.getElementById('statAverage').textContent = state.gamesCompleted > 0 ? Math.round(state.totalScore / state.gamesCompleted) : 0;
+    const bestList = document.getElementById('bestScoresList');
+    let bestHTML = '';
+    ['sequences','math','memory','alphabet','stroop','analogies','figures','matrices','reaction','spatial'].forEach(function(g) {
+      if(state.bestScores[g]) {
+        bestHTML += '<div class="stat-row"><span class="stat-label">' + getGameTitle(g) + '</span>' +
+          '<span class="stat-value">' + state.bestScores[g] + '</span></div>';
+      }
+    });
+    if(!bestHTML) bestHTML = '<div class="empty-state"><i class="bi bi-trophy"></i><p>Ainda sem pontuações</p></div>';
+    bestList.innerHTML = bestHTML;
+    renderEvolutionChart();
+    renderGamesChart();
+    renderSimHistory();
+  }
+  function renderEvolutionChart() {
+    const canvas = document.getElementById('evolutionChart');
+    if(!canvas) return;
+    if(evolutionChart) evolutionChart.destroy();
+    const last20 = state.history.slice(-20);
+    const labels = last20.map(function(h, i) { return '#' + (i + 1); });
+    const data = last20.map(function(h) { return h.score; });
+    if(data.length === 0) {
+      const ctx = canvas.getContext('2d');
+      ctx.font = '14px sans-serif';
+      ctx.fillStyle = '#94a3b8';
+      ctx.textAlign = 'center';
+      ctx.fillText('Joga alguns jogos para ver a evolução', canvas.width / 2, canvas.height / 2);
+      return;
+    }
+    evolutionChart = new Chart(canvas, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Pontuação', data: data,
+          borderColor: '#4f46e5', backgroundColor: 'rgba(79,70,229,0.1)',
+          tension: 0.3, fill: true,
+          pointBackgroundColor: '#4f46e5', pointRadius: 4, pointHoverRadius: 6
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              title: function(items) {
+                const h = last20[items[0].dataIndex];
+                return getGameTitle(h.game) + ' (N' + h.level + ')';
+              },
+              label: function(item) { return item.raw + ' pontos'; }
+            }
           }
-          return response;
-        })
-        .catch(function() {
-          // Fallback to cache
-          return caches.match(event.request).then(function(response) {
-            return response || caches.match('./index.html');
-          });
-        })
-    );
+        },
+        scales: {
+          y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+  }
+  function renderGamesChart() {
+    const canvas = document.getElementById('gamesChart');
+    if(!canvas) return;
+    if(gamesChart) gamesChart.destroy();
+    const gameKeys = ['sequences','math','memory','alphabet','stroop','analogies','figures','matrices','reaction','spatial'];
+    const labels = [], data = [];
+    const colors = ['#4f46e5','#ec4899','#10b981','#f59e0b','#ef4444','#06b6d4','#8b5cf6','#0ea5e9','#f97316','#14b8a6'];
+    gameKeys.forEach(function(g) {
+      if(state.bestScores[g]) {
+        labels.push(getGameTitle(g).split(' ')[0]);
+        data.push(state.bestScores[g]);
+      }
+    });
+    if(data.length === 0) {
+      const ctx = canvas.getContext('2d');
+      ctx.font = '14px sans-serif';
+      ctx.fillStyle = '#94a3b8';
+      ctx.textAlign = 'center';
+      ctx.fillText('Ainda sem dados', canvas.width / 2, canvas.height / 2);
+      return;
+    }
+    gamesChart = new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Melhor Pontuação', data: data,
+          backgroundColor: colors.slice(0, data.length), borderRadius: 8
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+  }
+
+  // ============ INIT ============
+  document.addEventListener('DOMContentLoaded', function() {
+    updateHomeDisplay();
+    document.querySelectorAll('.nav-item').forEach(function(btn) {
+      btn.addEventListener('click', function() { switchTab(this.dataset.tab); });
+    });
+    document.querySelectorAll('.game-card').forEach(function(card) {
+      card.addEventListener('click', function() {
+        const game = this.dataset.game;
+        if(game) openLevelModal(game);
+      });
+    });
+    document.querySelectorAll('.level-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        const level = parseInt(this.dataset.level);
+        const game = state.pendingGame;
+        closeLevelModal();
+        if(game) startGame(game, level);
+      });
+    });
+    document.getElementById('levelModalCancel').addEventListener('click', closeLevelModal);
+    document.getElementById('levelModal').addEventListener('click', function(e) {
+      if(e.target === this) closeLevelModal();
+    });
+    document.getElementById('backBtn').addEventListener('click', function() {
+      if(confirm('Sair do jogo? Perderás o progresso atual.')) {
+        if(state.simulationMode) { state.simulationMode = false; state.simData = null; }
+        exitGame();
+      }
+    });
+    document.getElementById('resetBtn').addEventListener('click', function() {
+      if(confirm('Repor TODA a pontuação, histórico e simulações?')) {
+        state.totalScore = 0; state.gamesCompleted = 0;
+        state.bestScores = {}; state.history = []; state.simHistory = [];
+        saveState(); renderStats();
+      }
+    });
+    document.getElementById('startSimBtn').addEventListener('click', function() { startSimulation('full'); });
+    document.getElementById('startQuickSimBtn').addEventListener('click', function() { startSimulation('quick'); });
+    renderSimHistory();
   });
 
-
-  </script>
+})();
+</script>
 </body>
 </html>
-                    
