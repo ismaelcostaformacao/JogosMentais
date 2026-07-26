@@ -1,61 +1,119 @@
-const CACHE_NAME = 'psicotreino-v4';
+const CACHE_NAME = 'psicotreino-v3';
 const ASSETS = [
-  './',
-  './index.html',
-  './manifest.json'
+  '/',
+  '/index.html',
+  '/css/style.css',
+  '/js/app.js',
+  '/manifest.json',
+  '/icons/icon-192.svg',
+  '/icons/icon-512.svg'
 ];
 
-// Install
-self.addEventListener('install', function(event) {
+let notifConfig = { enabled: false, time: '09:00' };
+
+self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(function(cache) {
-        console.log('[SW] Cache aberto');
-        return cache.addAll(ASSETS);
-      })
-      .catch(function(err) {
-        console.warn('[SW] Falha no cache:', err);
-      })
+    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
   );
   self.skipWaiting();
 });
 
-// Activate - limpar caches antigas
-self.addEventListener('activate', function(event) {
+self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(function(names) {
-      return Promise.all(
-        names.filter(function(name) {
-          return name !== CACHE_NAME;
-        }).map(function(name) {
-          console.log('[SW] Apagar cache antiga:', name);
-          return caches.delete(name);
-        })
-      );
-    })
+    caches.keys().then(keys =>
+      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
+    )
   );
   self.clients.claim();
 });
 
-// Fetch - network first, fallback to cache
-self.addEventListener('fetch', function(event) {
+self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
-  
   event.respondWith(
-    fetch(event.request)
-      .then(function(response) {
+    caches.match(event.request).then(cached => {
+      const fetchPromise = fetch(event.request).then(response => {
         if (response && response.status === 200) {
           const clone = response.clone();
-          caches.open(CACHE_NAME).then(function(cache) {
-            cache.put(event.request, clone);
-          });
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
         }
         return response;
-      })
-      .catch(function() {
-        return caches.match(event.request).then(function(response) {
-          return response || caches.match('./index.html');
-        });
-      })
+      }).catch(() => cached);
+      return cached || fetchPromise;
+    })
   );
+});
+
+// Mensagens do cliente
+self.addEventListener('message', event => {
+  if (event.data.type === 'SCHEDULE_NOTIF') {
+    notifConfig = {
+      enabled: event.data.enabled,
+      time: event.data.time
+    };
+    scheduleNotification();
+  }
+});
+
+// Agendar notificação diária
+function scheduleNotification() {
+  if (!notifConfig.enabled) return;
+  
+  const [hours, minutes] = notifConfig.time.split(':').map(Number);
+  const now = new Date();
+  const notifTime = new Date();
+  notifTime.setHours(hours, minutes, 0, 0);
+  
+  if (notifTime < now) {
+    notifTime.setDate(notifTime.getDate() + 1);
+  }
+  
+  const delay = notifTime.getTime() - now.getTime();
+  
+  setTimeout(() => {
+    showDailyNotif();
+    // Agendar próximo
+    scheduleNotification();
+  }, delay);
+}
+
+function showDailyNotif() {
+  self.registration.showNotification('🧠 Hora do Treino!', {
+    body: 'Não te esqueças do teu treino psicotécnico de hoje!',
+    icon: '/icons/icon-192.svg',
+    badge: '/icons/icon-192.svg',
+    tag: 'daily-training',
+    requireInteraction: false,
+    actions: [
+      { action: 'start', title: 'Começar Treino' },
+      { action: 'snooze', title: 'Lembrar Depois' }
+    ]
+  });
+}
+
+// Push notifications
+self.addEventListener('push', event => {
+  const data = event.data ? event.data.json() : {};
+  const title = data.title || ' PsicoTreino PT';
+  const options = {
+    body: data.body || 'É hora de treinar!',
+    icon: '/icons/icon-192.svg',
+    badge: '/icons/icon-192.svg',
+    tag: 'psicotreino-notif',
+    requireInteraction: false,
+  };
+  
+  event.waitUntil(self.registration.showNotification(title, options));
+});
+
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  
+  if (event.action === 'start') {
+    event.waitUntil(clients.openWindow('/'));
+  } else if (event.action === 'snooze') {
+    // Adiar 1 hora
+    setTimeout(() => showDailyNotif(), 3600000);
+  } else {
+    event.waitUntil(clients.openWindow('/'));
+  }
 });
