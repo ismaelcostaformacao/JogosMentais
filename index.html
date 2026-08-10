@@ -26,69 +26,30 @@
   </div>
 
   <!-- HOME -->
-  <div class="page active" id="p-home">
-    
-    <!-- HERO -->
-    <div class="hero">
-      <div class="hero-content">
-        <div class="hero-greeting" id="heroGreeting">Olá, Vamos Treinar a Mente! 👋</div>
-        <h1 class="hero-title">Pronto para o desafio de hoje?</h1>
-        
-        <div class="streak-badge" id="streakBadge">
-          <span class="streak-fire">🔥</span>
-          <span id="streakCount">0</span>
-          <span>dias seguidos</span>
-        </div>
-
-        <div class="hero-stats">
-          <div class="hero-stat">
-            <div class="hero-stat-icon">⭐</div>
-            <div class="hero-stat-value" id="hScore">0</div>
-            <div class="hero-stat-label">Pontos</div>
-          </div>
-          <div class="hero-stat">
-            <div class="hero-stat-icon">🎮</div>
-            <div class="hero-stat-value" id="hGames">0</div>
-            <div class="hero-stat-label">Jogos</div>
-          </div>
-          <div class="hero-stat">
-            <div class="hero-stat-icon">🏆</div>
-            <div class="hero-stat-value" id="hAch">0</div>
-            <div class="hero-stat-label">Conquistas</div>
-          </div>
-        </div>
+<section class="page active" id="p-home">
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-greeting" id="heroGreeting">Olá, Vamos Treinar a Mente! 👋</div>
+      <h1 class="hero-title">Pronto para o desafio de hoje?</h1>
+      <div class="streak-badge" id="streakBadge"><span class="streak-fire">🔥</span><span><span id="streakCount">0</span> dias seguidos</span></div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="hero-stat-icon">⭐</div><div class="hero-stat-value" id="hScore">0</div><div class="hero-stat-label">Pontos</div></div>
+        <div class="hero-stat"><div class="hero-stat-icon">🎮</div><div class="hero-stat-value" id="hGames">0</div><div class="hero-stat-label">Jogos</div></div>
+        <div class="hero-stat"><div class="hero-stat-icon">🏆</div><div class="hero-stat-value" id="hAch">0</div><div class="hero-stat-label">Conquistas</div></div>
       </div>
     </div>
-
-    <!-- GAMES SECTION -->
-    <div class="section-header">
-      <h2 class="section-title">🎯 Escolhe um Jogo</h2>
+  </div>
+  <div class="section-header"><h2 class="section-title">🎯 Escolhe um Jogo</h2></div>
+  <div class="games-grid" id="gList"></div>
+  <div class="difficulty-selector">
+    <div class="difficulty-title"><i class="bi bi-sliders"></i> Nível de Dificuldade</div>
+    <div class="difficulty-grid">
+      <div class="diff-btn active" data-level="1" onclick="setDiff(1,this)">Fácil<small>+10 pts</small></div>
+      <div class="diff-btn" data-level="2" onclick="setDiff(2,this)">Médio<small>+20 pts</small></div>
+      <div class="diff-btn" data-level="3" onclick="setDiff(3,this)">Difícil<small>+30 pts</small></div>
     </div>
-
-    <div class="games-grid" id="gList"></div>
-
-    <!-- DIFFICULTY -->
-    <div class="difficulty-selector">
-      <h3 class="difficulty-title">
-        <i class="bi bi-sliders" style="color:var(--primary)"></i>
-        Nível de Dificuldade
-      </h3>
-      <div class="difficulty-grid">
-        <button class="diff-btn active" data-level="1" onclick="setDiff(1,this)">
-          <i class="bi bi-1-circle-fill"></i> Fácil
-          <small>+10 pts</small>
-        </button>
-        <button class="diff-btn" data-level="2" onclick="setDiff(2,this)">
-          <i class="bi bi-2-circle-fill"></i> Médio
-          <small>+20 pts</small>
-        </button>
-        <button class="diff-btn" data-level="3" onclick="setDiff(3,this)">
-          <i class="bi bi-3-circle-fill"></i> Difícil
-          <small>+30 pts</small>
-        </button>
-      </div>
-    </div>
-
+  </div>
+  <button class="btn-p mb-4" onclick="openSimModal()"><i class="bi bi-clipboard-check"></i> 📝 Simulação de Exame</button>
     <!-- FOOTER -->
     <footer class="app-footer">
       <div class="footer-content">
@@ -106,227 +67,127 @@
         </div>
       </div>
     </footer>
+</section>
 
-  </div>
-
-  <!-- GAME -->
-  <div class="page" id="p-game">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <button class="btn-o" onclick="exitGame()"><i class="bi bi-arrow-left"></i></button>
-      <div class="text-center">
-        <div class="fw-bold" id="gTitle">Jogo</div>
-        <small class="text-muted" id="gSub">Nível 1</small>
+<section class="page" id="p-game">
+  <div class="card-c">
+    <div class="d-flex" style="justify-content:space-between;align-items:center;gap:.75rem">
+      <div style="min-width:0">
+        <h3 id="gTitle" style="margin:0;font-weight:800;font-size:1.1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Jogo</h3>
+        <small class="text-muted" id="gSub">Fácil</small>
       </div>
-      <div class="text-end">
-        <div class="fw-bold" id="gScore">0</div>
-        <small class="text-muted">pts</small>
-      </div>
-    </div>
-    <div class="d-flex justify-content-between align-items-center mb-3 gap-3">
-      <div style="flex:1">
-        <small class="text-muted">Pergunta <span id="qN">1</span>/<span id="qT">10</span></small>
-        <div class="prog mt-1"><div class="bar" id="qP" style="width:0%"></div></div>
-      </div>
-      <div class="timer" id="gTimer">60</div>
-    </div>
-    <div id="gArea" class="card-c"></div>
-    <div class="d-flex gap-2 mt-3" id="gActs">
-      <button class="btn-p flex-grow-1" onclick="submitAns()">
-        <i class="bi bi-check-lg"></i> Confirmar
-      </button>
-      <button class="btn-o" onclick="skipQ()">
-        <i class="bi bi-skip-forward"></i>
-      </button>
-    </div>
-  </div>
-
-  <!-- RESULTS -->
-  <div class="page" id="p-res">
-    <div class="card-c text-center">
-      <div style="font-size:5rem" id="rEmo">🎉</div>
-      <h2 class="fw-bold mt-2 mb-1" id="rTit" style="letter-spacing:-0.02em">Excelente!</h2>
-      <p class="text-muted" id="rSub">Resultado fantástico</p>
-      <div class="row g-2 mt-4">
-        <div class="col-4">
-          <div class="sim-complete-stat">
-            <div class="sim-complete-stat-v" id="rSc">0</div>
-            <div class="sim-complete-stat-l">Pontos</div>
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="sim-complete-stat">
-            <div class="sim-complete-stat-v" id="rCo">0/0</div>
-            <div class="sim-complete-stat-l">Acertos</div>
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="sim-complete-stat">
-            <div class="sim-complete-stat-v" id="rTi">0s</div>
-            <div class="sim-complete-stat-l">Tempo</div>
-          </div>
-        </div>
-      </div>
-      <div class="d-flex gap-2 mt-4">
-        <button class="btn-o flex-grow-1" onclick="go('home')">
-          <i class="bi bi-house"></i> Menu
-        </button>
-        <button class="btn-p flex-grow-1" onclick="replay()">
-          <i class="bi bi-arrow-repeat"></i> Repetir
-        </button>
+      <div class="d-flex" style="gap:.9rem;align-items:center;flex-shrink:0">
+        <div class="text-center"><div class="fw-bold" id="gScore" style="font-size:1.1rem;color:var(--primary)">0</div><small class="text-muted">Pontos</small></div>
+        <div class="text-center"><div class="fw-bold" style="font-size:1.1rem"><span id="qN">1</span>/<span id="qT">10</span></div><small class="text-muted">Pergunta</small></div>
+        <div class="timer" id="gTimer">60</div>
+        <button class="icon-btn" onclick="exitGame()" title="Sair"><i class="bi bi-x-lg"></i></button>
       </div>
     </div>
   </div>
-
-   <!-- STATS -->
-  <div class="page" id="p-stats">
-    <h2 class="fw-bold mb-3" style="letter-spacing:-0.02em">
-      <i class="bi bi-graph-up" style="color:var(--primary)"></i> Estatísticas
-    </h2>
-    <div class="row g-2 mb-3">
-      <div class="col-6">
-        <div class="card-c" style="background:var(--gradient-primary);color:#fff;border:none">
-          <div style="font-size:1.5rem;margin-bottom:.25rem">⭐</div>
-          <div style="font-size:1.8rem;font-weight:900;line-height:1" id="sSc">0</div>
-          <div style="font-size:.75rem;opacity:.9;margin-top:.25rem;text-transform:uppercase;letter-spacing:.05em">Pontos</div>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="card-c" style="background:var(--gradient-success);color:#fff;border:none">
-          <div style="font-size:1.5rem;margin-bottom:.25rem">🎯</div>
-          <div style="font-size:1.8rem;font-weight:900;line-height:1" id="sAc">0%</div>
-          <div style="font-size:.75rem;opacity:.9;margin-top:.25rem;text-transform:uppercase;letter-spacing:.05em">Precisão</div>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="card-c" style="background:var(--gradient-warning);color:#fff;border:none">
-          <div style="font-size:1.5rem;margin-bottom:.25rem">🎮</div>
-          <div style="font-size:1.8rem;font-weight:900;line-height:1" id="sGm">0</div>
-          <div style="font-size:.75rem;opacity:.9;margin-top:.25rem;text-transform:uppercase;letter-spacing:.05em">Jogos</div>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="card-c" style="background:linear-gradient(135deg,#ec4899,#8b5cf6);color:#fff;border:none">
-          <div style="font-size:1.5rem;margin-bottom:.25rem">🔥</div>
-          <div style="font-size:1.8rem;font-weight:900;line-height:1" id="sSt">0</div>
-          <div style="font-size:.75rem;opacity:.9;margin-top:.25rem;text-transform:uppercase;letter-spacing:.05em">Sequência</div>
-        </div>
-      </div>
-    </div>
-    <div class="card-c">
-      <h6 class="fw-bold mb-3">📈 Evolução</h6>
-      <div class="chart-box"><canvas id="c1"></canvas></div>
-    </div>
-    <div class="card-c">
-      <h6 class="fw-bold mb-3">🎯 Por Jogo</h6>
-      <div class="chart-box"><canvas id="c2"></canvas></div>
-    </div>
-    <div class="card-c">
-      <h6 class="fw-bold mb-3">⏱️ Tempo Médio</h6>
-      <div class="chart-box"><canvas id="c3"></canvas></div>
-    </div>
-    
-    <!-- NOVO: Estatísticas do Perfil Psicológico -->
-    <div class="card-c">
-      <h6 class="fw-bold mb-3">
-        <i class="bi bi-person-badge" style="color:#8b5cf6"></i> Perfil Psicológico
-      </h6>
-      <div id="psyStatsContainer"></div>
-    </div>
-    
-    <button class="btn-o w-100" onclick="resetStats()">
-      <i class="bi bi-trash"></i> Apagar Estatísticas
-    </button>
+  <div class="prog mb-3"><div class="bar" id="qP" style="width:0%"></div></div>
+  <div id="gArea" class="card-c"></div>
+  <div class="d-flex gap-2 mt-3" id="gActs">
+    <button class="btn-p flex-grow-1" onclick="submitAns()">Confirmar</button>
+    <button class="btn-o" onclick="skipQ()">Saltar</button>
   </div>
+</section>
 
-  <!-- ACHIEVEMENTS -->
-  <div class="page" id="p-ach">
-    <h2 class="fw-bold mb-3" style="letter-spacing:-0.02em">
-      <i class="bi bi-trophy-fill" style="color:var(--warning)"></i> Conquistas
-    </h2>
-    <div class="card-c mb-3">
-      <div class="d-flex justify-content-between align-items-center mb-2">
-        <span class="fw-bold"><span id="aC">0</span> / <span id="aT">0</span></span>
-        <span class="text-muted" style="font-size:.85rem" id="aPct">0%</span>
-      </div>
-      <div class="prog">
-        <div class="bar" id="aP" style="width:0%;background:var(--gradient-warning)"></div>
-      </div>
+<section class="page" id="p-res">
+  <div class="card-c text-center" style="padding:2rem 1.5rem">
+    <div style="font-size:4rem" id="rEmo">🎉</div>
+    <h2 style="font-weight:900;margin:.5rem 0 .25rem" id="rTit">Excelente!</h2>
+    <p class="text-muted" id="rSub" style="margin:0 0 1.25rem">Resultado fantástico</p>
+    <div class="d-flex gap-2 mb-3">
+      <div class="hero-stat flex-grow-1" style="background:var(--bg);border:1px solid var(--border)"><div class="hero-stat-value" id="rSc" style="color:var(--primary)">0</div><div class="hero-stat-label" style="color:var(--text-muted)">Pontos</div></div>
+      <div class="hero-stat flex-grow-1" style="background:var(--bg);border:1px solid var(--border)"><div class="hero-stat-value" id="rCo" style="color:var(--success)">0/0</div><div class="hero-stat-label" style="color:var(--text-muted)">Acertos</div></div>
+      <div class="hero-stat flex-grow-1" style="background:var(--bg);border:1px solid var(--border)"><div class="hero-stat-value" id="rTi">0s</div><div class="hero-stat-label" style="color:var(--text-muted)">Tempo</div></div>
     </div>
-    <div id="aList"></div>
+    <div class="d-flex gap-2">
+      <button class="btn-o flex-grow-1" onclick="go('home')"><i class="bi bi-house"></i> Menu</button>
+      <button class="btn-p flex-grow-1" onclick="replay()"><i class="bi bi-arrow-repeat"></i> Repetir</button>
+      <button class="btn-o flex-grow-1" onclick="go('stats')"><i class="bi bi-graph-up"></i> Estatísticas</button>
+    </div>
   </div>
+</section>
 
-  <!-- SIMULATION -->
-  <div class="page" id="p-sim">
-    <div id="simContent"></div>
+<section class="page" id="p-sim"><div id="simContent"></div></section>
+
+<section class="page" id="p-stats">
+  <div class="hero-stats mb-3" style="margin-top:0">
+    <div class="hero-stat" style="background:var(--bg-card);border:1px solid var(--border)"><div class="hero-stat-icon">⭐</div><div class="hero-stat-value" id="sSc" style="color:var(--primary)">0</div><div class="hero-stat-label" style="color:var(--text-muted)">Pontos</div></div>
+    <div class="hero-stat" style="background:var(--bg-card);border:1px solid var(--border)"><div class="hero-stat-icon">🎯</div><div class="hero-stat-value" id="sAc" style="color:var(--success)">0%</div><div class="hero-stat-label" style="color:var(--text-muted)">Precisão</div></div>
+    <div class="hero-stat" style="background:var(--bg-card);border:1px solid var(--border)"><div class="hero-stat-icon">🎮</div><div class="hero-stat-value" id="sGm">0</div><div class="hero-stat-label" style="color:var(--text-muted)">Jogos</div></div>
   </div>
-
-  <!-- MODAL -->
-  <div class="modal-bg" id="simModal">
-    <div class="modal-sheet">
-      <h3 class="modal-title">📝 Simulação de Exame</h3>
-      <p class="modal-desc">
-        6 jogos • 60 perguntas • ~8 minutos<br>
-        <small style="color:var(--warning)">
-          <i class="bi bi-exclamation-circle"></i> Faz num local tranquilo, sem pausas
-        </small>
-      </p>
-
-      <div class="modal-games-strip">
-        <div class="modal-game-chip">🔷</div>
-        <div class="modal-game-chip">🔢</div>
-        <div class="modal-game-chip">🎨</div>
-        <div class="modal-game-chip">⚡</div>
-        <div class="modal-game-chip">🧮</div>
-        <div class="modal-game-chip">🧩</div>
-      </div>
-
-      <div class="modal-section">
-        <div class="modal-section-label">Dificuldade</div>
-        <div class="modal-diff-grid">
-          <button class="modal-diff-btn" data-d="1" onclick="setSimDiff(1,this)">Fácil<small>+10 pts</small></button>
-          <button class="modal-diff-btn active" data-d="2" onclick="setSimDiff(2,this)">Médio<small>+20 pts</small></button>
-          <button class="modal-diff-btn" data-d="3" onclick="setSimDiff(3,this)">Difícil<small>+30 pts</small></button>
-        </div>
-      </div>
-
-      <div class="modal-stats" id="modalStats" style="display:none">
-        <div class="modal-stat">
-          <div class="modal-stat-v" id="mStatCount">0</div>
-          <div class="modal-stat-l">Realizadas</div>
-        </div>
-        <div class="modal-stat">
-          <div class="modal-stat-v" id="mStatBest">—</div>
-          <div class="modal-stat-l">Melhor</div>
-        </div>
-        <div class="modal-stat">
-          <div class="modal-stat-v" id="mStatAvg">—</div>
-          <div class="modal-stat-l">Média</div>
-        </div>
-      </div>
-
-      <div class="modal-actions">
-        <button class="btn-o" onclick="closeSimModal()">Cancelar</button>
-        <button class="btn-p" onclick="confirmSim()">
-          <i class="bi bi-play-fill"></i> Começar
-        </button>
+  <div class="card-c d-flex" style="justify-content:space-between;align-items:center">
+    <div class="d-flex" style="align-items:center;gap:.6rem"><span style="font-size:1.4rem">🔥</span><div><div class="fw-bold">Sequência</div><small class="text-muted">Dias seguidos de treino</small></div></div>
+    <div class="fw-bold" style="font-size:1.4rem;color:var(--warning)" id="sSt">0</div>
+  </div>
+  <div class="card-c"><div class="section-title mb-2">📈 Evolução</div><div class="chart-box"><canvas id="c1"></canvas></div></div>
+  <div class="card-c"><div class="section-title mb-2">🎯 Por Jogo</div><div class="chart-box"><canvas id="c2"></canvas></div></div>
+  <div class="card-c"><div class="section-title mb-2">⏱️ Tempo Médio</div><div class="chart-box"><canvas id="c3"></canvas></div></div>
+  <div class="card-c"><div class="section-title mb-2">🧠 Perfil Psicológico</div><div id="psyStatsContainer"></div></div>
+  <div class="card-c">
+    <div class="d-flex" style="justify-content:space-between;align-items:center;gap:.75rem">
+      <div><div class="section-title" style="margin-bottom:.15rem">🔔 Lembrete Diário</div><small class="text-muted">Recebe um lembrete para treinar</small></div>
+      <label class="switch"><input type="checkbox" id="notifToggle" onchange="toggleNotif()"><span class="slider"></span></label>
+    </div>
+    <div id="notifSettings" style="display:none;margin-top:1rem">
+      <div class="modal-section-label">Hora do lembrete</div>
+      <input type="time" id="notifTime" value="09:00" onchange="updateNotifTime()">
+      <div style="margin-top:1rem">
+        <small class="text-muted">Sequência atual: <strong id="notifStreak">0 dias</strong></small>
+        <div class="prog" style="margin-top:.4rem"><div class="bar" id="notifStreakBar" style="width:0%"></div></div>
       </div>
     </div>
   </div>
+  <button class="btn-o w-100" onclick="resetStats()"><i class="bi bi-trash"></i> Apagar Estatísticas</button>
+</section>
 
-  <div class="bnav">
-    <button class="active" onclick="go('home')">
-      <i class="bi bi-house-fill"></i>Início
-    </button>
-    <button onclick="openSimModal()">
-      <i class="bi bi-journal-check"></i>Exame
-    </button>
-    <button onclick="go('stats')">
-      <i class="bi bi-graph-up"></i>Stats
-    </button>
-    <button onclick="go('ach')">
-      <i class="bi bi-trophy-fill"></i>Troféus
-    </button>
+<section class="page" id="p-ach">
+  <div class="card-c">
+    <div class="section-title" style="margin-bottom:.5rem">🏆 Conquistas</div>
+    <div class="text-muted" style="font-size:.85rem;margin-bottom:.75rem"><span id="aC">0</span> / <span id="aT">0</span> desbloqueadas</div>
+    <div class="prog"><div class="bar" id="aP" style="width:0%"></div></div>
   </div>
+  <div id="aList"></div>
+</section>
+
+<nav class="bnav">
+  <button class="active" onclick="go('home')"><i class="bi bi-house-fill"></i>Início</button>
+  <button onclick="openSimModal()"><i class="bi bi-clipboard-check"></i>Exame</button>
+  <button onclick="go('stats')"><i class="bi bi-graph-up"></i>Stats</button>
+  <button onclick="go('ach')"><i class="bi bi-trophy"></i>Troféus</button>
+</nav>
+
+<div class="modal-bg" id="simModal">
+  <div class="modal-sheet">
+    <div class="modal-title">📝 Simulação de Exame</div>
+    <p class="modal-desc">9 jogos • 90 perguntas • ~9 minutos<br>Faz num local tranquilo, sem pausas</p>
+    <div class="modal-games-strip">
+      <div class="modal-game-chip">🔷</div><div class="modal-game-chip">🔢</div><div class="modal-game-chip">🎨</div>
+      <div class="modal-game-chip">⚡</div><div class="modal-game-chip">🧮</div><div class="modal-game-chip">🧩</div>
+      <div class="modal-game-chip">💬</div><div class="modal-game-chip">🎲</div><div class="modal-game-chip">🀃</div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Dificuldade</div>
+      <div class="modal-diff-grid">
+        <div class="modal-diff-btn" onclick="setSimDiff(1,this)">Fácil<small>+10 pts</small></div>
+        <div class="modal-diff-btn active" onclick="setSimDiff(2,this)">Médio<small>+20 pts</small></div>
+        <div class="modal-diff-btn" onclick="setSimDiff(3,this)">Difícil<small>+30 pts</small></div>
+      </div>
+    </div>
+    <div class="modal-stats" id="modalStats" style="display:none">
+      <div class="modal-stat"><div class="modal-stat-v" id="mStatCount">0</div><div class="modal-stat-l">Realizadas</div></div>
+      <div class="modal-stat"><div class="modal-stat-v" id="mStatBest">—</div><div class="modal-stat-l">Melhor</div></div>
+      <div class="modal-stat"><div class="modal-stat-v" id="mStatAvg">—</div><div class="modal-stat-l">Média</div></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-o" onclick="closeSimModal()">Cancelar</button>
+      <button class="btn-p" onclick="confirmSim()"><i class="bi bi-play-fill"></i> Começar</button>
+    </div>
+  </div>
+</div>
+
 
   <div class="toast" id="tst"></div>
 
