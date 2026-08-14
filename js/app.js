@@ -6,7 +6,7 @@ const S = {
   simTimer: null, simTotalScore: 0, simGameScores: [],
   reactTime: null, reactReady: false, reactDone: false,
   reactStart: 0, reactTO: null, memSeq: [], memCols: [], memUser: [],
-  notifEnabled: false
+  memTimeouts: [], memDone: false, memPhase: 'show', memIndex: 0, ended: false, psyProfile: null
 };
 const GAMES = [
   { id: 'fig', n: 'Sequências de Figuras', i: '🔷', c: '#4f46e5', d: 'Identifica o próximo padrão', t: 60 },
@@ -16,11 +16,15 @@ const GAMES = [
   { id: 'mat', n: 'Cálculo Mental', i: '🧮', c: '#8b5cf6', d: 'Resolve operações rápidas', t: 60 },
   { id: 'log', n: 'Padrões Lógicos', i: '🧩', c: '#06b6d4', d: 'Encontra a relação lógica', t: 75 },
   { id: 'ana', n: 'Analogias Verbais', i: '💬', c: '#ec4899', d: 'Completa a analogia A:B :: C:?', t: 60 },
-  { id: 'rot', n: 'Rotação 3D', i: '🎲', c: '#14b8a6', d: 'Identifica a rotação correta', t: 75 },
+  { id: 'rot', n: 'Rotação 2D', i: '🔄', c: '#14b8a6', d: 'Identifica a rotação correta', t: 75 },
   { id: 'dom', n: 'Dominós', i: '🀃', c: '#f97316', d: 'Completa a sequência de dominó', t: 60 },
+  { id: 'tel', n: 'Rotação 3D', i:'🏠', c:'#84cc16', d:'Da vista de frente à planta do telhado', t:75 },
   { id: 'psy', n: 'Perfil Psicológico', i: '🧠', c: '#8b5cf6', d: 'Descobre o teu perfil de personalidade', t: 120 }
 ];
+
+// Jogos incluídos na Simulação de Exame (exclui o Perfil Psicológico)
 const SIM_GAMES = GAMES.filter(g => g.id !== 'psy');
+
 const ACHS = [
   { id: 'g1', n: 'Primeiro Passo', d: 'Completa 1 jogo', i: '🎯', f: s => s.tg >= 1 },
   { id: 'g10', n: 'Dedicado', d: 'Completa 10 jogos', i: '⭐', f: s => s.tg >= 10 },
@@ -33,7 +37,7 @@ const ACHS = [
   { id: 'hard', n: 'Nível Difícil', d: 'Completa jogo no nível difícil', i: '🏆', f: s => s.hg >= 1 },
   { id: 'sim', n: 'Exame Completo', d: 'Completa uma simulação', i: '📝', f: s => s.sm >= 1 },
   { id: 'sim5', n: 'Examinador', d: 'Completa 5 simulações', i: '🎓', f: s => s.sm >= 5 },
-  { id: 'all', n: 'Polivalente', d: 'Joga todos os 9 tipos de jogos', i: '🎪', f: s => s.ug >= 9 },
+  { id:'all',   n:'Polivalente',     d:'Joga todos os 10 tipos de jogos', i:'🎪', f: s => s.ug >= 10 },
   { id: 'spd', n: 'Velocista', d: 'Reação abaixo de 300ms', i: '⚡', f: s => s.br < 300 && s.br > 0 },
   { id: 'daily', n: 'Treino Diário', d: '7 dias seguidos de treino', i: '📅', f: s => s.streak >= 7 }
 ];
@@ -55,7 +59,9 @@ function loadD() {
   }
 }
 function saveD() { try { localStorage.setItem('pt', JSON.stringify(D)); } catch (e) { } }
+
 let D = loadD();
+
 /* ============ NOTIFICAÇÕES ============ */
 let notifTO = null;
 async function requestNotifPermission() {
@@ -128,18 +134,21 @@ function renderNotifSettings() {
 }
 /* ============ NAVEGAÇÃO ============ */
 function go(p) {
-  document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
-  document.getElementById('p-' + p).classList.add('active');
-  const pages = ['home', 'stats', 'ach'];
-  document.querySelectorAll('.bnav button').forEach((b, i) => {
-    if (i === 1) return;
-    b.classList.toggle('active', pages[i > 1 ? i - 1 : 0] === p);
-  });
-  if (p === 'home') { delete document.body.dataset.game; updHome(); checkDailyStreak(); }
-  if (p === 'stats') renderStats();
-  if (p === 'ach') renderAch();
-  window.scrollTo(0, 0);
+    document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
+    let pg = document.getElementById('p-' + p);
+    if (!pg) { p = 'home'; pg = document.getElementById('p-home'); }  // ✅ fallback
+    if (pg) pg.classList.add('active');
+    const pages = ['home', 'stats', 'ach'];
+    document.querySelectorAll('.bnav button').forEach((b, i) => {
+        if (i === 1) return;
+        b.classList.toggle('active', pages[i > 1 ? i - 1 : 0] === p);
+    });
+    if (p === 'home') { delete document.body.dataset.game; updHome(); checkDailyStreak(); }
+    if (p === 'stats') renderStats();
+    if (p === 'ach') renderAch();
+    window.scrollTo(0, 0);
 }
+
 function checkDailyStreak() {
   const today = new Date().toDateString();
   const last = D.lastPlay;
@@ -155,13 +164,15 @@ function checkDailyStreak() {
 /* ============ TOAST ============ */
 let tTO = null;
 function toast(m, t = 'ok') {
-  const e = document.getElementById('tst');
-  e.className = 'toast ' + t;
-  e.innerHTML = m;
-  e.classList.add('show');
-  clearTimeout(tTO);
-  tTO = setTimeout(() => e.classList.remove('show'), 2500);
+    const e = document.getElementById('tst');
+    if (!e) return;   // ✅ nunca lança erro
+    e.className = 'toast ' + t;
+    e.innerHTML = m;
+    e.classList.add('show');
+    clearTimeout(tTO);
+    tTO = setTimeout(() => e.classList.remove('show'), 2500);
 }
+
 /* ============ TEMA ============ */
 function applyTh(t) {
   document.documentElement.setAttribute('data-theme', t);
@@ -245,9 +256,15 @@ function setSimDiff(n, el) {
 }
 /* ============ MODAL ============ */
 function openSimModal() {
-  renderModalStats();
-  document.getElementById('simModal').classList.add('show');
+    renderModalStats();
+    // Atualizar descrição e lista de jogos dinamicamente
+    const desc = document.querySelector('#simModal .modal-desc');
+    if (desc) desc.innerHTML = `${SIM_GAMES.length} jogos • ${SIM_GAMES.length * S.totalQ} perguntas • ~10 minutos<br>Faz num local tranquilo, sem pausas`;
+    const strip = document.querySelector('#simModal .modal-games-strip');
+    if (strip) strip.innerHTML = SIM_GAMES.map(g => `<div class="modal-game-chip" title="${g.n}">${g.i}</div>`).join('');
+    document.getElementById('simModal').classList.add('show');
 }
+
 function closeSimModal() { document.getElementById('simModal').classList.remove('show'); }
 document.addEventListener('click', function (e) { if (e.target.id === 'simModal') closeSimModal(); });
 function renderModalStats() {
@@ -269,6 +286,10 @@ function startG(id) {
   if (!g) return;
   S.game = id; S.q = 0; S.score = 0; S.correct = 0; S.time = g.t;
   S.start = Date.now(); S.sel = null; S.ans = null; S.sim = false;
+  S.simI = SIM_GAMES.length;  // ✅ BUG FIX: resetar contador de simulação
+  S.ended = false; // ✅ marca como não terminado
+  S.rotDeck = null; S.rotDeckKey = null;  // ✅ BUG FIX: resetar baralho 2D
+  S.telDeck = null; S.telDeckKey = null;   // ✅ BUG FIX: resetar baralho 3D
   document.body.dataset.game = id;
   document.getElementById('gTitle').textContent = g.n;
   document.getElementById('gSub').textContent = ['', 'Fácil', 'Médio', 'Difícil'][S.diff];
@@ -287,15 +308,24 @@ function startG(id) {
   startTm();
   nextQ();
 }
+
 function startTm() {
-  clearInterval(S.timer);
-  updTm();
-  S.timer = setInterval(() => {
-    S.time--;
+    clearInterval(S.timer);
+    S.timer = null;
+    // ✅ BUG FIX: se já não há tempo, termina imediatamente
+    if (S.time <= 0) { endG(); return; }
     updTm();
-    if (S.time <= 0) { clearInterval(S.timer); endG(); }
-  }, 1000);
+    S.timer = setInterval(() => {
+        S.time--;
+        updTm();
+        if (S.time <= 0) {
+            clearInterval(S.timer);
+            S.timer = null;
+            endG();   // ✅ garante que o jogo finaliza ao acabar o tempo
+        }
+    }, 1000);
 }
+
 function updTm() {
   const e = document.getElementById('gTimer');
   if (!e) return;
@@ -304,6 +334,7 @@ function updTm() {
 }
 /* ============ PRÓXIMA PERGUNTA ============ */
 function nextQ() {
+  if (S.ended) return;  // ✅ BUG FIX: se o jogo já terminou, não continua
   if (S.q >= S.totalQ || S.time <= 0) { endG(); return; }
   S.q++; S.sel = null; S.ans = null;
   const qn = document.getElementById('qN');
@@ -312,7 +343,12 @@ function nextQ() {
   if (qp) qp.style.width = ((S.q - 1) / S.totalQ * 100) + '%';
   const a = document.getElementById('gArea');
   a.classList.remove('fade-in'); void a.offsetWidth; a.classList.add('fade-in');
-  const generators = { fig: gFig, num: gNum, mem: gMem, rea: gRea, mat: gMat, log: gLog, ana: gAna, rot: gRot, dom: gDom };
+  const generators = {
+      fig: gFig, num: gNum, mem: gMem, rea: gRea,
+      mat: gMat, log: gLog, ana: gAna, rot: gRot, dom: gDom,
+      tel: gTel
+  };
+
   if (generators[S.game]) generators[S.game](a);
 }
 /* ============ GERADORES ============ */
@@ -380,60 +416,104 @@ function gNum(a) {
     '<div class="d-flex justify-content-center flex-wrap gap-2">' +
     opts.map((n, i) => '<div class="fbox ans" style="font-size:1.3rem;font-weight:700" onclick="pickOpt(this,' + i + ')">' + n + '</div>').join('') + '</div>';
 }
+
 function gMem(a) {
   const d = S.diff;
   const cols = ['#ef4444', '#10b981', '#3b82f6', '#f59e0b', '#8b5cf6', '#ec4899'];
   const len = 3 + d;
   const seq = [];
   const isSim = a.id === 'simGArea';
+
+  const miId = isSim ? 'simMI' : 'mI';    // legenda
+  const mdId = isSim ? 'simMD' : 'mD';    // zona de exibição
+  const mInId = isSim ? 'simMIn' : 'mIn';   // área de reprodução
+  const mSId = isSim ? 'simMS' : 'mS';    // seleção do utilizador
+
   for (let i = 0; i < len; i++) seq.push(Math.floor(Math.random() * cols.length));
-  const mSId = isSim ? 'simMS' : 'mS';
-  a.innerHTML = '<div class="text-center mb-3"><small class="text-muted" id="' + (isSim ? 'simMI' : 'mI') + '">Memoriza a sequência...</small></div>' +
-    '<div id="' + (isSim ? 'simMD' : 'mD') + '" class="d-flex justify-content-center flex-wrap gap-2 mb-3" style="min-height:70px"></div>' +
-    '<div id="' + (isSim ? 'simMIn' : 'mIn') + '" style="display:none">' +
-    '<div class="text-center mb-2"><small class="text-muted">Reproduz na ordem</small></div>' +
-    '<div class="d-flex justify-content-center flex-wrap gap-2 mb-3">' +
-    cols.map((c, i) => '<div class="ccell" style="background:' + c + '" onclick="pickMem(' + i + ')"></div>').join('') +
-    '</div><div class="d-flex justify-content-center flex-wrap gap-2" id="' + mSId + '" style="min-height:50px"></div></div>';
-  const disp = document.getElementById(isSim ? 'simMD' : 'mD');
+
+  clearMemTimeouts();
+
+  a.innerHTML = `<div class="text-center mb-3"><small class="text-muted" id="${miId}">Memoriza a sequência...</small></div>
+    <div id="${mdId}" class="d-flex justify-content-center flex-wrap gap-2 mb-3" style="min-height:70px"></div>
+    <div id="${mInId}" style="display:none">
+      <div class="text-center mb-2"><small class="text-muted">Reproduz na ordem</small></div>
+      <div class="d-flex justify-content-center flex-wrap gap-2 mb-3">
+        ${cols.map((c, i) => `<div class="ccell" style="background:${c}" onclick="pickMem(${i})"></div>`).join('')}
+      </div>
+      <div class="d-flex justify-content-center flex-wrap gap-2" id="${mSId}" style="min-height:50px"></div>
+    </div>`;
+
+  // Exibir sequência célula a célula
   seq.forEach((c, i) => {
-    setTimeout(() => {
+    const t = setTimeout(() => {
+      // ✅ BUG 2 FIX: não executar se a área já foi substituída
+      const el = document.getElementById(mdId);
+      if (!el || S.game !== 'mem') return;
       const cell = document.createElement('div');
       cell.className = 'ccell';
       cell.style.background = cols[c];
-      disp.appendChild(cell);
+      el.appendChild(cell);
     }, i * 600);
+    S.memTimeouts.push(t);
   });
-  setTimeout(() => {
+
+  // Revelar área de reprodução
+  const reveal = setTimeout(() => {
     if (S.game !== 'mem') return;
-    disp.innerHTML = '';
-    const inp = document.getElementById(isSim ? 'simMIn' : 'mIn');
-    const inf = document.getElementById(isSim ? 'simMI' : 'mI');
-    if (inp) inp.style.display = 'block';
-    if (inf) inf.textContent = 'Agora reproduz!';
+    const dispEl = document.getElementById(mdId);
+    const inEl = document.getElementById(mInId);
+    const lblEl = document.getElementById(miId);
+    // ✅ BUG 1+2 FIX: validar existência antes de usar
+    if (!dispEl || !inEl || !lblEl) return;
+    dispEl.innerHTML = '';
+    inEl.style.display = 'block';
+    lblEl.textContent = 'Agora reproduz!';
+    S.memPhase = 'input';
   }, seq.length * 600 + 800);
+  S.memTimeouts.push(reveal);
+
   S.memSeq = seq; S.memCols = cols; S.memUser = [];
+  S.memDone = false;
+  S.memPhase = 'show';
 }
+
+// ✅ Função auxiliar — limpa todos os timeouts do jogo de memória
+function clearMemTimeouts() {
+  if (S.memTimeouts) S.memTimeouts.forEach(t => clearTimeout(t));
+  S.memTimeouts = [];
+}
+
 function pickMem(i) {
+  if (S.memDone || S.memPhase !== 'input' || S.time <= 0) return;
+
   S.memUser.push(i);
-  const sel = document.getElementById(S.sim ? 'simMS' : 'mS');
+  const selId = S.sim ? 'simMS' : 'mS';
+  const sel = document.getElementById(selId);
   if (!sel) return;
+
   const c = document.createElement('div');
   c.className = 'ccell';
   c.style.background = S.memCols[i];
   c.style.width = '40px';
   c.style.height = '40px';
   sel.appendChild(c);
+
   if (S.memUser.length === S.memSeq.length) {
+    S.memDone = true; // ✅ BUG 3 FIX: impede cliques duplicados na janela de 400ms
     let ok = true;
-    for (let k = 0; k < S.memSeq.length; k++) {
-      if (S.memUser[k] !== S.memSeq[k]) { ok = false; break; }
+    for (let j = 0; j < S.memSeq.length; j++) {
+      if (S.memUser[j] !== S.memSeq[j]) { ok = false; break; }
     }
     S.sel = 0;
     S.ans = ok ? 0 : 1;
-    setTimeout(() => { if (S.sim) submitSimAns(); else submitAns(); }, 400);
+    const t = setTimeout(() => {
+      if (S.sim) submitSimAns();
+      else submitAns();
+    }, 400);
+    S.memTimeouts.push(t);
   }
 }
+
 function gRea(a) {
   const isSim = a.id === 'simGArea';
   const rzId = isSim ? 'simRZ' : 'rz';
@@ -457,6 +537,7 @@ function gRea(a) {
 function clickReaSim(e) {
   const z = e.currentTarget || e.target;
   if (!z || S.reactDone) return;
+
   if (!S.reactReady) {
     z.style.background = 'var(--warning)';
     z.textContent = 'Cedo demais!';
@@ -465,9 +546,18 @@ function clickReaSim(e) {
     if (gs) gs.textContent = S.score;
     S.reactDone = true;
     S.sel = 0; S.ans = 1;
-    setTimeout(() => { if (S.sim) submitSimAns(); else submitAns(); }, 800);
+    setTimeout(() => { 
+        if (S.sim) {
+          const gs = document.getElementById('simGScore');
+          if (gs) gs.textContent = S.score;
+        } else {
+          const gs = document.getElementById('gScore');
+          if (gs) gs.textContent = S.score;
+        }
+      }, 800);
     return;
   }
+
   const t = Date.now() - S.reactStart;
   S.reactDone = true;
   S.reactionTime = t;
@@ -477,6 +567,7 @@ function clickReaSim(e) {
   S.sel = 0; S.ans = 0;
   setTimeout(() => { if (S.sim) submitSimAns(); else submitAns(); }, 900);
 }
+
 function gMat(a) {
   const d = S.diff;
   let x, y, op, ans;
@@ -603,171 +694,287 @@ function gAna(a) {
     opts.map((o, i) => '<div class="fbox ans" style="font-size:.95rem;font-weight:600;min-width:85px;padding:.5rem" onclick="pickOpt(this,' + i + ')">' + o + '</div>').join('') + '</div>';
 }
 
-/* ============ ROTAÇÃO 3D ============ */
+
+/* ============ ROTAÇÃO 2D (FIGURAS EM GRELHA) ============ */
 function gRot(a) {
-  // Garantir que usa o elemento correto (normal ou simulação)
-  if (!a) a = document.getElementById('gArea');
+    if (!a) a = document.getElementById('gArea');
+    const d = S.diff;
 
-  // Um dado padrão: faces opostas somam 7 → 1↔6, 2↔5, 3↔4
-  const initialState = [1, 2, 3, 6, 5, 4];
+    const shapes3 = [
+        [[0,0],[1,0],[2,0],[2,1]],
+        [[0,0],[0,1],[1,0],[2,0]],
+        [[0,1],[1,0],[1,1],[2,0]],
+        [[0,0],[1,0],[1,1],[2,1]],
+        [[0,0],[0,1],[0,2],[1,0]],
+        [[0,0],[0,1],[1,1],[2,1]],
+        [[0,0],[1,0],[2,0],[2,1],[1,1]],
+        [[0,0],[0,1],[1,1],[2,1],[2,0]],
+        [[0,1],[0,2],[1,1],[2,0],[2,1]],
+        [[0,0],[1,0],[1,1],[1,2],[2,2]],
+        [[0,0],[1,0],[2,0],[2,1],[2,2]],
+        [[0,0],[0,1],[0,2],[1,0],[2,0]],
+        [[0,0],[1,0],[1,1],[2,1]],
+        [[0,0],[0,1],[1,1],[1,2]],
+        [[0,0],[0,1],[0,2],[1,1]],
+    ];
+    const shapes4 = [
+        [[0,0],[1,0],[2,0],[2,1],[2,2],[1,2]],
+        [[0,0],[0,1],[0,2],[1,0],[2,0],[2,1]],
+        [[0,1],[0,2],[1,0],[1,1],[2,0],[2,2]],
+        [[0,0],[1,0],[2,0],[3,0],[3,1],[2,1]],
+        [[0,0],[0,1],[1,1],[2,1],[2,2],[3,2]],
+        [[0,0],[1,0],[1,1],[2,1],[2,2],[3,2]],
+        [[0,1],[1,0],[1,1],[1,2],[2,0],[3,0]],
+        [[0,0],[0,1],[1,1],[2,1],[3,1],[3,0]],
+        [[0,0],[0,1],[0,2],[0,3],[1,3],[2,3]],
+        [[0,0],[1,0],[2,0],[3,0],[3,1],[3,2]],
+        [[0,0],[0,1],[1,1],[2,1],[2,2],[3,2]],
+        [[0,0],[1,0],[2,0],[2,1],[3,1],[3,2]],
+    ];
 
-  function rotate(state, axis, dir) {
-    const s = [...state];
-    if (axis === 'x') {
-      return dir === 'cw'
-        ? [s[1], s[3], s[2], s[4], s[0], s[5]]
-        : [s[4], s[0], s[2], s[1], s[3], s[5]];
-    } else if (axis === 'y') {
-      return dir === 'cw'
-        ? [s[0], s[5], s[1], s[3], s[2], s[4]]
-        : [s[0], s[2], s[4], s[3], s[5], s[1]];
-    } else {
-      return dir === 'cw'
-        ? [s[5], s[1], s[0], s[2], s[4], s[3]]
-        : [s[2], s[1], s[3], s[5], s[4], s[0]];
+    const gridSize = d >= 3 ? 4 : 3;
+    const pool = gridSize === 3 ? shapes3 : shapes4;
+    const anglePool = d === 1 ? [90] : d === 2 ? [90, 180] : [90, 180, 270];
+
+    // ✅ BARALHO ANTI-REPETIÇÃO: combina cada figura com cada ângulo, depois baralha tudo
+    if (!Array.isArray(S.rotDeck) || S.rotDeck.length === 0 || S.rotDeckKey !== S.game + '-' + S.diff) {
+        const deck = [];
+        const sIdx = shuf(pool.map((_, i) => i));  // baralha as figuras
+        for (const si of sIdx) {
+            const aIdx = shuf(anglePool.map((_, i) => i));  // baralha os ângulos para cada figura
+            for (const ai of aIdx) {
+                deck.push([si, anglePool[ai]]);
+            }
+        }
+        shuf(deck);  // baralha a combinação final
+        S.rotDeck = deck;
+        S.rotDeckKey = S.game + '-' + S.diff;
     }
-  }
+    const pick = S.rotDeck.shift();
+    const base = pool[pick[0]];
+    const angle = pick[1];
 
-  // BFS para gerar as 24 rotações válidas
-  const allRotations = [];
-  const seen = new Set();
-  const queue = [initialState];
-  while (queue.length > 0) {
-    const state = queue.shift();
-    const key = state.join(',');
-    if (seen.has(key)) continue;
-    seen.add(key);
-    allRotations.push(state);
-    for (const axis of ['x', 'y', 'z']) {
-      for (const dir of ['cw', 'ccw']) {
-        const ns = rotate(state, axis, dir);
-        if (!seen.has(ns.join(','))) queue.push(ns);
-      }
+    function rotate(cells, ang, n) {
+        return cells.map(([r, c]) => {
+            if (ang === 90)  return [c, n - 1 - r];
+            if (ang === 180) return [n - 1 - r, n - 1 - c];
+            if (ang === 270) return [n - 1 - c, r];
+        });
     }
-  }
+    function mirror(cells, n) { return cells.map(([r, c]) => [r, n - 1 - c]); }
+    function key(cells) { return cells.map(([r, c]) => r + ',' + c).sort().join('|'); }
 
-  // ✅ MODELO ALEATÓRIO (resolve repetição)
-  const modelIdx = Math.floor(Math.random() * allRotations.length);
-  const model = allRotations[modelIdx];
+    const correct = rotate(base, angle, gridSize);
+    const opts = [correct];
+    const used = new Set([key(correct)]);
 
-  // ✅ RESPOSTA: outra rotação válida, visualmente diferente do modelo
-  const visKey = s => s[0] + ',' + s[1] + ',' + s[2]; // 3 faces visíveis
-  const answerCandidates = allRotations.filter(
-    (s, i) => i !== modelIdx && visKey(s) !== visKey(model)
-  );
-  const answer = answerCandidates[Math.floor(Math.random() * answerCandidates.length)];
+    const distractors = [];
+    [90, 180, 270].forEach(ang => { if (ang !== angle) distractors.push(() => rotate(base, ang, gridSize)); });
+    const mirrored = mirror(base, gridSize);
+    distractors.push(() => mirrored);
+    [90, 180, 270].forEach(ang => distractors.push(() => rotate(mirrored, ang, gridSize)));
+    shuf(distractors);
 
-  // ✅ FALSOS: estados inválidos, visualmente distintos entre si e da resposta
-  const usedVisible = new Set([visKey(model), visKey(answer)]);
-  const fakes = [];
-  let attempts = 0;
-
-  while (fakes.length < 3 && attempts < 200) {
-    attempts++;
-    const base = allRotations[Math.floor(Math.random() * allRotations.length)].slice();
-
-    // Aleatorizar o tipo de manipulação inválida
-    const manip = Math.floor(Math.random() * 4);
-    if (manip === 0) {
-      // Trocar frente ↔ direita
-      [base[1], base[2]] = [base[2], base[1]];
-    } else if (manip === 1) {
-      // Trocar topo ↔ frente
-      [base[0], base[1]] = [base[1], base[0]];
-    } else if (manip === 2) {
-      // Trocar topo ↔ direita
-      [base[0], base[2]] = [base[2], base[0]];
-    } else {
-      // Substituir uma face visível pela sua oposta (erro detetável)
-      const opposites = {1:6, 6:1, 2:5, 5:2, 3:4, 4:3};
-      const slot = Math.floor(Math.random() * 3);
-      base[slot] = opposites[base[slot]];
+    let safe = 0;
+    for (const gen of distractors) {
+        if (opts.length >= 4 || safe++ > 40) break;
+        const cells = gen();
+        const k = key(cells);
+        if (!used.has(k)) { used.add(k); opts.push(cells); }
+    }
+    while (opts.length < 4) {
+        const rnd = [];
+        while (rnd.length < base.length) {
+            const r = Math.floor(Math.random() * gridSize);
+            const c = Math.floor(Math.random() * gridSize);
+            if (!rnd.some(([rr, cc]) => rr === r && cc === c)) rnd.push([r, c]);
+        }
+        const k = key(rnd);
+        if (!used.has(k)) { used.add(k); opts.push(rnd); }
     }
 
-    const key = base.join(',');
-    const vk = visKey(base);
+    shuf(opts);
+    S.ans = opts.indexOf(correct);
 
-    // Verificar unicidade visual E de estado completo
-    if (
-      key !== model.join(',') &&
-      key !== answer.join(',') &&
-      !usedVisible.has(vk) &&
-      !fakes.some(f => f.join(',') === key)
-    ) {
-      usedVisible.add(vk);
-      fakes.push(base);
+    function renderShape(cells, n, size, fillColor) {
+        const cs = size / n;
+        let svg = `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">`;
+        for (let r = 0; r < n; r++) for (let c = 0; c < n; c++)
+            svg += `<rect x="${c*cs}" y="${r*cs}" width="${cs}" height="${cs}" fill="var(--bg)" stroke="var(--border)" stroke-width="0.75"/>`;
+        for (const [r, c] of cells)
+            svg += `<rect x="${c*cs+1.5}" y="${r*cs+1.5}" width="${cs-3}" height="${cs-3}" rx="4" fill="${fillColor}"/>`;
+        svg += '</svg>';
+        return svg;
     }
-  }
 
-  // Fallback: garantir que temos sempre 4 opções
-  while (fakes.length < 3) {
-    const base = allRotations[Math.floor(Math.random() * allRotations.length)].slice();
-    [base[1], base[2]] = [base[2], base[1]];
-    fakes.push(base);
-  }
+    const angleLabel = angle === 90 ? '90° (um quarto de volta)' : angle === 180 ? '180° (meia volta)' : '270° (três quartos de volta)';
 
-  const opts = [answer, ...fakes];
-  shuf(opts);
+    a.innerHTML = `
+        <div class="text-center mb-3">
+            <small class="text-muted">Qual das figuras corresponde à rotação de <strong style="color:var(--primary)">${angleLabel}</strong>?</small>
+        </div>
+        <div class="rot-layout">
+            <div class="rot-model">
+                <div class="rot-model-label">Figura Original</div>
+                ${renderShape(base, gridSize, gridSize === 3 ? 120 : 140, 'var(--primary)')}
+            </div>
+            <div class="rot-opts">
+                ${opts.map((cells, i) => `
+                    <div class="fbox ans" onclick="pickOpt(this,${i})" style="width:auto;height:auto;padding:.6rem;border-radius:14px">
+                        ${renderShape(cells, gridSize, gridSize === 3 ? 84 : 96, '#818cf8')}
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+}
 
-  // ✅ Índice da resposta por referência direta (fiável)
-  S.ans = opts.indexOf(answer);
+/* ============ ROTAÇÃO 3D (FRENTE/LATERAL → PLANTA DO TELHADO) ============ */
+/* ============ PLANTAS DE TELHADO (FRENTE/LATERAL → PLANTA) ============ */
+function gTel(a) {
+    if (!a) a = document.getElementById('gArea');
+    const d = S.diff;
 
-  // ---- Renderização SVG (idêntica à original) ----
-  function renderDice(state, size) {
-    const cx = size / 2, cy = size / 2, s = size * 0.4;
+    // ---- Catálogo de plantas (vista de cima) ----
+    const TOPS = {
+        ridgeH: { rect: [110, 70], style: 'ridgeH' },
+        ridgeV: { rect: [70, 110], style: 'ridgeV' },
+        hipH:   { rect: [110, 70], style: 'hipH' },
+        hipV:   { rect: [70, 110], style: 'hipV' },
+        pyr:    { rect: [90, 90],  style: 'pyr' },
+        ridgeH2:{ rect: [90, 60],  style: 'ridgeH' },
+        ridgeV2:{ rect: [60, 90],  style: 'ridgeV' },
+        ridgeH3:{ rect: [110, 70], style: 'ridgeH3' },
+        ridgeV3:{ rect: [70, 110], style: 'ridgeV3' },
+        // Planta em L: duas cumeeiras + vale + espigão de junção
+        L: { outline: [[20,15],[120,15],[120,55],[110,55],[110,95],[70,95],[70,55],[20,55]],
+             lines: [[20,35,90,35],[90,35,90,95],[70,55,90,35],[110,55,90,35]], door: [82,98,95] },
+        // Planta em T: cumeeira principal + ala central com dois vales
+        T: { outline: [[20,15],[120,15],[120,55],[100,55],[100,95],[60,95],[60,55],[20,55]],
+             lines: [[20,35,120,35],[80,35,80,95],[60,55,80,35],[100,55,80,35]], door: [72,88,95] },
+        // Quatro águas + ala em L: espigões + vale
+        hipL: { outline: [[20,15],[120,15],[120,55],[110,55],[110,95],[70,95],[70,55],[20,55]],
+             lines: [[40,35,100,35],[40,35,20,15],[40,35,20,55],[100,35,120,15],[100,35,120,55],
+                     [90,35,90,95],[70,55,90,35],[110,55,100,35]], door: [82,98,95] },
+    };
 
-    function renderDots(num, dotCx, dotCy, faceSize) {
-      const dotR = faceSize * 0.09;
-      const positions = {
-        1: [[0, 0]],
-        2: [[-0.35, -0.35], [0.35, 0.35]],
-        3: [[-0.35, -0.35], [0, 0], [0.35, 0.35]],
-        4: [[-0.35, -0.35], [0.35, -0.35], [-0.35, 0.35], [0.35, 0.35]],
-        5: [[-0.35, -0.35], [0.35, -0.35], [0, 0], [-0.35, 0.35], [0.35, 0.35]],
-        6: [[-0.35, -0.4], [0.35, -0.4], [-0.35, 0], [0.35, 0], [-0.35, 0.4], [0.35, 0.4]]
+    // ---- Modelos: volumes dos alçados (frente c/ sobreposição, lateral adjacente) ----
+    const MODELS = [
+        { front: [{s:'band', w:110, x:15}],            side: [{s:'gable', w:70}],              top: 'ridgeH' },
+        { front: [{s:'gable', w:70, x:35}],            side: [{s:'band', w:110}],              top: 'ridgeV' },
+        { front: [{s:'hip', w:110, x:15}],             side: [{s:'gable', w:70}],              top: 'hipH' },
+        { front: [{s:'gable', w:70, x:35}],            side: [{s:'hip', w:110}],               top: 'hipV' },
+        { front: [{s:'gable', w:90, x:25}],            side: [{s:'gable', w:90}],              top: 'pyr' },
+        { front: [{s:'band', w:100, x:20},{s:'gable', w:40, x:70}], side: [{s:'gable', w:40},{s:'band', w:40}], top: 'L' },
+        { front: [{s:'band', w:100, x:20},{s:'gable', w:40, x:60}], side: [{s:'gable', w:40},{s:'band', w:40}], top: 'T' },
+        { front: [{s:'hip', w:100, x:20},{s:'gable', w:40, x:70}],  side: [{s:'gable', w:40},{s:'band', w:40}], top: 'hipL' },
+        { front: [{s:'band', w:90, x:25}],  side: [{s:'gable', w:60}], top: 'ridgeH2' },  // ← NOVO (índice 8)
+        { front: [{s:'gable', w:60, x:40}], side: [{s:'band', w:90}],  top: 'ridgeV2' },  // ← NOVO (índice 9)
+      ];
+      const byDiff = { 1: [0, 1, 8, 9], 2: [0, 1, 2, 3, 5, 8, 9], 3: [2, 3, 5, 6, 7] };
+      const poolByDiff = {
+          1: ['ridgeH', 'ridgeV', 'pyr', 'ridgeH3', 'ridgeV3', 'ridgeH2', 'ridgeV2'],
+          2: ['ridgeH', 'ridgeV', 'hipH', 'hipV', 'pyr', 'L', 'ridgeH2', 'ridgeV2'],
+          3: ['ridgeH', 'ridgeV', 'hipH', 'hipV', 'pyr', 'L', 'T', 'hipL', 'ridgeH3'],
       };
-      return (positions[num] || []).map(([dx, dy]) =>
-        `<circle cx="${dotCx + dx * faceSize * 0.55}" cy="${dotCy + dy * faceSize * 0.55}" r="${dotR}" fill="#1a1a1a"/>`
-      ).join('');
+
+    // ---- Alçado composto por volumes ----
+    function elevSVG(vols) {
+        const wh = 40, r = 22, yW = 55, yR = yW - r;
+        // Layout automático (volumes adjacentes) quando não há x definido
+        if (vols.some(v => v.x === undefined)) {
+            const tot = vols.reduce((s2, v) => s2 + v.w, 0);
+            let x = (140 - tot) / 2;
+            vols.forEach(v => { v = Object.assign(v, { x: x }); x += v.w; });
+        }
+        let s = `<svg width="120" height="95" viewBox="0 0 140 110">`;
+        vols.forEach(v => {
+            const ox = v.x, w = v.w;
+            s += `<rect x="${ox}" y="${yW}" width="${w}" height="${wh}" fill="var(--bg-card)" stroke="var(--text)" stroke-width="2"/>`;
+            if (v.s === 'gable') s += `<polygon points="${ox-3},${yW} ${ox+w/2},${yR} ${ox+w+3},${yW}" fill="#f87171" stroke="var(--text)" stroke-width="2" stroke-linejoin="round"/>`;
+            else if (v.s === 'band') s += `<polygon points="${ox-3},${yW} ${ox-3},${yR} ${ox+w+3},${yR} ${ox+w+3},${yW}" fill="#f87171" stroke="var(--text)" stroke-width="2" stroke-linejoin="round"/>`;
+            else s += `<polygon points="${ox-3},${yW} ${ox+w*0.28},${yR} ${ox+w*0.72},${yR} ${ox+w+3},${yW}" fill="#f87171" stroke="var(--text)" stroke-width="2" stroke-linejoin="round"/>`;
+        });
+        const v0 = vols[0], vl = vols[vols.length - 1];
+        if (v0.w >= 90) s += `<rect x="${v0.x+8}" y="63" width="14" height="12" rx="2" fill="#38bdf8" opacity=".85"/><rect x="${v0.x+v0.w-22}" y="63" width="14" height="12" rx="2" fill="#38bdf8" opacity=".85"/>`;
+        s += `<rect x="${vl.x+vl.w/2-8}" y="69" width="16" height="26" rx="2" fill="#8b5cf6" opacity=".85"/>`;
+        s += `<line x1="6" y1="95" x2="134" y2="95" stroke="var(--text)" stroke-width="2"/></svg>`;
+        return s;
     }
 
-    const topY = cy - s;
-    const leftX = cx - s * 0.87;
-    const rightX = cx + s * 0.87;
-    const topPoints = `${cx},${topY} ${rightX},${cy - s*0.5} ${cx},${cy} ${leftX},${cy - s*0.5}`;
-    const leftPoints = `${leftX},${cy - s*0.5} ${cx},${cy} ${cx},${cy + s} ${leftX},${cy + s*0.5}`;
-    const rightPoints = `${rightX},${cy - s*0.5} ${cx},${cy} ${cx},${cy + s} ${rightX},${cy + s*0.5}`;
-    const topCenter = { x: cx, y: cy - s * 0.5 };
-    const leftCenter = { x: cx - s * 0.43, y: cy + s * 0.25 };
-    const rightCenter = { x: cx + s * 0.43, y: cy + s * 0.25 };
+    // ---- Linhas internas das plantas retangulares ----
+    function topInner(st, ox, oy, tw, dp) {
+        const cx = ox + tw / 2, cy = oy + dp / 2;
+        const L = (x1, y1, x2, y2) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round"/>`;
+        if (st === 'ridgeH') return L(ox, cy, ox + tw, cy);
+        if (st === 'ridgeV') return L(cx, oy, cx, oy + dp);
+        if (st === 'ridgeH3') return L(ox, oy + dp / 3, ox + tw, oy + dp / 3);
+        if (st === 'ridgeV3') return L(ox + tw / 3, oy, ox + tw / 3, oy + dp);
+        if (st === 'hipH') {
+            const ins = Math.min(dp / 2, tw / 2 - 4), x1 = ox + ins, x2 = ox + tw - ins;
+            return L(x1, cy, x2, cy) + L(x1, cy, ox, oy) + L(x1, cy, ox, oy + dp) + L(x2, cy, ox + tw, oy) + L(x2, cy, ox + tw, oy + dp);
+        }
+        if (st === 'hipV') {
+            const ins = Math.min(tw / 2, dp / 2 - 4), y1 = oy + ins, y2 = oy + dp - ins;
+            return L(cx, y1, cx, y2) + L(cx, y1, ox, oy) + L(cx, y1, ox + tw, oy) + L(cx, y2, ox, oy + dp) + L(cx, y2, ox + tw, oy + dp);
+        }
+        if (st === 'pyr') return L(ox, oy, ox + tw, oy + dp) + L(ox + tw, oy, ox, oy + dp);
+        return '';
+    }
 
-    return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
-      <polygon points="${topPoints}" fill="#ffffff" stroke="#333" stroke-width="1.5" stroke-linejoin="round"/>
-      ${renderDots(state[0], topCenter.x, topCenter.y, s)}
-      <polygon points="${leftPoints}" fill="#e8e8e8" stroke="#333" stroke-width="1.5" stroke-linejoin="round"/>
-      ${renderDots(state[1], leftCenter.x, leftCenter.y, s)}
-      <polygon points="${rightPoints}" fill="#d0d0d0" stroke="#333" stroke-width="1.5" stroke-linejoin="round"/>
-      ${renderDots(state[2], rightCenter.x, rightCenter.y, s)}
-      <polygon points="${cx},${topY} ${rightX},${cy - s*0.5} ${rightX},${cy + s*0.5} ${cx},${cy + s} ${leftX},${cy + s*0.5} ${leftX},${cy - s*0.5}"
-        fill="none" stroke="#333" stroke-width="2" stroke-linejoin="round"/>
-    </svg>`;
-  }
+    // ---- Planta (vista de cima) ----
+    function topSVG(key) {
+        const t = TOPS[key];
+        let s = `<svg width="110" height="88" viewBox="0 0 140 110">`;
+        if (t.outline) {
+            s += `<polygon points="${t.outline.map(p => p.join(',')).join(' ')}" fill="rgba(248,113,113,.18)" stroke="var(--text)" stroke-width="2" stroke-linejoin="round"/>`;
+            t.lines.forEach(l => s += `<line x1="${l[0]}" y1="${l[1]}" x2="${l[2]}" y2="${l[3]}" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round"/>`);
+            s += `<line x1="${t.door[0]}" y1="${t.door[2]}" x2="${t.door[1]}" y2="${t.door[2]}" stroke="#16a34a" stroke-width="5" stroke-linecap="round"/>`;
+        } else {
+            const tw = t.rect[0], dp = t.rect[1];
+            const ox = (140 - tw) / 2, oy = (110 - dp) / 2;
+            s += `<rect x="${ox}" y="${oy}" width="${tw}" height="${dp}" fill="rgba(248,113,113,.18)" stroke="var(--text)" stroke-width="2" rx="2"/>`;
+            s += topInner(t.style, ox, oy, tw, dp);
+            s += `<line x1="62" y1="${oy+dp}" x2="78" y2="${oy+dp}" stroke="#16a34a" stroke-width="5" stroke-linecap="round"/>`;
+        }
+        s += '</svg>';
+        return s;
+    }
 
-  a.innerHTML = `
-    <div class="text-center mb-3">
-      <small class="text-muted">Qual destes dados é o MESMO dado do modelo, visto de outro ângulo?</small>
-      <div style="margin:1.5rem auto;display:inline-block;padding:1.5rem;background:var(--bg);border-radius:16px;border:2px solid var(--border)">
-        <div style="font-size:.75rem;color:var(--text-muted);margin-bottom:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em">Modelo</div>
-        ${renderDice(model, 120)}
-      </div>
-    </div>
-    <div class="d-flex justify-content-center flex-wrap gap-3">
-      ${opts.map((state, i) =>
-        `<div class="lbox ans" onclick="pickOpt(this,${i})" style="padding:.75rem;width:90px;height:90px">
-          ${renderDice(state, 70)}
-        </div>`
-      ).join('')}
-    </div>`;
+    // ---- Gerar pergunta (✅ BARALHO ANTI-REPETIÇÃO) ----
+    const ids = byDiff[d];
+    if (!Array.isArray(S.telDeck) || S.telDeck.length === 0 || S.telDeckKey !== S.game + '-' + S.diff) {
+        const deck = [];
+        const rounds = Math.ceil((S.totalQ + 2) / ids.length);   // garante ≥ 12 entradas
+        for (let r = 0; r < rounds; r++) deck.push(...shuf([...ids]));
+        S.telDeck = deck;
+        S.telDeckKey = S.game + '-' + S.diff;
+    }
+    const m = MODELS[S.telDeck.shift()];   // ✅ cada casa só repete depois de todas as outras
+    const opts = [m.top, ...shuf(poolByDiff[d].filter(k => k !== m.top)).slice(0, 3)];
+    shuf(opts);
+    S.ans = opts.indexOf(m.top);
+
+    console.log(`🏠 Rotação 3D - Resposta: ${m.top} → índice ${S.ans}, opções: ${opts.join(', ')}`);
+
+    const lbl = 'font-size:.7rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.35rem';
+    a.innerHTML = `
+        <div class="text-center mb-3"><small class="text-muted">Qual é a <strong style="color:var(--primary)">vista de cima</strong> (planta do telhado) correta desta casa?</small></div>
+        <div class="d-flex justify-content-center align-items-end gap-3 mb-3 flex-wrap">
+            <div class="text-center" style="padding:.75rem;background:var(--bg);border:2px solid var(--border);border-radius:16px">
+                <div style="${lbl}">Vista de Frente</div>${elevSVG(m.front.map(v => ({...v})))}
+            </div>
+            <div class="text-center" style="padding:.75rem;background:var(--bg);border:2px solid var(--border);border-radius:16px">
+                <div style="${lbl}">Vista Lateral</div>${elevSVG(m.side.map(v => ({...v})))}
+            </div>
+        </div>
+        <div class="text-center mb-2"><small class="text-muted" style="font-size:.72rem">🟩 entrada = lado da vista de frente · <span style="color:#dc2626;font-weight:700">vermelho</span> = linhas do telhado projetadas</small></div>
+        <div class="d-flex justify-content-center flex-wrap gap-3">
+            ${opts.map((k, i) => `
+                <div class="fbox ans" onclick="pickOpt(this,${i})" style="width:auto;height:auto;padding:.5rem;border-radius:14px">
+                    ${topSVG(k)}
+                </div>`).join('')}
+        </div>`;
 }
 
 /* ============ DOMINÓS ============ */
@@ -1160,37 +1367,50 @@ function pickOpt(el, i) {
   el.classList.add('sel');
   S.sel = i;
 }
+
 /* ============ SUBMETER ============ */
 function submitAns() {
-  if (S.game !== 'rea' && S.game !== 'mem' && S.sel === null) { toast('⚠️ Seleciona uma resposta', 'aw'); return; }
-  clearInterval(S.timer);
-  clearTimeout(S.reactTO);
-  let ok = false;
-  if (S.game === 'rea') {
-    if (S.reactionTime !== null) {
-      const th = [600, 400, 250][S.diff - 1];
-      ok = S.reactionTime < th;
-      if (ok) { const b = Math.max(5, Math.floor((th - S.reactionTime) / 10)); S.score += b * S.diff; }
+    if (S.ended) return;  // ✅ BUG FIX: se o jogo já terminou, ignora submissões
+    if (S.game !== 'rea' && S.game !== 'mem' && S.sel === null) {
+        toast('⚠️ Seleciona uma resposta', 'aw');
+        return;
     }
-  } else {
-    ok = (S.sel === S.ans);
-    if (ok) S.score += 10 * S.diff;
-  }
-  if (ok) {
-    S.correct++; D.cs++;
-    if (D.cs > D.bs) D.bs = D.cs;
-    toast('✓ Correto! +' + (10 * S.diff) + ' pts', 'ok');
-  } else {
-    D.cs = 0;
-    toast('✗ Resposta errada', 'aw');
-  }
-  const gs = document.getElementById('gScore');
-  if (gs) gs.textContent = S.score;
-  setTimeout(() => {
-    if (S.time > 0) { startTm(); nextQ(); }
-    else endG();
-  }, 900);
+    clearInterval(S.timer);
+    clearTimeout(S.reactTO);
+
+    // ✅ 1) Agendar o avanço ANTES de qualquer feedback — não pode ficar preso
+    setTimeout(() => {
+        if (S.time > 0 && S.q < S.totalQ) { startTm(); nextQ(); }  // ✅ BUG FIX: verificar se há mais perguntas
+        else endG();
+    }, 900);
+
+    // 2) Pontuação e feedback (executa de forma síncrona, antes do avanço)
+    let ok = false;
+    if (S.game === 'rea') {
+        if (S.reactionTime !== null) {
+            const th = [600, 400, 250][S.diff - 1];
+            ok = S.reactionTime < th;
+            if (ok) { const b = Math.max(5, Math.floor((th - S.reactionTime) / 10)); S.score += b * S.diff; }
+        }
+    } else {
+        ok = (S.sel === S.ans);
+        console.log(`📋 Submissão: S.sel=${S.sel}, S.ans=${S.ans}, resultado=${ok}`);
+        if (ok) S.score += 10 * S.diff;
+    }
+    if (ok) {
+        S.correct++;
+        D.cs++;
+        if (D.cs > D.bs) D.bs = D.cs;
+        toast('✓ Correto! +' + (10 * S.diff) + ' pts', 'ok');
+    } else {
+        D.cs = 0;
+        toast('✗ Resposta errada', 'aw');
+    }
+    const gs = document.getElementById('gScore');
+    if (gs) gs.textContent = S.score;
 }
+
+
 function skipQ() {
   D.cs = 0;
   clearInterval(S.timer);
@@ -1198,10 +1418,20 @@ function skipQ() {
   startTm();
   nextQ();
 }
+
+/* ============ FUNÇÕES AUXILIARES ============ */
+function setTxt(id, v) {
+    const e = document.getElementById(id);
+    if (e) e.textContent = v;   // ✅ nunca lança erro
+}
+
 /* ============ TERMINAR JOGO ============ */
 function endG() {
   clearInterval(S.timer);
   clearTimeout(S.reactTO);
+  clearMemTimeouts();
+  if (S.ended) return;   // ← NOVO: já terminou → não repete
+  S.ended = true;        // ← NOVO: marca como terminado
   const el = Math.floor((Date.now() - S.start) / 1000);
   D.ts += S.score;
   D.tg++;
@@ -1209,6 +1439,9 @@ function endG() {
   if (S.diff === 3) D.hg++;
   if (S.correct === S.totalQ) D.pg++;
   if (S.game === 'rea' && S.reactionTime && S.reactionTime < D.br) D.br = S.reactionTime;
+
+  if (S.sim) { setTimeout(() => renderSimTransition(), 400); return; };  // ✅ BUG FIX: verificar S.sim em vez de S.simI
+
   D.h.push({ g: S.game, s: S.score, c: S.correct, t: S.totalQ, d: S.diff, tm: el, dt: Date.now() });
   if (D.h.length > 100) D.h = D.h.slice(-100);
   checkAch();
@@ -1217,24 +1450,31 @@ function endG() {
   let em = '🎉', ti = 'Excelente!', su = 'Resultado fantástico';
   if (p < .5) { em = '💪'; ti = 'Continua!'; su = 'A prática leva à perfeição'; }
   else if (p < .8) { em = '👍'; ti = 'Bom trabalho!'; su = 'Estás no bom caminho'; }
-  document.getElementById('rEmo').textContent = em;
-  document.getElementById('rTit').textContent = ti;
-  document.getElementById('rSub').textContent = su;
-  document.getElementById('rSc').textContent = S.score;
-  document.getElementById('rCo').textContent = S.correct + '/' + S.totalQ;
-  document.getElementById('rTi').textContent = el + 's';
+  else { em = '🏆'; ti = 'Perfeito!'; su = 'Desempenho impecável'; }
+  setTxt('rEmo', em);
+  setTxt('rTit', ti);
+  setTxt('rSub', su);
+  setTxt('rSc', S.score);
+  setTxt('rCo', S.correct + '/' + S.totalQ);
+  setTxt('rTi', el + 's');
   delete document.body.dataset.game;
   go('res');
 }
-function replay() { startG(S.game); }
-function exitGame() {
-  clearInterval(S.timer);
-  clearTimeout(S.reactTO);
-  clearInterval(S.simTimer);
-  S.sim = false;
-  delete document.body.dataset.game;
-  go('home');
+
+function replay() {
+  startG(S.game);
 }
+
+function exitGame() {
+    clearInterval(S.timer);
+    S.timer = null;
+    clearTimeout(S.reactTO);
+    S.ended = true;   // ← NOVO: cancela submits/atrasos pendentes
+    S.sim = false;
+    delete document.body.dataset.game;
+    go('home');
+}
+
 /* ============ SIMULAÇÃO ============ */
 function startSim() {
   S.sim = true; S.simI = 0; S.simStart = Date.now(); S.simTotalScore = 0; S.simGameScores = [];
@@ -1247,55 +1487,77 @@ function startSim() {
     if (t) t.textContent = fmtTime(e);
   }, 1000);
 }
+
 function renderSimHeader() {
-  const g = SIM_GAMES[S.simI];
-  const segs = SIM_GAMES.map((game, i) => {
-    let cls = 'sim-seg';
-    let check = '';
-    if (i < S.simI) { cls += ' done'; check = '<div class="sim-seg-check"><i class="bi bi-check"></i></div>'; }
-    else if (i === S.simI) { cls += ' current'; }
-    return '<div class="' + cls + '">' + game.i + check + '</div>';
-  }).join('');
-  return '<div class="sim-header"><div class="sim-header-top">' +
-    '<div class="sim-header-info"><div class="sim-header-label">Simulação de Exame</div>' +
-    '<h3 class="sim-header-title">' + g.n + '</h3>' +
-    '<p class="sim-header-sub">Jogo ' + (S.simI + 1) + ' de ' + SIM_GAMES.length + '</p></div>' +
-    '<div class="sim-timer-box"><div class="sim-timer-v" id="simGlobalTimer">00:00</div>' +
-    '<div class="sim-timer-l">Tempo total</div></div></div>' +
-    '<div class="sim-progress-seg">' + segs + '</div></div>';
+    const g = SIM_GAMES[S.simI];
+    const segs = SIM_GAMES.map((game, i) => {
+        let cls = 'sim-seg';
+        let check = '';
+        if (i < S.simI) { cls += ' done'; check = '<div class="sim-seg-check"><i class="bi bi-check"></i></div>'; }
+        else if (i === S.simI) { cls += ' current'; }
+        return `<div class="${cls}">${game.i}${check}</div>`;
+    }).join('');
+    return `<div class="sim-header">
+        <div class="sim-header-top">
+            <div class="sim-header-info">
+                <div class="sim-header-label">Simulação de Exame</div>
+                <h3 class="sim-header-title">${g.n}</h3>
+                <p class="sim-header-sub">Jogo ${S.simI + 1} de ${SIM_GAMES.length}</p>
+            </div>
+            <div class="sim-timer-box">
+                <div class="sim-timer-v" id="simGlobalTimer">00:00</div>
+                <div class="sim-timer-l">Tempo total</div>
+            </div>
+        </div>
+        <div class="sim-progress-seg">${segs}</div>
+    </div>`;
 }
+
 function renderSimTransition() {
-  const g = SIM_GAMES[S.simI];
-  const content = document.getElementById('simContent');
-  content.innerHTML = renderSimHeader() +
-    '<div class="sim-transition">' +
-    '<div class="sim-transition-num">Jogo ' + (S.simI + 1) + ' de ' + SIM_GAMES.length + '</div>' +
-    '<div class="sim-transition-ico" style="background:' + g.c + '">' + g.i + '</div>' +
-    '<h3 class="sim-transition-title">' + g.n + '</h3>' +
-    '<p class="sim-transition-desc">' + g.d + '</p>' +
-    '<div class="sim-transition-meta">' +
-    '<span><i class="bi bi-list-ol"></i> 10 perguntas</span>' +
-    '<span><i class="bi bi-clock"></i> ' + g.t + 's</span>' +
-    '<span><i class="bi bi-speedometer2"></i> ' + ['', 'Fácil', 'Médio', 'Difícil'][S.diff] + '</span></div>' +
-    '<button class="sim-transition-btn" onclick="startSimNow(\'' + g.id + '\')">' +
-    '<i class="bi bi-play-fill"></i> Começar este jogo</button></div>';
+    const g = SIM_GAMES[S.simI];
+    const content = document.getElementById('simContent');
+    content.innerHTML = `${renderSimHeader()}
+    <div class="sim-transition">
+        <div class="sim-transition-num">Jogo ${S.simI + 1} de ${SIM_GAMES.length}</div>
+        <div class="sim-transition-ico" style="background:${g.c}">${g.i}</div>
+        <h3 class="sim-transition-title">${g.n}</h3>
+        <p class="sim-transition-desc">${g.d}</p>
+        <div class="sim-transition-meta">
+            <span><i class="bi bi-list-ol"></i> ${S.totalQ} perguntas</span>
+            <span><i class="bi bi-clock"></i> ${g.t}s</span>
+            <span><i class="bi bi-speedometer2"></i> ${['', 'Fácil', 'Médio', 'Difícil'][S.diff]}</span>
+        </div>
+        <button class="sim-transition-btn" onclick="startSimNow('${g.id}')">
+            <i class="bi bi-play-fill"></i> Começar este jogo
+        </button>
+    </div>`;
 }
+
 function startSimTm() {
-  clearInterval(S.timer);
-  updSimTm();
-  S.timer = setInterval(() => {
-    S.time--;
+    clearInterval(S.timer);
+    S.timer = null;
+    if (S.time <= 0) { endSimG(); return; }   // ✅
     updSimTm();
-    if (S.time <= 0) { clearInterval(S.timer); endSimG(); }
-  }, 1000);
+    S.timer = setInterval(() => {
+        S.time--;
+        updSimTm();
+        if (S.time <= 0) {
+            clearInterval(S.timer);
+            S.timer = null;
+            endSimG();   // ✅
+        }
+    }, 1000);
 }
+
 function updSimTm() {
   const e = document.getElementById('simGTimer');
   if (!e) return;
   e.textContent = S.time;
   e.classList.toggle('warn', S.time <= 10);
 }
+
 function nextSimQ() {
+  if (S.ended) return;  // ✅ BUG FIX: se o jogo já terminou, não continua
   if (S.q >= S.totalQ || S.time <= 0) { endSimG(); return; }
   S.q++; S.sel = null; S.ans = null;
   const qn = document.getElementById('simQN');
@@ -1304,10 +1566,17 @@ function nextSimQ() {
   if (qp) qp.style.width = ((S.q - 1) / S.totalQ * 100) + '%';
   const a = document.getElementById('simGArea');
   a.classList.remove('fade-in'); void a.offsetWidth; a.classList.add('fade-in');
-  const generators = { fig: gFig, num: gNum, mem: gMem, rea: gRea, mat: gMat, log: gLog, ana: gAna, rot: gRot, dom: gDom };
-  if (generators[S.game]) generators[S.game](a);
+
+  const gen = {
+      fig: gFig, num: gNum, mem: gMem, rea: gRea, mat: gMat,
+      log: gLog, ana: gAna, rot: gRot, dom: gDom, tel: gTel   // ← NOVO
+  }[S.game];
+
+  if (gen) gen(a);
 }
+
 function submitSimAns() {
+  if (S.ended) return;  // ✅ BUG FIX: se o jogo já terminou, ignora submissões
   if (S.game !== 'rea' && S.game !== 'mem' && S.sel === null) { toast('⚠️ Seleciona uma resposta', 'aw'); return; }
   clearInterval(S.timer);
   clearTimeout(S.reactTO);
@@ -1333,10 +1602,12 @@ function submitSimAns() {
   const gs = document.getElementById('simGScore');
   if (gs) gs.textContent = S.score;
   setTimeout(() => {
-    if (S.time > 0) { startSimTm(); nextSimQ(); }
-    else endSimG();
+      if (S.ended) return;
+      if (S.time > 0 && S.q < S.totalQ) { startSimTm(); nextSimQ(); }  // ✅ BUG FIX: verificar se há mais perguntas
+      else endSimG();
   }, 900);
 }
+
 function skipSimQ() {
   D.cs = 0;
   clearInterval(S.timer);
@@ -1344,9 +1615,13 @@ function skipSimQ() {
   startSimTm();
   nextSimQ();
 }
+
 function endSimG() {
   clearInterval(S.timer);
   clearTimeout(S.reactTO);
+  clearMemTimeouts();
+  if (S.ended) return;   // já terminou → não repete
+  S.ended = true;        // marca como terminado
   const el = Math.floor((Date.now() - S.start) / 1000);
   if (!D.gp.includes(S.game)) { D.gp.push(S.game); D.ug = D.gp.length; }
   if (S.diff === 3) D.hg++;
@@ -1364,29 +1639,49 @@ function endSimG() {
     renderSimComplete();
   }
 }
+
 function startSimNow(id) {
   const g = GAMES.find(x => x.id === id);
   if (!g) return;
   S.game = id;
-  S.q = 0; S.score = 0; S.correct = 0;
-  S.time = g.t; S.start = Date.now();
-  S.sel = null; S.ans = null;
+  S.q = 0;
+  S.score = 0;
+  S.correct = 0;
+  S.time = g.t;
+  S.start = Date.now();
+  S.sel = null;
+  S.ans = null;
+  S.ended = false; // marca como não terminado
   const content = document.getElementById('simContent');
-  content.innerHTML = renderSimHeader() +
-    '<div class="sim-game-area"><div class="sim-game-header">' +
-    '<div class="sim-game-info"><div class="sim-game-ico" style="background:' + g.c + '">' + g.i + '</div>' +
-    '<div><div class="sim-game-name">' + g.n + '</div>' +
-    '<div class="sim-game-q">Pergunta <span id="simQN">1</span>/<span id="simQT">10</span></div></div></div>' +
-    '<div class="sim-game-score" id="simGScore">0</div>' +
-    '<div class="sim-game-timer" id="simGTimer">' + S.time + '</div></div>' +
-    '<div class="prog mb-3"><div class="bar" id="simQP" style="width:0%"></div></div>' +
-    '<div id="simGArea" class="card-c"></div>' +
-    '<div class="d-flex gap-2 mt-3" id="simGActs" style="display:' + ((id === 'rea' || id === 'mem') ? 'none' : 'flex') + '">' +
-    '<button class="btn-p flex-grow-1" onclick="submitSimAns()">Confirmar</button>' +
-    '<button class="btn-o" onclick="skipSimQ()">Saltar</button></div></div>';
+  content.innerHTML = `${renderSimHeader()}
+<div class="sim-game-area">
+  <div class="sim-game-header">
+    <div class="sim-game-info">
+      <div class="sim-game-ico" style="background:${g.c}">${g.i}</div>
+      <div>
+        <div class="sim-game-name">${g.n}</div>
+        <div class="sim-game-q">Pergunta <span id="simQN">1</span>/<span id="simQT">${S.totalQ}</span></div>
+      </div>
+    </div>
+    <div class="sim-game-meta">
+      <div class="sim-game-score" title="Pontos">
+        <i class="bi bi-star-fill"></i>
+        <span id="simGScore">0</span>
+      </div>
+      <div class="sim-game-timer" id="simGTimer">${S.time}</div>
+    </div>
+  </div>
+  <div class="prog mb-3"><div class="bar" id="simQP" style="width:0%"></div></div>
+  <div id="simGArea" class="card-c"></div>
+  <div class="d-flex gap-2 mt-3" id="simGActs" style="display:${(id === 'rea' || id === 'mem') ? 'none' : 'flex'}">
+    <button class="btn-p flex-grow-1" onclick="submitSimAns()">Confirmar</button>
+    <button class="btn-o" onclick="skipSimQ()">Saltar</button>
+  </div>
+</div>`;
   startSimTm();
   nextSimQ();
 }
+
 function renderSimComplete() {
   D.sm++;
   D.simHistory.push({ score: S.simTotalScore, difficulty: S.diff, date: Date.now(), games: S.simGameScores.slice() });
@@ -1434,6 +1729,175 @@ function renderSimComplete() {
     '<button class="btn-p flex-grow-1" onclick="openSimModal()"><i class="bi bi-arrow-repeat"></i> Repetir</button></div></div>';
   toast('🏆 Simulação concluída! ' + S.simTotalScore + ' pts', 'aw');
 }
+
+/* ============ RELATÓRIO COGNITIVO ============ */
+const TRAITS = [
+    { id: 'logica',     n: 'Raciocínio Lógico',   e: '🧩', games: ['log', 'dom'],  tip: 'Padrões Lógicos e Dominós' },
+    { id: 'numerica',   n: 'Aptidão Numérica',    e: '🔢', games: ['num', 'mat'],  tip: 'Sequências Numéricas e Cálculo Mental' },
+    { id: 'verbal',     n: 'Raciocínio Verbal',   e: '💬', games: ['ana'],         tip: 'Analogias Verbais' },
+    { id: 'espacial',   n: 'Raciocínio Espacial 2D', e: '🔄', games: ['rot', 'fig'],  tip: 'Rotação e Sequências de Figuras' },
+    { id: 'telhado',    n: 'Raciocínio Espacial 3D',   e: '🏠', games: ['tel'],         tip: 'Rotação 3D Plantas e Telhados' },
+    { id: 'memoria',    n: 'Memória e Atenção',   e: '🎨', games: ['mem'],         tip: 'Memória de Cores' },
+    { id: 'velocidade', n: 'Velocidade Mental',   e: '⚡', games: ['rea'],         tip: 'Tempo de Reação' },
+    { id: 'analitica', n: 'Raciocínio Analítico', e: '🔍', games: ['ana', 'dom'], tip: 'Analogia e Dominós' }
+];
+
+const SKILL_GAMES = ['fig', 'num', 'mem', 'rea', 'mat', 'log', 'ana', 'rot', 'dom', 'tel'];
+
+function calcTraits() {
+    // Precisão média por jogo, ajustada à dificuldade
+    const perf = {};
+    SKILL_GAMES.forEach(id => perf[id] = []);
+    D.h.forEach(h => {
+        if (!perf[h.g]) return;
+        const acc = h.t > 0 ? h.c / h.t : 0;
+        perf[h.g].push(Math.min(1, acc * (0.85 + 0.15 * h.d))); // d1: x1.0 | d2: x1.15 | d3: x1.3
+    });
+    // 🔍 DEBUG: mostrar dados detalhados de 'tel'
+    if (perf['tel'] && perf['tel'].length > 0) {
+        const telRecords = D.h.filter(h => h.g === 'tel');
+        console.log('📊 Histórico de Rotação 3D (tel):');
+        telRecords.forEach((h, i) => {
+            const acc = h.t > 0 ? h.c / h.t : 0;
+            const adjusted = Math.min(1, acc * (0.85 + 0.15 * h.d));
+            console.log(`  ${i+1}. ${h.c}/${h.t} (${(acc*100).toFixed(0)}%) • Dif=${h.d} • Ajustado=${(adjusted*100).toFixed(0)}%`);
+        });
+        const media = perf['tel'].reduce((a,b)=>a+b,0) / perf['tel'].length;
+        console.log(`✅ Média final: ${(media*100).toFixed(1)}%`);
+    }
+    return TRAITS.map(tr => {
+        let vals = [];
+        tr.games.forEach(g => vals = vals.concat(perf[g]));
+        const avg = vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
+        return { ...tr, score: Math.round(avg * 100) };
+    });
+}
+
+function descTrait(id) {
+    const m = {
+        logica: 'identificar padrões e relações lógicas',
+        numerica: 'manipular números e resolver operações rapidamente',
+        verbal: 'compreender relações entre conceitos e vocabulário',
+        espacial: 'visualizar e manipular objetos mentalmente',
+        memoria: 'reter e reproduzir informação com precisão',
+        velocidade: 'processar informação e reagir com rapidez'
+    };
+    return m[id] || '';
+}
+
+function renderCogReport() {
+    const box = document.getElementById('cogReport');
+    const chartBox = document.getElementById('cogChartBox');
+    const locked = document.getElementById('cogLocked');
+    const levelEl = document.getElementById('cogLevel');
+    if (!box) return;
+
+    // 🔒 Só apresenta após 1 jogo de cada tipo
+    const allPlayed = SKILL_GAMES.every(id => D.gp.includes(id));
+    if (!allPlayed) {
+        const playedCount = SKILL_GAMES.filter(id => D.gp.includes(id)).length;
+        const missing = SKILL_GAMES.filter(id => !D.gp.includes(id)).map(id => GAMES.find(g => g.id === id));
+        box.style.display = 'none';
+        chartBox.style.display = 'none';
+        locked.style.display = 'block';
+        if (levelEl) levelEl.textContent = `${playedCount}/${SKILL_GAMES.length} jogos`;
+        locked.innerHTML = `
+            <div style="text-align:center;padding:1.25rem .75rem">
+                <div style="font-size:2.5rem;margin-bottom:.75rem">🔒</div>
+                <div style="font-weight:700;margin-bottom:.35rem">Relatório bloqueado</div>
+                <div style="font-size:.85rem;color:var(--text-muted);margin-bottom:1rem;line-height:1.6">
+                    Jogaste <strong>${playedCount} de ${SKILL_GAMES.length}</strong> tipos de jogo.<br>
+                    Falta experimentar: ${missing.map(g => `<span style="white-space:nowrap">${g.i} ${g.n}</span>`).join(' • ')}
+                </div>
+                <div class="prog"><div class="bar" style="width:${playedCount / SKILL_GAMES.length * 100}%"></div></div>
+            </div>`;
+        if (CH.cog) { CH.cog.destroy(); CH.cog = null; }
+        return;
+    }
+
+    locked.style.display = 'none';
+    box.style.display = 'block';
+
+    const traits = calcTraits();
+    const overall = Math.round(traits.reduce((a, t) => a + t.score, 0) / traits.length);
+    const sorted = [...traits].sort((a, b) => b.score - a.score);
+    const best = sorted[0], second = sorted[1];
+    const worst = sorted[sorted.length - 1], worst2 = sorted[sorted.length - 2];
+
+    const level = overall >= 80 ? { t: 'Excelente', e: '🏆' }
+        : overall >= 60 ? { t: 'Bom', e: '⭐' }
+        : overall >= 40 ? { t: 'Em Desenvolvimento', e: '📚' }
+        : { t: 'Inicial', e: '🌱' };
+    if (levelEl) levelEl.textContent = `${level.e} Nível ${level.t} • ${overall}/100`;
+
+    // 📝 Parágrafo descritivo
+    box.innerHTML = `
+        <p style="font-size:.92rem;line-height:1.75;margin:0 0 1rem 0">
+            O teu perfil cognitivo apresenta um nível global <strong>${level.t.toLowerCase()}</strong>
+            (<strong>${overall}/100</strong>). As tuas principais forças são
+            <strong>${best.e} ${best.n}</strong> (${best.score}%)${second.score >= 60 ? ` e <strong>${second.e} ${second.n}</strong> (${second.score}%)` : ''},
+            indicando boa capacidade de ${descTrait(best.id)}.
+            A área com maior margem de progressão é <strong>${worst.e} ${worst.n}</strong> (${worst.score}%)${worst2.score < 50 ? `, seguida de <strong>${worst2.e} ${worst2.n}</strong> (${worst2.score}%)` : ''}.
+            Para equilibrar o perfil, recomenda-se treinar mais <strong>${worst.tip}</strong>.
+        </p>
+        <div style="display:flex;flex-wrap:wrap;gap:.5rem">
+            ${traits.map(t => `
+                <div class="cog-chip">
+                    <span>${t.e}</span>
+                    <span style="font-weight:600">${t.n}</span>
+                    <span style="font-weight:800;color:${t.score >= 70 ? 'var(--success)' : t.score >= 40 ? 'var(--warning)' : 'var(--danger)'}">${t.score}%</span>
+                </div>`).join('')}
+        </div>`;
+
+    // ⭐ Gráfico radar (estrela)
+    chartBox.style.display = 'block';
+    if (CH.cog) CH.cog.destroy();
+    const dk = D.th === 'dark';
+    const tx = dk ? '#f1f5f9' : '#1a1f36';
+    const gd = dk ? '#334155' : '#e5e7eb';
+    CH.cog = new Chart(document.getElementById('c4').getContext('2d'), {
+        type: 'radar',
+        data: {
+            labels: traits.map(t => t.n),
+            datasets: [{
+                label: 'Perfil Cognitivo',
+                data: traits.map(t => t.score),
+                borderColor: '#6366f1',
+                backgroundColor: 'rgba(99,102,241,.25)',
+                pointBackgroundColor: '#6366f1',
+                pointBorderColor: dk ? '#151a2e' : '#ffffff',
+                pointRadius: 4,
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                r: {
+                    min: 0, max: 100,
+                    ticks: { color: tx, backdropColor: 'transparent', stepSize: 25, font: { size: 11, weight: '600' } },
+                    grid: { color: gd, lineWidth: 1 },
+                    angleLines: { color: gd, lineWidth: 1 },
+                    pointLabels: { color: tx, font: { size: 12, weight: '700' }, padding: 8 }
+                }
+            }
+        }
+    });
+}
+
+// 📊 Redimensionar gráfico cognitivo quando a janela mudar
+let cogChartTimeout;
+window.addEventListener('resize', () => {
+    clearTimeout(cogChartTimeout);
+    cogChartTimeout = setTimeout(() => {
+        if (CH.cog && document.getElementById('cogChartBox').style.display !== 'none') {
+            CH.cog.resize();
+        }
+    }, 150);
+});
+
 /* ============ ESTATÍSTICAS ============ */
 let CH = {};
 function renderPsyStats() {
@@ -1491,6 +1955,7 @@ function renderStats() {
   renderCH();
   renderPsyStats();
   renderNotifSettings();
+  renderCogReport();
 }
 function renderCH() {
   Object.values(CH).forEach(c => { if (c) c.destroy(); });
@@ -1519,41 +1984,73 @@ function renderCH() {
   }
   const gs = {}; GAMES.forEach(g => gs[g.id] = { t: 0, c: 0 });
   D.h.forEach(x => { if (gs[x.g]) { gs[x.g].t += x.s; gs[x.g].c++; } });
+  let totalScore = 0, totalGames = 0;
+  D.h.forEach(x => { totalScore += x.s; totalGames++; });
+  const avgScoreTotal = totalGames > 0 ? Math.round(totalScore / totalGames) : 0;
   const c2 = document.getElementById('c2');
   if (c2) {
     const o2 = {
       responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
+      plugins: { legend: { labels: { color: tx } } },
       scales: { x: { ticks: { color: tx }, grid: { display: false } }, y: { ticks: { color: tx }, grid: { color: gd } } }
     };
     CH.g = new Chart(c2.getContext('2d'), {
       type: 'bar',
       data: {
-        labels: GAMES.map(g => g.i), datasets: [{
-          label: 'Média',
-          data: GAMES.map(g => gs[g.id].c ? Math.round(gs[g.id].t / gs[g.id].c) : 0),
-          backgroundColor: GAMES.map(g => g.c), borderRadius: 8
-        }]
+        labels: GAMES.map(g => g.i),
+        datasets: [
+          {
+            label: 'Pontuação Média',
+            data: GAMES.map(g => gs[g.id].c ? Math.round(gs[g.id].t / gs[g.id].c) : 0),
+            backgroundColor: GAMES.map(g => g.c), borderRadius: 8
+          },
+          {
+            label: 'Média Total',
+            data: GAMES.map(() => avgScoreTotal),
+            type: 'line',
+            borderColor: '#6366f1',
+            backgroundColor: 'transparent',
+            borderWidth: 2,
+            pointRadius: 0,
+            tension: 0.4
+          }
+        ]
       }, options: o2
     });
   }
   const ts = {}; GAMES.forEach(g => ts[g.id] = { t: 0, c: 0 });
   D.h.forEach(x => { if (ts[x.g]) { ts[x.g].t += x.tm; ts[x.g].c++; } });
+  let totalTime = 0, totalCount = 0;
+  D.h.forEach(x => { totalTime += x.tm; totalCount++; });
+  const avgTimeTotal = totalCount > 0 ? Math.round(totalTime / totalCount) : 0;
   const c3 = document.getElementById('c3');
   if (c3) {
     const o3 = {
       responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
+      plugins: { legend: { labels: { color: tx } } },
       scales: { x: { ticks: { color: tx }, grid: { display: false } }, y: { ticks: { color: tx }, grid: { color: gd } } }
     };
     CH.t = new Chart(c3.getContext('2d'), {
       type: 'bar',
       data: {
-        labels: GAMES.map(g => g.i), datasets: [{
-          label: 'Tempo (s)',
-          data: GAMES.map(g => ts[g.id].c ? Math.round(ts[g.id].t / ts[g.id].c) : 0),
-          backgroundColor: '#10b981', borderRadius: 8
-        }]
+        labels: GAMES.map(g => g.i),
+        datasets: [
+          {
+            label: 'Tempo (s)',
+            data: GAMES.map(g => ts[g.id].c ? Math.round(ts[g.id].t / ts[g.id].c) : 0),
+            backgroundColor: GAMES.map(g => g.c), borderRadius: 8
+          },
+          {
+            label: 'Tempo Médio Total',
+            data: GAMES.map(() => avgTimeTotal),
+            type: 'line',
+            borderColor: '#6366f1',
+            backgroundColor: 'transparent',
+            borderWidth: 2,
+            pointRadius: 0,
+            tension: 0.4
+          }
+        ]
       }, options: o3
     });
   }

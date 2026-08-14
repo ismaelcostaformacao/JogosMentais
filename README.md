@@ -120,6 +120,9 @@ Cada jogo tem **3 níveis de dificuldade** (Fácil, Médio, Difícil) e tempo li
 - 📊 **Relatório Final** com pontuação consolidada e classificação
 - 📜 **Histórico** das últimas simulações com data/hora
 - 🏅 **Detecção de Recorde** pessoal
+- ✅ **[NOVO]** Corrigido bug de timeout no cronómetro global
+- ✅ **[NOVO]** Melhorado sistema de pausa/retoma durante exame
+- ✅ **[NOVO]** Validação corrigida de questões incompletas
 
 ### 🧪 Perfil Psicológico
 
@@ -132,6 +135,10 @@ Cada jogo tem **3 níveis de dificuldade** (Fácil, Médio, Difícil) e tempo li
   - ⚙️ Executor Prático
 - 📊 **Distribuição percentual** dos 5 perfis
 - 💪 **Pontos fortes** e funções ideais por perfil
+- ✨ **[NOVO]** Gráfico radar (spider) para visualização de competências
+- ✨ **[NOVO]** Recomendações personalizadas por perfil
+- ✨ **[NOVO]** Compatibilidade entre perfis para trabalho em equipa
+- ✨ **[NOVO]** Histórico de perfis com evolução temporal
 
 ### 🏆 Sistema de Conquistas
 
@@ -528,32 +535,33 @@ git push origin feature/nova-funcionalidade
 
 ## 🗺️ Roadmap
 
-### ✅ Versão Atual (v4.0)
+### ✅ Versão Atual (v7.0)
 
 - ✅ 9 jogos com 3 níveis de dificuldade
-- ✅ Perfil psicológico completo
+- ✅ Perfil psicológico com visualização gráfica avançada
 - ✅ PWA completa com notificações push
 - ✅ Estatísticas e gráficos avançados
-- ✅ Simulação de exame com 6 jogos
+- ✅ Simulação de exame com 6 jogos (bugs corrigidos)
 - ✅ Modo escuro/claro
 - ✅ Design moderno estilo jogo
 - ✅ Sistema de conquistas (14 medalhas)
+- ✅ Melhorias de performance e estabilidade
 
 ### 🔜 Próximas Versões
 
-**v4.1 — Personalização Avançada**
+**v7.1 — Personalização Avançada**
 - [ ] 🎨 Temas de cor personalizáveis
 - [ ] 🔊 Efeitos sonoros (com opção mute)
 - [ ] 🔤 Tamanho de fonte ajustável
 - [ ] ♿ Configurações de acessibilidade
 
-**v5.0 — Social & Sync**
+**v8.0 — Social & Sync**
 - [ ] ☁️ Sincronização entre dispositivos (opcional)
 - [ ] 📊 Comparar com média de outros utilizadores (anónimo)
 - [ ] 🎯 Desafios semanais
 - [ ] 🏆 Leaderboard global
 
-**v6.0 — Mais Jogos**
+**v9.0 — Mais Jogos**
 - [ ] 🎲 Dominó lógico
 - [ ] 🧩 Sudoku simplificado
 - [ ] 🔍 Detetar erros em textos
