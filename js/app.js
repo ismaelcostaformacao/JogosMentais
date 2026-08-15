@@ -1774,9 +1774,11 @@ function descTrait(id) {
         logica: 'identificar padrões e relações lógicas',
         numerica: 'manipular números e resolver operações rapidamente',
         verbal: 'compreender relações entre conceitos e vocabulário',
-        espacial: 'visualizar e manipular objetos mentalmente',
+        espacial: 'visualizar e manipular objetos 2D mentalmente',
+        telhado: 'visualizar objetos em 3D e diferentes perspetivas',
         memoria: 'reter e reproduzir informação com precisão',
-        velocidade: 'processar informação e reagir com rapidez'
+        velocidade: 'processar informação e reagir com rapidez',
+        analitica: 'decompor problemas e identificar relações analíticas'
     };
     return m[id] || '';
 }
@@ -1832,8 +1834,9 @@ function renderCogReport() {
             O teu perfil cognitivo apresenta um nível global <strong>${level.t.toLowerCase()}</strong>
             (<strong>${overall}/100</strong>). As tuas principais forças são
             <strong>${best.e} ${best.n}</strong> (${best.score}%)${second.score >= 60 ? ` e <strong>${second.e} ${second.n}</strong> (${second.score}%)` : ''},
-            indicando boa capacidade de ${descTrait(best.id)}.
-            A área com maior margem de progressão é <strong>${worst.e} ${worst.n}</strong> (${worst.score}%)${worst2.score < 50 ? `, seguida de <strong>${worst2.e} ${worst2.n}</strong> (${worst2.score}%)` : ''}.
+            refletindo uma boa capacidade de ${descTrait(best.id)}.
+            A área com maior margem de progressão é <strong>${worst.e} ${worst.n}</strong> (${worst.score}%)${worst2.score < 50 ? `, seguida de <strong>${worst2.e} ${worst2.n}</strong> (${worst2.score}%)` : ''},
+            onde ainda há potencial para desenvolvimento em ${descTrait(worst.id)}.
             Para equilibrar o perfil, recomenda-se treinar mais <strong>${worst.tip}</strong>.
         </p>
         <div style="display:flex;flex-wrap:wrap;gap:.5rem">
