@@ -2027,15 +2027,15 @@ function renderPsyStats() {
       },
       options: {
         responsive: true,
-        maintainAspectRatio: true,
-        layout: { padding: 10 },
+        maintainAspectRatio: false,
+        layout: { padding: 5 },
         plugins: {
           legend: {
             position: 'right',
             labels: { 
               color: tx, 
               font: { size: 12, weight: '600' }, 
-              padding: 15,
+              padding: 12,
               usePointStyle: true,
               boxHeight: 12
             }
@@ -2056,6 +2056,17 @@ function renderPsyStats() {
         }
       }
     });
+    // Ajustar altura dinâmica do container baseado no conteúdo do gráfico
+    setTimeout(() => {
+      const canvas = document.getElementById('psyChart');
+      if (canvas && canvas.parentElement) {
+        const aspectRatio = canvas.width / canvas.height;
+        const minHeight = 250;
+        const maxHeight = 400;
+        const newHeight = Math.max(minHeight, Math.min(maxHeight, canvas.width / aspectRatio));
+        chartBox.style.height = newHeight + 'px';
+      }
+    }, 100);
   }
 }
 function renderStats() {
