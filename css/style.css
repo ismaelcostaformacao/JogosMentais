@@ -579,9 +579,14 @@ button { font-family: inherit; cursor: pointer }
   font-weight: 500;
 }
 
-.diff-btn[data-level="1"] { color: var(--success) }
-.diff-btn[data-level="2"] { color: var(--warning) }
-.diff-btn[data-level="3"] { color: var(--danger) }
+.diff-btn[data-level="1"],
+.modal-diff-btn[data-level="1"] { color: var(--success) }
+
+.diff-btn[data-level="2"],
+.modal-diff-btn[data-level="2"] { color: var(--warning) }
+
+.diff-btn[data-level="3"],
+.modal-diff-btn[data-level="3"] { color: var(--danger) }
 
 .diff-btn.active, .modal-diff-btn.active {
   color: #fff;
@@ -589,17 +594,20 @@ button { font-family: inherit; cursor: pointer }
   transform: translateY(-2px);
 }
 
-.diff-btn.active[data-level="1"] {
+.diff-btn.active[data-level="1"],
+.modal-diff-btn.active[data-level="1"] {
   background: var(--gradient-success);
   box-shadow: 0 8px 20px var(--success-glow);
 }
 
-.diff-btn.active[data-level="2"] {
+.diff-btn.active[data-level="2"],
+.modal-diff-btn.active[data-level="2"] {
   background: var(--gradient-warning);
   box-shadow: 0 8px 20px var(--warning-glow);
 }
 
-.diff-btn.active[data-level="3"] {
+.diff-btn.active[data-level="3"],
+.modal-diff-btn.active[data-level="3"] {
   background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
   box-shadow: 0 8px 20px var(--danger-glow);
 }
@@ -817,7 +825,7 @@ button { font-family: inherit; cursor: pointer }
 
 .modal-games-strip {
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: .35rem;
   margin-bottom: 1.25rem;
   padding: .75rem;
@@ -2031,6 +2039,22 @@ input[type="time"] {
   font-size: .9rem;
 }
 
+/* ============ PSY CHART ============ */
+#psyChartBox {
+  width: 100%;
+  height: auto;
+  margin: 1.5rem 0 0 0;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#psyChartBox canvas {
+  max-width: 100%;
+  max-height: 500px;
+}
+
 /* ============ GAME SPECIFIC LAYOUTS ============ */
 .rot-layout {
   display: flex;
@@ -2069,5 +2093,52 @@ input[type="time"] {
   .sim-game-timer { font-size: 1.3rem }
   .sim-game-name { font-size: .9rem }
 }
+
+/* ============ COGNITIVE REPORT ============ */
+.cog-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .4rem .65rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: .75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Cabeçalho do relatório cognitivo em uma linha */
+.card-c .d-flex[style*="justify-content-between"] {
+  flex-wrap: nowrap;
+}
+
+.card-c .d-flex[style*="justify-content-between"] > div:first-child {
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+.card-c .d-flex[style*="justify-content-between"] > small {
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-size: .75rem !important;
+}
+
+@media (max-width: 480px) {
+  .cog-chip {
+    font-size: .7rem;
+    padding: .35rem .5rem;
+    gap: .25rem;
+  }
+  
+  #cogChartBox {
+    min-height: 350px;
+  }
+  
+  #cogChartBox canvas {
+    max-height: 400px;
+  }
+}
+
 
 

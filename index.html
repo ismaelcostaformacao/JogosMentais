@@ -54,10 +54,15 @@
         </div>
       </div>
     </div>
+
     <div class="section-header">
       <h2 class="section-title">🎯 Escolhe um Jogo</h2>
     </div>
-    <div class="games-grid" id="gList"></div>
+
+    <div class="games-grid" id="gList">
+
+    </div>
+
     <div class="difficulty-selector">
       <div class="difficulty-title"><i class="bi bi-sliders"></i> Nível de Dificuldade</div>
       <div class="difficulty-grid">
@@ -66,8 +71,12 @@
         <div class="diff-btn" data-level="3" onclick="setDiff(3,this)">Difícil<small>+30 pts</small></div>
       </div>
     </div>
-    <button class="btn-p mb-4" onclick="openSimModal()"><i class="bi bi-clipboard-check"></i> 📝 Simulação de
-      Exame</button>
+
+    <button class="btn-p mb-4" onclick="openSimModal()">
+      <i class="bi bi-clipboard-check"></i>
+      📝 Simulação de Exame
+    </button>
+
     <!-- FOOTER -->
     <footer class="app-footer">
       <div class="footer-content">
@@ -208,10 +217,11 @@
     <div class="card-c">
       <div class="section-title mb-2">🧠 Perfil Psicológico</div>
       <div id="psyStatsContainer"></div>
-      <div id="psyChartBox" style="display:none;position:relative;width:90vw;max-width:1200px;height:auto;margin:1.5rem auto 0">
-        <canvas id="psyChart" style="max-height:400px"></canvas>
+      <div id="psyChartBox" style="display:none">
+        <canvas id="psyChart" style="max-height:500px"></canvas>
       </div>
     </div>
+
     <div class="card-c">
       <div class="d-flex" style="justify-content:space-between;align-items:center;gap:.75rem">
         <div>
@@ -272,9 +282,9 @@
       <div class="modal-section">
         <div class="modal-section-label">Dificuldade</div>
         <div class="modal-diff-grid">
-          <div class="modal-diff-btn" onclick="setSimDiff(1,this)">Fácil<small>+10 pts</small></div>
-          <div class="modal-diff-btn active" onclick="setSimDiff(2,this)">Médio<small>+20 pts</small></div>
-          <div class="modal-diff-btn" onclick="setSimDiff(3,this)">Difícil<small>+30 pts</small></div>
+          <div class="modal-diff-btn active" data-level="1" onclick="setSimDiff(1,this)">Fácil<small>+10 pts</small></div>
+          <div class="modal-diff-btn" data-level="2" onclick="setSimDiff(2,this)">Médio<small>+20 pts</small></div>
+          <div class="modal-diff-btn" data-level="3" onclick="setSimDiff(3,this)">Difícil<small>+30 pts</small></div>
         </div>
       </div>
       <div class="modal-stats" id="modalStats" style="display:none">

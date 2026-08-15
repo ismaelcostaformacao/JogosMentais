@@ -1729,13 +1729,13 @@ function renderSimComplete() {
 /* ============ RELATÓRIO COGNITIVO ============ */
 const TRAITS = [
     { id: 'logica',     n: 'Raciocínio Lógico',   e: '🧩', games: ['log', 'dom'],  tip: 'Padrões Lógicos e Dominós' },
-    { id: 'numerica',   n: 'Aptidão Numérica',    e: '🔢', games: ['num', 'mat'],  tip: 'Sequências Numéricas e Cálculo Mental' },
-    { id: 'verbal',     n: 'Raciocínio Verbal',   e: '💬', games: ['ana'],         tip: 'Analogias Verbais' },
-    { id: 'espacial',   n: 'Raciocínio Espacial 2D', e: '🔄', games: ['rot', 'fig'],  tip: 'Rotação e Sequências de Figuras' },
+    { id: 'numerica',   n: 'Aptidão \n Numérica',    e: '🔢', games: ['num', 'mat'],  tip: 'Sequências Numéricas e Cálculo Mental' },
+    { id: 'verbal',     n: 'Raciocínio \n Verbal',   e: '💬', games: ['ana'],         tip: 'Analogias Verbais' },
+    { id: 'espacial',   n: 'Raciocínio \n Espacial 2D', e: '🔄', games: ['rot', 'fig'],  tip: 'Rotação e Sequências de Figuras' },
     { id: 'telhado',    n: 'Raciocínio Espacial 3D',   e: '🏠', games: ['tel'],         tip: 'Rotação 3D Plantas e Telhados' },
     { id: 'memoria',    n: 'Memória e Atenção',   e: '🎨', games: ['mem'],         tip: 'Memória de Cores' },
-    { id: 'velocidade', n: 'Velocidade Mental',   e: '⚡', games: ['rea'],         tip: 'Tempo de Reação' },
-    { id: 'analitica', n: 'Raciocínio Analítico', e: '🔍', games: ['ana', 'dom'], tip: 'Analogia e Dominós' }
+    { id: 'velocidade', n: 'Velocidade \n Mental',   e: '⚡', games: ['rea'],         tip: 'Tempo de Reação' },
+    { id: 'analitica', n: 'Raciocínio \n Analítico', e: '🔍', games: ['ana', 'dom'], tip: 'Analogia e Dominós' }
 ];
 
 const SKILL_GAMES = ['fig', 'num', 'mem', 'rea', 'mat', 'log', 'ana', 'rot', 'dom', 'tel'];
@@ -1854,6 +1854,12 @@ function renderCogReport() {
     const dk = D.th === 'dark';
     const tx = dk ? '#f1f5f9' : '#1a1f36';
     const gd = dk ? '#334155' : '#e5e7eb';
+    
+    // Ajustar tamanho das labels em dispositivos móveis
+    const isMobile = window.innerWidth <= 768;
+    const labelFontSize = isMobile ? 11 : 14;
+    const labelPadding = isMobile ? 8 : 14;
+    
     CH.cog = new Chart(document.getElementById('c4').getContext('2d'), {
         type: 'radar',
         data: {
@@ -1882,8 +1888,8 @@ function renderCogReport() {
                     angleLines: { color: gd, lineWidth: 1 },
                     pointLabels: { 
                         color: tx, 
-                        font: { size: 14, weight: '700' }, 
-                        padding: 14,
+                        font: { size: labelFontSize, weight: '700' }, 
+                        padding: labelPadding,
                         display: true,
                         callback: function(label) {
                             const words = label.split(' ');
@@ -2031,7 +2037,7 @@ function renderPsyStats() {
         layout: { padding: 5 },
         plugins: {
           legend: {
-            position: 'right',
+            position: 'bottom',
             labels: { 
               color: tx, 
               font: { size: 12, weight: '600' }, 
@@ -2056,17 +2062,6 @@ function renderPsyStats() {
         }
       }
     });
-    // Ajustar altura dinâmica do container baseado no conteúdo do gráfico
-    setTimeout(() => {
-      const canvas = document.getElementById('psyChart');
-      if (canvas && canvas.parentElement) {
-        const aspectRatio = canvas.width / canvas.height;
-        const minHeight = 250;
-        const maxHeight = 400;
-        const newHeight = Math.max(minHeight, Math.min(maxHeight, canvas.width / aspectRatio));
-        chartBox.style.height = newHeight + 'px';
-      }
-    }, 100);
   }
 }
 function renderStats() {
