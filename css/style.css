@@ -1852,5 +1852,15 @@ input[type="time"] {
   .sim-game-score { padding: .35rem .6rem; font-size: 1rem }
   .sim-game-timer { font-size: 1.3rem }
   .sim-game-name { font-size: .9rem }
-  .games-grid { grid-template-columns: 1fr }
 }
+
+/* ============ RESPONSIVE GAMES GRID ============ */
+/* @media (min-width: 768px) {
+  .games-grid { grid-template-columns: repeat(3, 1fr) }
+  .game-card-featured { grid-column: 1/-1 }
+}
+
+@media (min-width: 1024px) {
+  .games-grid { grid-template-columns: repeat(4, 1fr) }
+  .game-card-featured { grid-column: 1/-1 }
+} */

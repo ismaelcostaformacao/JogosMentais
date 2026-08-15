@@ -2097,3 +2097,12 @@ checkDailyStreak();
 checkAch();
 renderNotifSettings();
 if (D.notifEnabled) scheduleDailyNotif();
+
+/* ============ SERVICE WORKER ============ */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(err => {
+      console.error('❌ Erro ao registar Service Worker:', err);
+    });
+  });
+}

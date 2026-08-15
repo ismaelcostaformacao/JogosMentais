@@ -1,12 +1,12 @@
-const CACHE_NAME = 'psicotreino-v3';
+const CACHE_NAME = 'psicotreino-v8';
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/css/style.css',
-  '/js/app.js',
-  '/manifest.json',
-  '/icons/icon-192.svg',
-  '/icons/icon-512.svg'
+  './',
+  './index.html',
+  './css/style.css',
+  './js/app.js',
+  './manifest.json',
+  './icons/icon-192.svg',
+  './icons/icon-512.svg'
 ];
 
 let notifConfig = { enabled: false, time: '09:00' };
@@ -95,7 +95,7 @@ self.addEventListener('push', event => {
   const data = event.data ? event.data.json() : {};
   const title = data.title || ' PsicoTreino PT';
   const options = {
-    body: data.body || 'É hora de treinar!',
+    body: data.body || 'É hora de treinar a Mente!',
     icon: '/icons/icon-192.svg',
     badge: '/icons/icon-192.svg',
     tag: 'psicotreino-notif',
