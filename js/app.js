@@ -1302,7 +1302,7 @@ function psyValidity(answers) {
 }
 function psyResult(a) {
   const gActs = document.getElementById('gActs');
-  if (gActs) gActs.style.display = 'none';
+  if (gActs) gActs.style.cssText = 'display: none !important;';
   clearInterval(S.timer);
   const elapsed = Math.floor((Date.now() - S.start) / 1000);
   const counts = { lider: 0, analit: 0, social: 0, criat: 0, exec: 0 };
@@ -1319,7 +1319,7 @@ function psyResult(a) {
   if (!D.gp.includes('psy')) { D.gp.push('psy'); D.ug = D.gp.length; }
   D.h.push({ g: 'psy', s: S.score, c: 1, t: 1, d: S.diff, tm: elapsed, dt: Date.now() });
   if (D.h.length > 100) D.h = D.h.slice(-100);
-  D.psyProfiles.push({ profile: dominant, date: Date.now(), validity: v.nivel, lieScore: v.lieScore });
+  D.psyProfiles.push({ profile: dominant, date: Date.now(), validity: v.nivel, lieScore: v.lieScore, counts: counts });
   if (D.psyProfiles.length > 50) D.psyProfiles = D.psyProfiles.slice(-50);
   checkAch(); saveD();
   const gs = document.getElementById('gScore');
@@ -1353,11 +1353,7 @@ function psyResult(a) {
       return '<div class="psy-breakdown-item"><div class="psy-breakdown-label"><span>' + p.emoji + '</span><span>' + p.name + '</span></div>' +
         '<div class="psy-breakdown-bar"><div class="psy-breakdown-fill" style="width:' + pctVal + '%;background:' + p.color + '"></div></div>' +
         '<div class="psy-breakdown-pct">' + pctVal + '%</div></div>';
-    }).join('') + '</div>' +
-    '<div class="d-flex gap-2 mt-4">' +
-    '<button class="btn-o flex-grow-1" onclick="go(\'home\')"><i class="bi bi-house"></i> Menu</button>' +
-    '<button class="btn-p flex-grow-1" onclick="startG(\'psy\')"><i class="bi bi-arrow-repeat"></i> Refazer</button>' +
-    '</div></div>';
+    }).join('') + '</div></div>';
   if (v.nivel === 'invalid') toast('🚨 Respostas inconsistentes — resultado marcado como não fiável', 'aw');
   else toast('🧠 Perfil identificado: ' + profile.name, 'ok');
 }
@@ -1866,21 +1862,36 @@ function renderCogReport() {
                 backgroundColor: 'rgba(99,102,241,.25)',
                 pointBackgroundColor: '#6366f1',
                 pointBorderColor: dk ? '#151a2e' : '#ffffff',
-                pointRadius: 4,
-                borderWidth: 2
+                pointRadius: 5,
+                borderWidth: 2.5
             }]
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false,
+            maintainAspectRatio: true,
+            devicePixelRatio: window.devicePixelRatio || 1,
             plugins: { legend: { display: false } },
             scales: {
                 r: {
                     min: 0, max: 100,
-                    ticks: { color: tx, backdropColor: 'transparent', stepSize: 25, font: { size: 11, weight: '600' } },
-                    grid: { color: gd, lineWidth: 1 },
+                    ticks: { color: tx, backdropColor: 'transparent', stepSize: 25, font: { size: 13, weight: '600' }, padding: 8 },
+                    grid: { color: gd, lineWidth: 1.5 },
                     angleLines: { color: gd, lineWidth: 1 },
-                    pointLabels: { color: tx, font: { size: 12, weight: '700' }, padding: 8 }
+                    pointLabels: { 
+                        color: tx, 
+                        font: { size: 14, weight: '700' }, 
+                        padding: 14,
+                        display: true,
+                        callback: function(label) {
+                            const words = label.split(' ');
+                            if (words.length <= 2) return label;
+                            
+                            const midPoint = Math.ceil(words.length / 2);
+                            const line1 = words.slice(0, midPoint).join(' ');
+                            const line2 = words.slice(midPoint).join(' ');
+                            return [line1, line2];
+                        }
+                    }
                 }
             }
         }
@@ -1902,48 +1913,147 @@ window.addEventListener('resize', () => {
 let CH = {};
 function renderPsyStats() {
   const container = document.getElementById('psyStatsContainer');
+  const chartBox = document.getElementById('psyChartBox');
   if (!container) return;
   if (D.psyProfiles.length === 0) {
     container.innerHTML = '<div style="text-align:center;padding:2rem 1rem;color:var(--text-muted)">' +
       '<div style="font-size:3rem;margin-bottom:.75rem">🧠</div>' +
       '<div style="font-weight:600;margin-bottom:.25rem">Ainda não fizeste o teste</div>' +
       '<div style="font-size:.85rem">Completa o teste de Perfil Psicológico para ver as tuas estatísticas</div></div>';
+    if (chartBox) chartBox.style.display = 'none';
     return;
   }
-  /* NOVO: testes inválidos (manipulados) são excluídos do perfil dominante */
+  /* testes inválidos (manipulados) são excluídos do perfil dominante */
   const validEntries = D.psyProfiles.filter(p => p.validity !== 'invalid');
   const excluded = D.psyProfiles.length - validEntries.length;
   const base = validEntries.length > 0 ? validEntries : D.psyProfiles;
-  const counts = { lider: 0, analit: 0, social: 0, criat: 0, exec: 0 };
-  base.forEach(p => { if (counts[p.profile] !== undefined) counts[p.profile]++; });
-  const total = base.length;
-  const maxCount = Math.max.apply(null, Object.values(counts));
-  const dominant = Object.keys(counts).find(k => counts[k] === maxCount);
+  
+  // O perfil dominante é o do ÚLTIMO teste, não a agregação de todos
+  const lastEntry = base.length > 0 ? base[base.length - 1] : D.psyProfiles[D.psyProfiles.length - 1];
+  const dominant = lastEntry.profile;
   const dominantProfile = PSY_PROFILES[dominant];
+  
+  // A distribuição mostra o do ÚLTIMO teste (não o histórico agregado)
+  let counts = lastEntry.counts || null;
+  if (!counts) {
+    // Para dados antigos sem counts, criar um com 1 no perfil dominante
+    counts = { lider: 0, analit: 0, social: 0, criat: 0, exec: 0 };
+    counts[dominant] = 1;
+  }
+  const total = Object.values(counts).reduce((a, b) => a + b, 0) || 1;
+  
   const last = D.psyProfiles[D.psyProfiles.length - 1];
   const lastProfileData = PSY_PROFILES[last.profile];
   const lastV = last.validity || 'ok';
   const lastVi = PSY_VALIDITY[lastV];
+  
+  /* HTML melhorado com destaque no perfil dominante e informações de competências */
   container.innerHTML =
     '<div class="psy-stats-dominant">' +
+    '<div class="psy-stats-dominant-top">' +
     '<div class="psy-stats-dominant-emoji">' + dominantProfile.emoji + '</div>' +
-    '<div style="flex:1"><div class="psy-stats-dominant-label">Perfil Dominante <span style="text-transform:none;font-weight:500">(apenas testes válidos)</span></div>' +
+    '<div class="psy-stats-dominant-info">' +
+    '<div class="psy-stats-dominant-label">Perfil Dominante</div>' +
     '<div class="psy-stats-dominant-name" style="color:' + dominantProfile.color + '">' + dominantProfile.name + '</div>' +
-    '<div class="psy-stats-dominant-count">' + maxCount + ' de ' + total + ' testes (' + Math.round(maxCount / total * 100) + '%)</div></div>' +
+    '<div class="psy-stats-dominant-count">' + counts[dominant] + ' de ' + total + ' (' + Math.round(counts[dominant] / total * 100) + '%)</div>' +
+    '</div></div>' +
+    '<div class="psy-stats-dominant-features">' +
+    '<div class="psy-stats-feature-box">' +
+    '<div class="psy-stats-feature-title">💪 Competências</div>' +
+    '<div class="psy-stats-feature-list">' +
+    dominantProfile.strengths.map(s => '<div class="psy-stats-feature-item">' + s + '</div>').join('') +
+    '</div></div>' +
+    '<div class="psy-stats-feature-box">' +
+    '<div class="psy-stats-feature-title">🎯 Áreas Profissionais</div>' +
+    '<div class="psy-stats-feature-list">' +
+    dominantProfile.roles.map(r => '<div class="psy-stats-feature-item">' + r + '</div>').join('') +
+    '</div></div>' +
+    '</div>' +
     '</div>' +
     (excluded > 0 ? '<div class="psy-stats-excluded">🚨 ' + excluded + ' teste(s) excluído(s) por indícios de manipulação</div>' : '') +
-    Object.entries(counts).map(([key, count]) => {
-      const p = PSY_PROFILES[key];
-      const pct = total > 0 ? Math.round((count / total) * 100) : 0;
-      return '<div class="psy-stats-row ' + (key === dominant ? 'psy-stats-row-dominant' : '') + '">' +
-        '<div class="psy-stats-row-label"><span>' + p.emoji + '</span><span class="psy-stats-row-name">' + p.name + '</span></div>' +
-        '<div class="psy-stats-row-bar-wrap"><div class="psy-stats-row-bar" style="width:' + pct + '%;background:' + p.color + '"></div></div>' +
-        '<div class="psy-stats-row-count">' + count + ' <span class="psy-stats-row-pct">(' + pct + '%)</span></div></div>';
-    }).join('') +
     '<div class="psy-stats-last"><div class="psy-stats-last-label">Último resultado</div>' +
     '<div class="psy-stats-last-value"><span>' + lastProfileData.emoji + '</span>' +
     '<span style="color:' + lastProfileData.color + ';font-weight:700">' + lastProfileData.name + '</span>' +
     '<span class="psy-validity-chip" style="color:' + lastVi.color + '">' + lastVi.icon + ' ' + (lastV === 'ok' ? 'Válido' : lastV === 'warn' ? 'Questionável' : 'Inválido') + '</span></div></div>';
+  
+  // 🍰 Renderizar gráfico pizza com labels nas fatias
+  if (chartBox && typeof Chart !== 'undefined') {
+    if (CH.psy) CH.psy.destroy();
+    chartBox.style.display = 'block';
+    const dk = D.th === 'dark';
+    const tx = dk ? '#f1f5f9' : '#1a1f36';
+    
+    const profiles = ['lider', 'analit', 'social', 'criat', 'exec'];
+    const chartData = profiles.map(key => counts[key]);
+    const chartLabels = profiles.map(key => PSY_PROFILES[key].emoji + ' ' + PSY_PROFILES[key].name);
+    const chartColors = profiles.map(key => PSY_PROFILES[key].color);
+    
+    // Plugin customizado para mostrar percentagens nas fatias
+    const percentagePlugin = {
+      id: 'percentageLabel',
+      afterDraw(chart) {
+        const { ctx, data, chartArea: { left, top, width, height } } = chart;
+        chart.getDatasetMeta(0).data.forEach((datapoint, index) => {
+          const { x, y } = datapoint.tooltipPosition();
+          const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
+          const pct = total > 0 ? Math.round((data.datasets[0].data[index] / total) * 100) : 0;
+          
+          // Apenas mostrar percentagem se for > 0%
+          if (pct > 0) {
+            ctx.font = 'bold 13px sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(pct + '%', x, y);
+          }
+        });
+      }
+    };
+    
+    CH.psy = new Chart(document.getElementById('psyChart').getContext('2d'), {
+      type: 'doughnut',
+      plugins: [percentagePlugin],
+      data: {
+        labels: chartLabels,
+        datasets: [{
+          data: chartData,
+          backgroundColor: chartColors,
+          borderColor: dk ? '#1c2340' : '#ffffff',
+          borderWidth: 2.5
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        layout: { padding: 10 },
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: { 
+              color: tx, 
+              font: { size: 12, weight: '600' }, 
+              padding: 15,
+              usePointStyle: true,
+              boxHeight: 12
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            padding: 10,
+            titleFont: { size: 12, weight: 'bold' },
+            bodyFont: { size: 11 },
+            callbacks: {
+              label: function(context) {
+                const total = context.dataset.data.reduce((a,b) => a+b, 0);
+                const pct = total > 0 ? Math.round((context.parsed / total) * 100) : 0;
+                return context.label + ': ' + context.parsed + ' (' + pct + '%)';
+              }
+            }
+          }
+        }
+      }
+    });
+  }
 }
 function renderStats() {
   document.getElementById('sSc').textContent = D.ts;
@@ -1997,16 +2107,16 @@ function renderCH() {
     CH.g = new Chart(c2.getContext('2d'), {
       type: 'bar',
       data: {
-        labels: GAMES.map(g => g.i),
+        labels: SKILL_GAMES.map(id => GAMES.find(g => g.id === id).i),
         datasets: [
           {
-            label: 'Pontuação Média',
-            data: GAMES.map(g => gs[g.id].c ? Math.round(gs[g.id].t / gs[g.id].c) : 0),
-            backgroundColor: GAMES.map(g => g.c), borderRadius: 8
+            label: 'Precisão Média',
+            data: SKILL_GAMES.map(id => gs[id].c ? Math.round(gs[id].t / gs[id].c) : 0),
+            backgroundColor: SKILL_GAMES.map(id => GAMES.find(g => g.id === id).c), borderRadius: 8
           },
           {
             label: 'Média Total',
-            data: GAMES.map(() => avgScoreTotal),
+            data: SKILL_GAMES.map(() => avgScoreTotal),
             type: 'line',
             borderColor: '#6366f1',
             backgroundColor: 'transparent',
@@ -2033,16 +2143,16 @@ function renderCH() {
     CH.t = new Chart(c3.getContext('2d'), {
       type: 'bar',
       data: {
-        labels: GAMES.map(g => g.i),
+        labels: SKILL_GAMES.map(id => GAMES.find(g => g.id === id).i),
         datasets: [
           {
             label: 'Tempo (s)',
-            data: GAMES.map(g => ts[g.id].c ? Math.round(ts[g.id].t / ts[g.id].c) : 0),
-            backgroundColor: GAMES.map(g => g.c), borderRadius: 8
+            data: SKILL_GAMES.map(id => ts[id].c ? Math.round(ts[id].t / ts[id].c) : 0),
+            backgroundColor: SKILL_GAMES.map(id => GAMES.find(g => g.id === id).c), borderRadius: 8
           },
           {
             label: 'Tempo Médio Total',
-            data: GAMES.map(() => avgTimeTotal),
+            data: SKILL_GAMES.map(() => avgTimeTotal),
             type: 'line',
             borderColor: '#6366f1',
             backgroundColor: 'transparent',

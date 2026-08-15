@@ -103,7 +103,7 @@ Cada jogo tem **3 níveis de dificuldade** (Fácil, Médio, Difícil) e tempo li
 | 🧩 | **Padrões Lógicos** | Lógica abstrata (Raven) | 75s |
 | 💬 | **Analogias Verbais** | Raciocínio verbal | 60s |
 | 🎲 | **Rotação 3D** | Visualização espacial | 75s |
-| 🧠 | **Perfil Psicológico** | Autoconhecimento | 120s |
+| 🧠 | **Perfil Psicológico** | Autoconhecimento | 10 min |
 
 ### 📊 Estatísticas Detalhadas
 
@@ -133,12 +133,12 @@ Cada jogo tem **3 níveis de dificuldade** (Fácil, Médio, Difícil) e tempo li
   - 🤝 Social Empático
   - 💡 Criativo Inovador
   - ⚙️ Executor Prático
-- 📊 **Distribuição percentual** dos 5 perfis
-- 💪 **Pontos fortes** e funções ideais por perfil
-- ✨ **[NOVO]** Gráfico radar (spider) para visualização de competências
-- ✨ **[NOVO]** Recomendações personalizadas por perfil
-- ✨ **[NOVO]** Compatibilidade entre perfis para trabalho em equipa
-- ✨ **[NOVO]** Histórico de perfis com evolução temporal
+- 📊 **Visualização em Gráfico Doughnut** (pizza) com percentagens em cada fatia
+- 💪 **Pontos fortes e Áreas Profissionais** para cada perfil
+- ✅ **Validação de respostas** — detecta padrões de inconsistência e manipulação
+- 📈 **Histórico de resultados** com evolução do perfil ao longo do tempo
+- 🔍 **Métricas de sinceridade** — espontaneidade e contradições analisadas
+- ✨ **Resultado consistente** — o perfil dominante em Stats corresponde ao do último teste realizado
 
 ### 🏆 Sistema de Conquistas
 
@@ -535,19 +535,43 @@ git push origin feature/nova-funcionalidade
 
 ## 🗺️ Roadmap
 
-### ✅ Versão Atual (v7.0)
+### ✅ Versão Atual (v7.0+)
 
 - ✅ 9 jogos com 3 níveis de dificuldade
 - ✅ Perfil psicológico com visualização gráfica avançada
+  - 📊 Gráfico doughnut responsivo (90% da largura)
+  - 📈 Percentagens em cada fatia do gráfico
+  - 💪 Competências e áreas profissionais destacadas
+  - ✅ Consistência entre resultado do teste e estatísticas
 - ✅ PWA completa com notificações push
-- ✅ Estatísticas e gráficos avançados
+- ✅ Estatísticas e gráficos avançados (evolução, precisão, tempo)
 - ✅ Simulação de exame com 6 jogos (bugs corrigidos)
 - ✅ Modo escuro/claro
-- ✅ Design moderno estilo jogo
+- ✅ Design moderno estilo jogo com layouts compactos
 - ✅ Sistema de conquistas (14 medalhas)
 - ✅ Melhorias de performance e estabilidade
+- ✅ Testes psicológicos com validação de sinceridade
+- ✅ Histórico de resultados com evolução temporal
 
-### 🔜 Próximas Versões
+### � Mudanças Recentes (v7.0.1)
+
+- ✨ **Layout do Perfil Psicológico Otimizado**
+  - Removed "Distribuição de Perfis" text section
+  - Compact game selection buttons (height: 150px)
+  - Optimized header spacing (-30% vertical padding)
+  - Font size improvements for better readability
+- 🎨 **Gráfico Doughnut Melhorado**
+  - Width: 90% viewport (90vw) com max-width 1200px
+  - Height: 500px para melhor visualização
+  - Percentagens exibidas em cada fatia (formato: "63%")
+  - Ocultar percentagens de 0% para interface limpa
+- 🔍 **Testes Psicológicos Refinados**
+  - Distribuição de perfis agora mostra valores do **último teste**
+  - Counts armazenados por teste para consistência
+  - Validação de sinceridade com detecção de manipulação
+  - Indicadores de validade do teste (✅ Válido / ⚠️ Questionável / 🚨 Inválido)
+
+### �🔜 Próximas Versões
 
 **v7.1 — Personalização Avançada**
 - [ ] 🎨 Temas de cor personalizáveis
